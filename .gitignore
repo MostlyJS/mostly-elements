@@ -1,3 +1,7 @@
-bower_components/
-build/
-node_modules/
+node_modules
+dist
+bower_components
+.tmp
+.publish/
+.DS_Store
+.swp

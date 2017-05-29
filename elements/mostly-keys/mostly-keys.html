@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+
+<!--
+`mostly-keys`
+@group Mostly UI
+@element mostly-keys
+-->
+<dom-module id="mostly-keys">
+  <template>
+    <iron-a11y-keys keys="[[keys]]" target="[[target]]" on-keys-pressed="_keysPressed"></iron-a11y-keys>
+  </template>
+</dom-module>
+
+<script>
+  (function() {
+    Polymer({
+      is: 'mostly-keys',
+
+      properties: {
+        keys: String,
+        target: {
+          type: Object,
+          value: function() {
+            return document.body;
+          }
+        },
+        invasive: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      _keysPressed: function(e) {
+        if (this.target === document.body) {
+          var element = e.detail.keyboardEvent.srcElement;
+          switch (element.tagName) {
+            case 'INPUT':
+            case 'TEXTAREA':
+              if(!this.invasive) {
+                return;
+              }
+              break;
+            case 'DIV':
+              if (!this.invasive && element.id === 'editor') {
+                return;
+              }
+          }
+        }
+        e.detail.keyboardEvent.preventDefault();
+        this.fire('pressed', e.detail, {});
+      }
+
+    });
+  })();
+</script>

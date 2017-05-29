@@ -1,0 +1,66 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!--
+`mostly-progress-indicator`
+@group Mostly UI
+@element mostly-progress-indicator
+-->
+<dom-module id="mostly-progress-indicator">
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-progress {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        height: 3px;
+        z-index: 104;
+        --paper-progress-active-color: rgba(0, 128, 255, 0.4);
+        --paper-progress-container-color: transparent;
+        --paper-progress-indeterminate-cycle-duration: 3s;
+      }
+    </style>
+
+    <paper-progress id="progress" indeterminate hidden$="[[!visible]]"></paper-progress>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'mostly-progress-indicator',
+    behaviors: [Polymer.NeonAnimatableBehavior, Polymer.NeonAnimationRunnerBehavior],
+    properties: {
+
+      visible: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        observer: '_visibleChanged'
+      },
+
+      animationConfig: {
+        type: Object,
+        value: function() {
+          return {
+            'fadein': [{
+              name: 'fade-in-animation',
+              timing: {delay: 1000, duration: 1500},
+              node: this.$.progress
+            }]
+          };
+        }
+      }
+    },
+
+    _visibleChanged: function(visible) {
+      if (visible) {
+        this.playAnimation('fadein');
+      }
+    }
+  });
+</script>

@@ -1,92 +1,110 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="generator" content="Polymer Starter Kit">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Polymer Starter Kit">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>My App</title>
-    <meta name="description" content="My App description">
+  <title>Mostly Admin</title>
+  <meta name="description" content="Admin dashboard for Mostly microservices">
 
-    <!--
-      If deploying to a non-root path, replace href="/" with the full path to the project root.
-      For example: href="/polymer-starter-kit/relative-path-example/"
-    -->
-    <base href="/">
+  <base href="/">
 
-    <link rel="icon" href="images/favicon.ico">
+  <link rel="icon" href="images/favicon.ico">
 
-    <!-- See https://goo.gl/OOhYW5 -->
-    <link rel="manifest" href="manifest.json">
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json" crossOrigin="use-credentials">
 
-    <!-- See https://goo.gl/qRE0vM -->
-    <meta name="theme-color" content="#3f51b5">
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#2E3AA1">
 
-    <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="My App">
+  <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Mostly Admin">
+  <link rel="icon" sizes="192x192" href="images/manifest/icon-192x192.png">
 
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="My App">
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mostly Admin">
 
-    <!-- Homescreen icons -->
-    <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
+  <!-- Homescreen icons -->
+  <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
 
-    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
-    <meta name="msapplication-TileColor" content="#3f51b5">
-    <meta name="msapplication-tap-highlight" content="no">
+  <!-- Tile icon for Windows 8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#3f51b5">
+  <meta name="msapplication-tap-highlight" content="no">
 
-    <script>
-      // Register the base URL
-      const baseUrl = document.querySelector('base').href;
+  <!-- build:css vendor/select2.css -->
+  <link rel="stylesheet" href="bower_components/select2/select2.css">
+  <!-- endbuild-->
 
-      // Load and register pre-caching Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register(baseUrl + 'service-worker.js');
-        });
-      }
-    </script>
+  <!-- build:js webcomponentsjs/webcomponents.min.js -->
+  <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+  <!-- endbuild -->
 
-    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
-    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+  <script>
+    window.Polymer = {
+      lazyRegister: true
+    };
 
-    <!-- Load your application shell -->
-    <link rel="import" href="src/my-app.html">
+    // switch to shadow dom
+    function getQueryParam(name) {
+      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
+      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+    if (getQueryParam('dom') == 'shadow') {
+      window.Polymer.dom = 'shadow';
+    }
+  </script>
 
-    <!-- Add any global styles for body, document, etc. -->
-    <style>
-      body {
-        margin: 0;
-        font-family: 'Roboto', 'Noto', sans-serif;
-        line-height: 1.5;
-        min-height: 100vh;
-        background-color: #eeeeee;
-      }
-    </style>
-  </head>
-  <body>
-    <my-app></my-app>
-    <noscript>
-      Please enable JavaScript to view this website.
-    </noscript>
-    <!-- Built with love using Polymer Starter Kit -->
-  </body>
+  <!-- build:js vendor/jquery.js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <!-- endbuild-->
+
+  <!-- build:js vendor/select2.js -->
+  <script src="bower_components/select2/select2.js"></script>
+  <!-- endbuild-->
+
+  <!-- build:js vendor/moment-with-locales.js -->
+  <script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+  <!-- endbuild-->
+
+  <!-- build:js vendor/alloy-editor.js -->
+  <script src="bower_components/alloyeditor/dist/alloy-editor/alloy-editor-all.js"></script>
+  <!-- endbuild -->
+
+  <!-- will be replaced with elements.vulcanized.html -->
+  <link rel="import" href="elements/elements.html">
+  <!-- endreplace-->
+
+  <!-- Web UI default contributions -->
+  <link rel="import" href="elements/mostly-web-ui-bundle.html">
+
+</head>
+
+<body unresolved>
+  <span id="browser-sync-binding"></span>
+
+  <mostly-connection url="/mostly"></mostly-connection>
+
+  <mostly-app base-url="/"></mostly-app>
+
+  <!-- Uncomment next block to enable Service Worker support (1/2) -->
+  <!--
+  <platinum-sw-register auto-register
+                        clients-claim
+                        skip-waiting>
+    <platinum-sw-cache default-cache-strategy="fastest"
+                       cache-config-file="cache-config.json">
+    </platinum-sw-cache>
+  </platinum-sw-register>
+  -->
+</body>
+
 </html>

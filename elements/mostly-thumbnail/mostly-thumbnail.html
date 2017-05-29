@@ -1,0 +1,44 @@
+<!--
+`mostly-thumbnail`
+@group Mostly UI
+@element mostly-thumbnail
+-->
+<dom-module id="mostly-thumbnail">
+  <template>
+
+    <style>
+      :host {
+        height: 32px;
+      }
+
+      img {
+        box-sizing: border-box;
+        height: 32px;
+        width: 32px;
+        border-radius: 3px;
+        margin-right: 8px;
+        filter: brightness(1.2);
+        -webkit-filter: brightness(1.2);
+      }
+    </style>
+
+    <img src="[[_thumbnail(document)]]">
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-thumbnail',
+      properties: {
+        document: Object
+      },
+
+      _thumbnail: function(doc) {
+        if (doc && doc.uid && doc.contextParameters && doc.contextParameters.thumbnail &&
+          doc.contextParameters.thumbnail.url) {
+          return doc.contextParameters.thumbnail.url;
+        }
+      }
+    });
+  </script>
+</dom-module>

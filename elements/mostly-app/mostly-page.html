@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<!--
+`mostly-page`
+@group Mostly UI
+@element mostly-page
+-->
+<dom-module id="mostly-page">
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-header-panel {
+        height: 100vh;
+      }
+
+      paper-toolbar {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        width: 100%;
+        height: 53px;
+        color: var(--nuxeo-app-header);
+        background: var(--nuxeo-app-header-background);
+        box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+        position: relative;
+        z-index: 3;
+      }
+
+      paper-toolbar ::content .header {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        width: 100%;
+        padding: 0 70px 0 16px;
+      }
+    </style>
+
+    <paper-header-panel mode="seamed">
+      <paper-toolbar>
+        <content select=".header"></content>
+      </paper-toolbar>
+      <content select=".content"></content>
+    </paper-header-panel>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'mostly-page'
+  });
+</script>
