@@ -8,9 +8,9 @@
   <title>Mostly Admin</title>
   <meta name="description" content="Admin dashboard for Mostly microservices">
 
-  <base href="/">
+  <base href="/demo">
 
-  <link rel="icon" href="images/favicon.ico">
+  <link rel="icon" href="../images/favicon.ico">
 
   <!-- Web Application Manifest -->
   <link rel="manifest" href="manifest.json" crossOrigin="use-credentials">
@@ -80,11 +80,11 @@
   <!-- endbuild -->
 
   <!-- will be replaced with elements.vulcanized.html -->
-  <link rel="import" href="elements/elements.html">
+  <link rel="import" href="elements.html">
   <!-- endreplace-->
 
   <!-- Web UI default contributions -->
-  <link rel="import" href="elements/mostly-web-ui-bundle.html">
+  <link rel="import" href="mostly-web-ui-bundle.html">
 
 </head>
 
@@ -93,7 +93,7 @@
 
   <mostly-connection url="/mostly"></mostly-connection>
 
-  <mostly-app base-url="/"></mostly-app>
+  <mostly-app base-url="/demo/"></mostly-app>
 
   <!-- Uncomment next block to enable Service Worker support (1/2) -->
   <!--

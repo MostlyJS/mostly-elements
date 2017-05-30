@@ -1,5 +1,5 @@
 {
-  "name": "nuxeo-web-ui",
+  "name": "mostly-admin-ui",
   "private": true,
   "dependencies": {
     "alloyeditor": "0.7.5",

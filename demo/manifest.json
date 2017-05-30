@@ -1,0 +1,16 @@
+{
+  "name": "Mostly Admin demo",
+  "short_name": "mostly-admin-demo",
+  "icons": [{
+        "src": "images/manifest/icon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      }, {
+        "src": "images/manifest/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }],
+  "background_color": "#3E4EB8",
+  "display": "standalone",
+  "theme_color": "#2E3AA1"
+}
