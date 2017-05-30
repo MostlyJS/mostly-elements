@@ -1,108 +1,68 @@
-# Polymer App Toolbox - Starter Kit
+MostlyJS Admin UI
+=================
 
-[![Build Status](https://travis-ci.org/PolymerElements/polymer-starter-kit.svg?branch=master)](https://travis-ci.org/PolymerElements/polymer-starter-kit)
+[![Build Status](https://travis-ci.org/mostlyjs/mostly-admin-ui.svg)](https://travis-ci.org/mostlyjs/mostly-admin-ui)
 
-This template is a starting point for building apps using a drawer-based
-layout. The layout is provided by `app-layout` elements.
+# About mostly-admin-ui
 
-This template, along with the `polymer-cli` toolchain, also demonstrates use
-of the "PRPL pattern" This pattern allows fast first delivery and interaction with
-the content at the initial route requested by the user, along with fast subsequent
-navigation by pre-caching the remaining components required by the app and
-progressively loading them on-demand as the user navigates through the app.
+**Mostlly admin UI Elements** is an ongoing work to develop a set of UI elements for building admin applications with Mostly microservices.
 
-The PRPL pattern, in a nutshell:
+## Dependencies
 
-* **Push** components required for the initial route
-* **Render** initial route ASAP
-* **Pre-cache** components for remaining routes
-* **Lazy-load** and progressively upgrade next routes on-demand
+Element dependencies are managed via [Bower](http://bower.io/). You can
+install that via:
 
-### Migrating from Polymer Starter Kit v1?
+```sh
+npm install -g bower
+```
 
-[Check out our blog post that covers what's changed in PSK2 and how to migrate!](https://www.polymer-project.org/1.0/blog/2016-08-18-polymer-starter-kit-or-polymer-cli.html)
+Then, go ahead and download the element's dependencies:
 
-### Quickstart
+```sh
+bower install
+```
 
-We've recorded a Polycast to get you up and running with PSK2 fast!
+## Reference mostly-admin-ui in your Bower dependencies
 
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=HgJ0XCyBwzY&list=PLNYkxOF6rcIDdS7HWIC_BYRunV6MHs5xo&index=10">
-    <img src="https://img.youtube.com/vi/HgJ0XCyBwzY/0.jpg" alt="Polymer Starter Kit 2 video">
-  </a>
-</p>
+```sh
+bower install -S mostlyjs/mostly-admin-ui
+```
+## Quickstart
 
-### Setup
-
-##### Prerequisites
-
-First, install [Polymer CLI](https://github.com/Polymer/polymer-cli) using
-[npm](https://www.npmjs.com) (we assume you have pre-installed [node.js](https://nodejs.org)).
+We recommend that you use [Polymer CLI](https://github.com/Polymer/polymer-cli) which you can install via:
 
     npm install -g polymer-cli
 
-Second, install [Bower](https://bower.io/) using [npm](https://www.npmjs.com)
+Then you can run a local web server via:
 
-    npm install -g bower
+```sh
+polymer serve -p 5000
+```
 
-##### Initialize project from template
+Once running, you can checkout the docs and demos at `http://localhost:5000/demo/`.
 
-    mkdir my-app
-    cd my-app
-    polymer init starter-kit
+### Development workflow
 
-### Start the development server
+#### Serve / watch
 
-This command serves the app at `http://localhost:8080` and provides basic URL
-routing for the app:
+```sh
+gulp serve
+```
 
-    polymer serve --open
+This outputs an IP address you can use to locally test and another that can be used on devices connected to your network.
 
-### Build
+#### Run tests
 
-This command performs HTML, CSS, and JS minification on the application
-dependencies, and generates a service-worker.js file with code to pre-cache the
-dependencies based on the entrypoint and fragments specified in `polymer.json`.
-The minified files are output to the `build/unbundled` folder, and are suitable
-for serving from a HTTP/2+Push compatible server.
+```sh
+gulp test:local
+```
 
-In addition the command also creates a fallback `build/bundled` folder,
-generated using fragment bundling, suitable for serving from non
-H2/push-compatible servers or to clients that do not support H2/Push.
+This runs the unit tests defined in the `test` directory through [web-component-tester](https://github.com/Polymer/web-component-tester).
 
-    polymer build
+#### Build & Vulcanize
 
-### Preview the build
+```sh
+gulp
+```
 
-This command serves the minified version of the app at `http://localhost:8080`
-in an unbundled state, as it would be served by a push-compatible server:
-
-    polymer serve build/unbundled
-
-This command serves the minified version of the app at `http://localhost:8080`
-generated using fragment bundling:
-
-    polymer serve build/bundled
-
-### Run tests
-
-This command will run [Web Component Tester](https://github.com/Polymer/web-component-tester)
-against the browsers currently installed on your machine:
-
-    polymer test
-
-If running Windows you will need to set the following environment variables:
-
-- LAUNCHPAD_BROWSERS
-- LAUNCHPAD_CHROME
-
-Read More here [daffl/launchpad](https://github.com/daffl/launchpad#environment-variables-impacting-local-browsers-detection)
-
-### Adding a new view
-
-You can extend the app by adding more views that will be demand-loaded
-e.g. based on the route, or to progressively render non-critical sections of the
-application. Each new demand-loaded fragment should be added to the list of
-`fragments` in the included `polymer.json` file. This will ensure those
-components and their dependencies are added to the list of pre-cached components
-and will be included in the `bundled` build.
+Build and optimize the current project, ready for deployment. This includes linting as well as vulcanization, image, script, stylesheet and HTML optimization and minification.
