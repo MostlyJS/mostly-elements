@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<script src="../mostly/dist/mostly.js"></script>
+<!--script src="../mostly/dist/mostly.js"></script-->
 
 <!--
 `mostly-connection` wraps a `mostly.Client`.
@@ -58,6 +58,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
       },
 
       connect: function() {
+        return null;
         // Create the client if needed
         // If we already have a client with the same connection info just keep it
         var id = (this.connectionId) ? this.connectionId : Object.keys(nxClients)[0];

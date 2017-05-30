@@ -290,7 +290,7 @@
 
 <nuxeo-slot-content name="browseDrawerItem" slot="DRAWER_ITEMS" order="10">
   <template>
-    <nuxeo-menu-icon name="browser" icon="nuxeo:browse" label="app.browse"></nuxeo-menu-icon>
+    <mostly-menu-icon name="browser" icon="nuxeo:browse" label="app.browse"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="browseDrawerPage" slot="DRAWER_PAGES">
@@ -319,7 +319,7 @@
 
 <nuxeo-slot-content name="recentsDrawerItem" slot="DRAWER_ITEMS" order="20">
   <template>
-    <nuxeo-menu-icon name="recents" icon="nuxeo:recent" label="app.recentlyViewed"></nuxeo-menu-icon>
+    <mostly-menu-icon name="recents" icon="nuxeo:recent" label="app.recentlyViewed"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="recentsDrawerPage" slot="DRAWER_PAGES">
@@ -330,25 +330,25 @@
 
 <nuxeo-slot-content name="defaultSearchMenuButton" slot="DRAWER_ITEMS" order="30">
   <template>
-    <nuxeo-menu-icon name="defaultSearch" icon="nuxeo:search" label="app.search"></nuxeo-menu-icon>
+    <mostly-menu-icon name="defaultSearch" icon="nuxeo:search" label="app.search"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="defaultSearchMenuPage" slot="DRAWER_PAGES">
   <template>
     <nuxeo-search-form name="defaultSearch" search-name="default" auto
-                               provider="default_search" schemas="dublincore,common,uid"></nuxeo-search-form>
+                       provider="default_search" schemas="dublincore,common,uid"></nuxeo-search-form>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="expiredSearchMenuButton" slot="DRAWER_ITEMS" order="40">
   <template>
-    <nuxeo-menu-icon name="expiredSearch" icon="nuxeo:expired" label="app.expiredSearch"></nuxeo-menu-icon>
+    <mostly-menu-icon name="expiredSearch" icon="nuxeo:expired" label="app.expiredSearch"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="expiredSearchMenuPage" slot="DRAWER_PAGES">
   <template>
     <nuxeo-search-form name="expiredSearch" search-name="expired" queue auto
-                               provider="expired_search" schemas="dublincore,common,uid"
-                               label="expiredSearch.expiredDocuments"></nuxeo-search-form>
+                       provider="expired_search" schemas="dublincore,common,uid"
+                       label="expiredSearch.expiredDocuments"></nuxeo-search-form>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="searchPage" slot="PAGES">
@@ -360,7 +360,7 @@
 
 <nuxeo-slot-content name="tasksDrawerItem" slot="DRAWER_ITEMS" order="50">
   <template>
-    <nuxeo-menu-icon name="tasks" icon="nuxeo:tasks" id="menuTasks" label="app.tasks" badge="[[taskCount]]"></nuxeo-menu-icon>
+    <mostly-menu-icon name="tasks" icon="nuxeo:tasks" id="menuTasks" label="app.tasks" badge="[[taskCount]]"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="tasksDrawerPage" slot="DRAWER_PAGES">
@@ -376,7 +376,7 @@
 
 <nuxeo-slot-content name="favoritesDrawerItem" slot="DRAWER_ITEMS" order="60">
   <template>
-    <nuxeo-menu-icon name="favorites" icon="nuxeo:favorites" label="app.favorites"></nuxeo-menu-icon>
+    <mostly-menu-icon name="favorites" icon="nuxeo:favorites" label="app.favorites"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="favoritesDrawerPage" slot="DRAWER_PAGES">
@@ -387,7 +387,7 @@
 
 <nuxeo-slot-content name="collectionsDrawerItem" slot="DRAWER_ITEMS" order="70">
   <template>
-    <nuxeo-menu-icon name="collections" icon="nuxeo:collections" label="app.collections"></nuxeo-menu-icon>
+    <mostly-menu-icon name="collections" icon="nuxeo:collections" label="app.collections"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="collectionsDrawerPage" slot="DRAWER_PAGES">
@@ -403,7 +403,7 @@
 
 <nuxeo-slot-content name="personalWorkspaceDrawerItem" slot="DRAWER_ITEMS" order="80">
   <template>
-    <nuxeo-menu-icon name="personalWorkspace" icon="nuxeo:user-space" label="app.personalSpace"></nuxeo-menu-icon>
+    <mostly-menu-icon name="personalWorkspace" icon="nuxeo:user-space" label="app.personalSpace"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="personalWorkspaceDrawerPage" slot="DRAWER_PAGES">
@@ -416,7 +416,7 @@
 
 <nuxeo-slot-content name="clipboardDrawerItem" slot="DRAWER_ITEMS" order="90">
   <template>
-    <nuxeo-menu-icon name="clipboard" icon="nuxeo:clipboard" label="app.clipboard" badge="[[clipboardCount]]"></nuxeo-menu-icon>
+    <mostly-menu-icon name="clipboard" icon="nuxeo:clipboard" label="app.clipboard" badge="[[clipboardCount]]"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
 <nuxeo-slot-content name="clipboardDrawerPage" slot="DRAWER_PAGES">
@@ -452,25 +452,25 @@
 
 <nuxeo-slot-content name="defaultTheme" slot="THEMES" order="10">
   <template>
-    <nuxeo-theme name="default"></nuxeo-theme>
+    <mostly-theme name="default"></mostly-theme>
   </template>
 </nuxeo-slot-content>
 
 <nuxeo-slot-content name="darkTheme" slot="THEMES" order="20">
   <template>
-    <nuxeo-theme name="dark"></nuxeo-theme>
+    <mostly-theme name="dark"></mostly-theme>
   </template>
 </nuxeo-slot-content>
 
 <nuxeo-slot-content name="kawaiiTheme" slot="THEMES" order="30">
   <template>
-    <nuxeo-theme name="kawaii"></nuxeo-theme>
+    <mostly-theme name="kawaii"></mostly-theme>
   </template>
 </nuxeo-slot-content>
 
 <nuxeo-slot-content name="lightTheme" slot="THEMES" order="40">
   <template>
-    <nuxeo-theme name="light"></nuxeo-theme>
+    <mostly-theme name="light"></mostly-theme>
   </template>
 </nuxeo-slot-content>
 

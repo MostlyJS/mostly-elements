@@ -55,7 +55,7 @@
       <div class="content">
         <section name="dashboard" class="flex-layout">
 
-          <!-- recently edited -->
+          <!-- recently edited
           <paper-card>
             <h3><iron-icon icon="mostly:edit" name="Latest Documents Edited"></iron-icon>[[i18n('home.latestDocumentsEdited')]]</h3>
             <nuxeo-page-provider auto
@@ -89,14 +89,14 @@
               </nuxeo-data-table-column>
             </nuxeo-data-table>
           </paper-card>
-
-          <!-- tasks -->
+           -->
+          <!-- tasks
           <paper-card>
             <h3><iron-icon icon="nuxeo:tasks" name="Tasks"></iron-icon>[[i18n('home.tasks')]]</h3>
             <nuxeo-tasks-list id="taskLists" tasks="[[tasks]]"></nuxeo-tasks-list>
           </paper-card>
-
-          <!-- recently viewed -->
+           -->
+          <!-- recently viewed
           <paper-card>
             <h3><iron-icon icon="nuxeo:recent" name="Recently Viewed"></iron-icon>[[i18n('app.recentlyViewed')]]</h3>
             <nuxeo-document-storage id="recentStorage" name="nuxeo-recent-documents" documents="{{recentDocuments}}"></nuxeo-document-storage>
@@ -123,8 +123,8 @@
               </nuxeo-data-table-column>
             </nuxeo-data-table>
           </paper-card>
-
-          <!-- favorites -->
+           -->
+          <!-- favorites
           <paper-card>
             <h3><iron-icon icon="nuxeo:favorites" name="Favorites"></iron-icon>[[i18n('home.favorites')]]</h3>
             <nuxeo-operation id="fetchFavOp" op="Favorite.Fetch" response="favorite"></nuxeo-operation>
@@ -158,6 +158,7 @@
               </nuxeo-data-table-column>
             </nuxeo-data-table>
           </paper-card>
+           -->
         </section>
       </div>
     </nuxeo-page>
@@ -177,7 +178,7 @@
 
       _visibleChanged: function(visible) {
         if (visible) {
-          this._refresh();
+          //TODO this._refresh();
         }
       },
 
