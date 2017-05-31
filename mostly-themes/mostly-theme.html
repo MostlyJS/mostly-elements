@@ -1,5 +1,5 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/nuxeo-ui-elements/nuxeo-i18n-behavior.html">
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../nuxeo-ui-elements/nuxeo-i18n-behavior.html">
 
 <!--
 `mostly-theme`
@@ -57,7 +57,7 @@
         },
 
         _image: function(name) {
-          return (this.preview) ? this.preview : 'themes/' + name + '/preview.jpg';
+          return (this.preview) ? this.preview : 'bower_components/mostly-admin-ui/themes/' + name + '/preview.jpg';
         },
 
         _label: function(name) {

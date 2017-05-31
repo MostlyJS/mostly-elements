@@ -1,8 +1,8 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/nuxeo-ui-elements/nuxeo-layout.html">
-<link rel="import" href="../bower_components/nuxeo-ui-elements/nuxeo-routing-behavior.html">
-<link rel="import" href="../bower_components/nuxeo-ui-elements/nuxeo-i18n-behavior.html">
-<link rel="import" href="../bower_components/nuxeo-ui-elements/nuxeo-filters-behavior.html">
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../nuxeo-ui-elements/nuxeo-layout.html">
+<link rel="import" href="../nuxeo-ui-elements/nuxeo-routing-behavior.html">
+<link rel="import" href="../nuxeo-ui-elements/nuxeo-i18n-behavior.html">
+<link rel="import" href="../nuxeo-ui-elements/nuxeo-filters-behavior.html">
 <link rel="import" href="mostly-app/mostly-progress-indicator.html">
 <link rel="import" href="mostly-app/mostly-menu-item.html">
 <link rel="import" href="mostly-app/mostly-menu-icon.html">
@@ -518,7 +518,7 @@
         },
 
         _logo: function(baseUrl) {
-          return baseUrl + '../themes/' + (localStorage.getItem('theme') || 'default') + '/logo.png';
+          return '../bower_components/mostly-admin-ui/themes/' + (localStorage.getItem('theme') || 'default') + '/logo.png';
         },
 
         _actionContext: function() {
