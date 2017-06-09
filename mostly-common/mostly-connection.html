@@ -1,5 +1,5 @@
 <link rel="import" href="../../polymer/polymer.html">
-<!--script src="../mostly/dist/mostly.js"></script-->
+<script src="../../axios/dist/axios.js"></script>
 
 <!--
 `mostly-connection` wraps a `mostly.Client`.
@@ -29,7 +29,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
   (function() {
     // A global map of clients with connectionId as key.
     // This map is shared between all instances of mostly-connection.
-    var nxClients = {};
+    var axClients = {};
 
     Polymer({
       is: 'mostly-connection',
@@ -54,28 +54,25 @@ Note: Elements that depend on a connectionId use `nx` as default.
       },
 
       ready: function() {
-        //TODO this.connect();
+        this.connect();
       },
 
       connect: function() {
-        return null;
         // Create the client if needed
         // If we already have a client with the same connection info just keep it
-        var id = (this.connectionId) ? this.connectionId : Object.keys(nxClients)[0];
-        this.client = nxClients[id];
+        var id = (this.connectionId) ? this.connectionId : Object.keys(axClients)[0];
+        this.client = axClients[id];
         if (this.client) {
           // if this instance does not have any properties set properties from the client
           if (!this.url && !this.username && !this.password && !this.repositoryName) {
             this.url = this.client._baseURL;
             this.username = this.client._username;
             this.password = this.client._password;
-            this.repositoryName = this.client._baseOptions.repositoryName;
           }
           // if properties match the existing client use it
           if (this.client._baseURL === this.url &&
             this.client._username === this.username &&
-            this.client._password === this.password &&
-            this.client._baseOptions.repositoryName === this.repositoryName) {
+            this.client._password === this.password) {
             // return the stored connection request promise and chain handleConnected to update instance properties
             return this.client._promise.then(this.handleConnected.bind(this));
           } else {
@@ -85,31 +82,38 @@ Note: Elements that depend on a connectionId use `nx` as default.
         }
         var options = {
           baseURL: this.url,
-          schemas: ['*']
+          timeout: 1000
         };
 
-        if (this.username) {
-          options.auth = {
-            method: 'basic',
+        axClients[id] = this.client = this.client || axios.create(options);
+        // share the login promise between all instances (one per client)
+        this.client._promise = this.client
+          .post('authentication', {
+            strategy: 'local',
             username: this.username,
             password: this.password
-          };
-        }
-
-        if (this.repositoryName) {
-          options.repositoryName = this.repositoryName;
-        }
-
-        nxClients[id] = this.client = this.client || new Nuxeo(options);
-
-        // share the login promise between all instances (one per client)
-        this.client._promise = this.client.login()
+          }).then(resp => {
+            if (resp.data && resp.data.accessToken) {
+              console.log("authentication", resp.data.accessToken);
+              this.client.defaults.headers.common['Authorization'] = resp.data.accessToken;
+            } else {
+              throw 'authentication failed: ' + resp;
+            }
+            return this.client.get('users?username=' + this.username);
+          }).then(resp => {
+            if (resp.data && resp.data.data && resp.data.data.length > 0) {
+              return resp.data.data[0];
+            } else {
+              throw 'username not exists: ' + resp;
+            }
+          })
           .catch(function(error) {
-            console.log("Nuxeo connection refused: " + error);
+            console.log('Mostly connection refused: ' + error);
             throw error;
           });
 
-        return this.client._promise.then(this.handleConnected.bind(this))
+        return this.client._promise
+          .then(this.handleConnected.bind(this));
       },
 
       /**
@@ -130,6 +134,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
 
 
       handleConnected: function(user) {
+        console.log("handleConnected", user);
         if (this.client.connected) {
           this._setUser(user);
           this.fire('connected');
