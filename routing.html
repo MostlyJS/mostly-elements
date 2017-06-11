@@ -88,13 +88,14 @@
       app.show(ctx.params.page);
     });
 
-    // add #! before urls
+    // add hashbang #! before urls
     var useHashbang = true;
     page({hashbang: true, click: false});
     page.url = function(path) {
       return page.base() + '/' + (useHashbang ? '#!' : '') + path;
     };
 
+    // extends all the Polymer elements prototype
     Polymer.Base._addFeature({
       router: {
         browse: function(path) {

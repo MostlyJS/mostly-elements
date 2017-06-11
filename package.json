@@ -1,11 +1,8 @@
 {
-  "name": "nuxeo-web-ui",
-  "description": "Nuxeo Web UI",
-  "version": "0.8.0",
-  "homepage": "http://www.nuxeo.com",
-  "license": "Apache-2.0",
-  "vendor": "Nuxeo",
-  "private": true,
+  "name": "mostly-admin-ui",
+  "description": "Admin UI web components for Mostly microservices ",
+  "version": "1.0.0",
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.10.0",
     "connect-history-api-fallback": "^1.1.0",
@@ -45,13 +42,5 @@
     "test": "gulp test:local",
     "start": "gulp serve",
     "lint": "gulp lint"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "nuxeo": {
-    "platforms": [
-      "cap-8.2-SNAPSHOT"
-    ]
   }
 }

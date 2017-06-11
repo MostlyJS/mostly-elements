@@ -17,7 +17,7 @@
     "Chart.js": "2.1.6",
     "iron-form": "PolymerElements/iron-form#1.1.4",
     "iron-list": "PolymerElements/iron-list#1.3.9",
-    "feathers-client": "^2.2.0"
+    "axios": "^0.16.2"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
