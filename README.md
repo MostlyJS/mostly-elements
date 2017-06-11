@@ -1,11 +1,11 @@
-MostlyJS Admin UI
+MostlyJS Elements
 =================
 
-[![Build Status](https://travis-ci.org/mostlyjs/mostly-admin-ui.svg)](https://travis-ci.org/mostlyjs/mostly-admin-ui)
+[![Build Status](https://travis-ci.org/mostlyjs/mostly-elements.svg)](https://travis-ci.org/mostlyjs/mostly-elements)
 
-# About mostly-admin-ui
+# About mostly-elements
 
-**Mostlly admin UI Elements** is an ongoing work to develop a set of UI elements for building admin applications with Mostly microservices.
+**Mostlly Elements** is an ongoing work to develop a set of UI elements for building admin applications with Mostly microservices.
 
 ## Dependencies
 
@@ -22,10 +22,10 @@ Then, go ahead and download the element's dependencies:
 bower install
 ```
 
-## Reference mostly-admin-ui in your Bower dependencies
+## Reference mostly-elements in your Bower dependencies
 
 ```sh
-bower install -S mostlyjs/mostly-admin-ui
+bower install -S mostlyjs/mostly-elements
 ```
 ## Quickstart
 

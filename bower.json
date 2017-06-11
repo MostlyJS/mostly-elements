@@ -1,6 +1,5 @@
 {
-  "name": "mostly-admin-ui",
-  "private": true,
+  "name": "mostly-elements",
   "dependencies": {
     "alloyeditor": "0.7.5",
     "iron-elements": "PolymerElements/iron-elements#^1.0.0",

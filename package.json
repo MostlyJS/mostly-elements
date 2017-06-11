@@ -1,6 +1,6 @@
 {
-  "name": "mostly-admin-ui",
-  "description": "Admin UI web components for Mostly microservices ",
+  "name": "mostly-elements",
+  "description": "Admin web components for Mostly microservices ",
   "version": "1.0.0",
   "license": "MIT",
   "devDependencies": {
