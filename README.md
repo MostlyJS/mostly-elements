@@ -5,7 +5,9 @@ MostlyJS Elements
 
 # About mostly-elements
 
-**Mostlly Elements** is an ongoing work to develop a set of UI elements for building admin applications with Mostly microservices.
+**Mostlly Elements** is an ongoing work to develop a set of UI elements for building admin applications with microservices (i.e. micro frontend) using Polymer 1.0 and 2.0.
+
+![Preview](themes/default/preview.jpg)
 
 ## Dependencies
 
