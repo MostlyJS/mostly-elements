@@ -435,27 +435,27 @@
         ready: function() {
           this.$.drawerPanel.closeDrawer();
 
-          window.addEventListener('unhandledrejection', function(error) {
+          window.addEventListener('unhandledrejection', error => {
             this._onError(error);
-          }.bind(this));
+          });
 
-          window.addEventListener('nuxeo-documents-deleted', function(e) {
+          window.addEventListener('nuxeo-documents-deleted', e => {
             this._fetchTasks();
             var navTree = this.$$('navTree');
             if (navTree) {
               navTree.removeDocuments(e.detail.documentIds);
             }
-          }.bind(this));
+          });
 
-          window.addEventListener('nuxeo-documents-deleted-error', function(e) {
+          window.addEventListener('nuxeo-documents-deleted-error', e => {
             this._documentsDeletedError(e.detail.response, e.detail.documents);
-          }.bind(this));
+          });
 
-          window.addEventListener('selected-tab-changed', function(e) {
+          window.addEventListener('selected-tab-changed', e => {
             if (e.srcElement === this.$$('#browser')) {
               this.set('docAction', e.detail.value);
             }
-          }.bind(this), true);
+          }, true);
         },
 
         refresh: function() {
@@ -470,11 +470,11 @@
           if (id && id.length > 0){
             this.loading = true;
             this.currentTaskId = id;
-            this.$.task.get().then(function(task) {
+            this.$.task.get().then(task => {
               this.currentTask = task;
               this.show('tasks');
               this.loading = false;
-            }.bind(this));
+            });
           } else {
             this.currentTask = null;
             this.show('tasks');
@@ -486,7 +486,7 @@
           this.docId = id;
           this.docPath = path;
           this.docAction = action;
-          this.$.doc.get().then(function(doc) {
+          this.$.doc.get().then(doc => {
             if (this.docId && !doc.isVersion) {
               this.docId = '';
               this.docPath = doc.path;
@@ -502,7 +502,7 @@
               this.loading = false;
               this.show(page);
             }
-          }.bind(this)).catch(function(err) {
+          }).catch(err => {
             this.loading = false;
             this.set('error', {
               code: err.status,
@@ -510,7 +510,7 @@
               url: err.message
             });
             this.show('error');
-          }.bind(this));
+          });
         },
 
         show: function(page) {
@@ -613,11 +613,13 @@
         },
 
         _fetchTasks: function() {
-          this.$.tasks.params = {'userId': this.currentUser.id};
-          this.$.tasks.get().then(function(response) {
-            this.tasks = response.entries;
-            this.taskCount = this.tasks.length;
-          }.bind(this));
+          if (this.$.tasks) {
+            this.$.tasks.params = {'userId': this.currentUser.id};
+            this.$.tasks.get().then(response => {
+              this.tasks = response.entries;
+              this.taskCount = this.tasks.length;
+            });
+          }
         },
 
         _refreshAndFetchTasks: function() {
@@ -644,10 +646,10 @@
         },
 
         _observeCurrentUser: function() {
-          if (this.currentUser) {
-            this.$.userWorkspace.execute().then(function(response) {
+          if (this.currentUser && this.$userWorkspace) {
+            this.$.userWorkspace.execute().then(response => {
               this.userWorkspace = response.path;
-            }.bind(this));
+            });
             this._fetchTasks();
           }
         },
@@ -655,14 +657,11 @@
         _displayUser: function(user) {
           if (user) {
             var result = '';
-            if (user.properties['firstName']) {
-              result += user.properties['firstName'];
+            if (user['nickname']) {
+              result += user['nickname'];
             }
-            if (user.properties['lastName']) {
-              if (result.length > 0) {
-                result += ' ';
-              }
-              result += user.properties['lastName'];
+            if (result.length === 0 && user['username']) {
+              result = user['username'];
             }
             if (result.length === 0) {
               result = user.id;
@@ -809,7 +808,7 @@
         },
 
         _updateDrawer: function() {
-          this.$['drawer-pages'].items.forEach(function(drawerPage) {
+          this.$['drawer-pages'].items.forEach(drawerPage => {
             switch (drawerPage.tagName) {
               case 'NUXEO-SEARCH-FORM':
                 var searchName = drawerPage.getAttribute('search-name');
@@ -824,11 +823,11 @@
                 }
                 break;
             }
-          }.bind(this));
+          });
         },
 
         _updatePages: function() {
-          this.$['pages'].items.forEach(function(page) {
+          this.$['pages'].items.forEach(page => {
             switch (page.tagName) {
               case 'NUXEO-SEARCH-RESULTS':
                 this.searchResults = page;
@@ -839,7 +838,7 @@
                   }
                 }
             }
-          }.bind(this));
+          });
         },
 
         anticipateSearch: function() {

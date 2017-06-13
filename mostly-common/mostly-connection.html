@@ -135,7 +135,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
 
       handleConnected: function(user) {
         console.log("handleConnected", user);
-        if (this.client.connected) {
+        if (this.client) {
           this._setUser(user);
           this.fire('connected');
         }
@@ -143,21 +143,21 @@ Note: Elements that depend on a connectionId use `nx` as default.
       },
 
       request: function() {
-        return this.connect().then(function() {
-          return this.client.request();
-        }.bind(this));
+        return this.connect().then(() => {
+          return this.client.request;
+        });
       },
 
       operation: function(op) {
-        return this.connect().then(function() {
-          return this.client.operation(op);
-        }.bind(this));
+        return this.connect().then(() => {
+          return this.client.request; // TODO operation(op)
+        });
       },
 
       batchUpload: function() {
-        return this.connect().then(function() {
-          return this.client.batchUpload();
-        }.bind(this));
+        return this.connect().then(() => {
+          return this.client.request; // TODO batchUpload()
+        });
       }
     });
   })();

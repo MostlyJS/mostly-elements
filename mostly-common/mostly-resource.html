@@ -157,7 +157,7 @@ element.
       // Look up headers parameter
       options.headers = this.headers || {};
       // add support for plain text responses by default
-      options.headers.accept = 'text/plain,application/json';
+      options.headers.accept = 'application/json';
       // set default content-type
       options.headers['Content-Type'] = this.contentType;
       // Look up content enrichers parameter
@@ -171,10 +171,10 @@ element.
       options.resolveWithFullResponse = true;
 
       var params = this.params || {};
-      return this.$.nx.request().then(function(request) {
+      return this.$.nx.request().then(request => {
         this._request = request;
         return this._doExecute(params, options);
-      }.bind(this));
+      });
     },
 
     _autoGet: function () {
@@ -186,45 +186,39 @@ element.
     },
 
     _doExecute: function(params, options) {
-      return this._request
-        .path(this.path)
-        .queryParams(params)
-        .repositoryName(this._request._baseOptions.repositoryName === 'default' ?
-          undefined : this._request._baseOptions.repositoryName)
-        .execute(options)
-        .then(function(response) {
-          return response.text().then(function(text) {
-            try {
-              return text ? JSON.parse(text) : {};
-            } catch (e) {
-              return { error: 'Invalid json' };
-            }
-          });
-        }).then(function(data) {
-          this.fire('response', {response: data});
-          this.response = data;
-          this.success = true;
-          this._setActiveRequests(this.activeRequests - 1);
-          return this.response;
-        }.bind(this))
-        .catch(function(error) {
-          this.success = false;
-          this._setActiveRequests(this.activeRequests - 1);
-          return error.response.text().then(function(text) {
-            if (text) {
-              try {
-                this.error = JSON.parse(text);
-                this.error.status = error.response.status;
-                console.log("Resource request failed: " + this.error.message);
-              } catch(e) {
-                this.error =  { message: 'Invalid json', status: error.response.status };
-              }
-            } else {
-              this.error =  { message: 'No message', status: error.response.status };
-            }
-            throw this.error;
-          }.bind(this));
-        }.bind(this));
+      let config = Object.assign({
+        url: this.path,
+        params: params
+      }, options);
+      return this._request(config).then(response => {
+        try {
+          return response.data && response.data.data ? response.data.data : {};
+        } catch (e) {
+          return { error: 'Invalid json' };
+        }
+      }).then(data => {
+        this.fire('response', { response: data });
+        this.response = data;
+        this.success = true;
+        this._setActiveRequests(this.activeRequests - 1);
+        return this.response;
+      }).catch(error => {
+        console.log("Resource request failed: " + error);
+        this.success = false;
+        this._setActiveRequests(this.activeRequests - 1);
+        if (error.response && error.response.data) {
+          this.error = {
+            status: error.response.data.status,
+            message: error.response.data.message
+          }
+        } else {
+          this.error = {
+            status: '-1',
+            message: error
+          };
+        }
+        throw this.error;
+      });
     },
 
     _isLoading: function() {
