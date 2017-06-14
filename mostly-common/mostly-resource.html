@@ -203,7 +203,7 @@ element.
         this._setActiveRequests(this.activeRequests - 1);
         return this.response;
       }).catch(error => {
-        console.log("Resource request failed: " + error);
+        console.log("resource request failed: " + error);
         this.success = false;
         this._setActiveRequests(this.activeRequests - 1);
         if (error.response && error.response.data) {

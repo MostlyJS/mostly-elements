@@ -93,18 +93,22 @@ Note: Elements that depend on a connectionId use `nx` as default.
             username: this.username,
             password: this.password
           }).then(resp => {
-            if (resp.data && resp.data.accessToken) {
-              console.log("authentication", resp.data.accessToken);
-              this.client.defaults.headers.common['Authorization'] = resp.data.accessToken;
+            console.log('authentication', resp);
+            if (resp.data.data && resp.data.data.accessToken) {
+              // save accessToken
+              this.client.defaults.headers.common['Authorization'] = resp.data.data.accessToken;
             } else {
-              throw 'authentication failed: ' + resp;
+              console.log('authentication failed: ', resp);
+              throw 'authentication failed';
             }
-            return this.client.get('users?username=' + this.username);
+            return this.client.get('users/me');
           }).then(resp => {
-            if (resp.data && resp.data.data && resp.data.data.length > 0) {
-              return resp.data.data[0];
+            console.log('current user: ', resp);
+            if (resp.data.data && resp.data.data) {
+              return resp.data.data;
             } else {
-              throw 'username not exists: ' + resp;
+              console.log('user not exists: ', resp);
+              throw 'user not exists';
             }
           })
           .catch(error => {
@@ -134,7 +138,6 @@ Note: Elements that depend on a connectionId use `nx` as default.
 
 
       handleConnected: function(user) {
-        console.log("handleConnected", user);
         if (this.client) {
           this._setUser(user);
           this.fire('connected');
