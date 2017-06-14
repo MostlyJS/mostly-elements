@@ -203,6 +203,7 @@
   "command.remove": "Remove",
   "command.Reset": "Reset",
   "command.save": "Save",
+  "command.save.changes": "Save Changes",
   "command.search": "Search",
   "command.submit": "Submit",
   "command.unlock": "Unlock",
