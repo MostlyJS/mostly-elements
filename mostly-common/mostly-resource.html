@@ -133,6 +133,12 @@ element.
       return this.execute();
     },
 
+    /* Execute a 'PATCH' request */
+    patch: function () {
+      this.method = 'patch';
+      return this.execute();
+    },
+
     /* Execute a 'DELETE' request */
     remove: function () {
       this.method = 'delete';
@@ -147,7 +153,7 @@ element.
       };
 
       if (this.data && this.method != 'get') {
-        options.body = this.data;
+        options.data = this.data;
       }
 
       // Look up document schemas to be returned
@@ -163,8 +169,6 @@ element.
       // Look up content enrichers parameter
       if (this.enrichers) {
         options.headers['enrichers-' + this.enrichersEntity] = this.enrichers;
-        // NXP-18425: send also header with dot separator for compat with < 7.10-HF01
-        options.headers['X-NXenrichers.' + this.enrichersEntity] = this.enrichers;
       }
 
       // resolve with full response to skip default unmarshallers
@@ -179,26 +183,20 @@ element.
 
     _autoGet: function () {
       if (this.auto && this.path) {
-        this.debounce('_autoGet', function() {
+        this.debounce('_autoGet', () => {
           this.get();
-        }.bind(this), this.autoDelay);
+        }, this.autoDelay);
       }
     },
 
     _doExecute: function(params, options) {
-      let config = Object.assign({
+      var config = Object.assign({
         url: this.path,
         params: params
       }, options);
       return this._request(config).then(response => {
-        try {
-          return response.data && response.data.data ? response.data.data : {};
-        } catch (e) {
-          return { error: 'Invalid json' };
-        }
-      }).then(data => {
-        this.fire('response', { response: data });
-        this.response = data;
+        this.fire('response', { response: response.data });
+        this.response = response.data;
         this.success = true;
         this._setActiveRequests(this.activeRequests - 1);
         return this.response;
@@ -213,8 +211,8 @@ element.
           }
         } else {
           this.error = {
-            status: '-1',
-            message: error
+            status: error.status || -1,
+            message: error.message || error
           };
         }
         throw this.error;

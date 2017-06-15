@@ -86,35 +86,46 @@ Note: Elements that depend on a connectionId use `nx` as default.
         };
 
         axClients[id] = this.client = this.client || axios.create(options);
+
         // share the login promise between all instances (one per client)
-        this.client._promise = this.client
-          .post('authentication', {
-            strategy: 'local',
-            username: this.username,
-            password: this.password
-          }).then(resp => {
-            console.log('authentication', resp);
-            if (resp.data.data && resp.data.data.accessToken) {
-              // save accessToken
-              this.client.defaults.headers.common['Authorization'] = resp.data.data.accessToken;
-            } else {
-              console.log('authentication failed: ', resp);
-              throw 'authentication failed';
-            }
-            return this.client.get('users/me');
-          }).then(resp => {
-            console.log('current user: ', resp);
-            if (resp.data.data && resp.data.data) {
-              return resp.data.data;
-            } else {
-              console.log('user not exists: ', resp);
-              throw 'user not exists';
-            }
-          })
-          .catch(error => {
-            console.log('Mostly connection refused: ' + error);
-            throw error;
-          });
+        this.client._promise = this.client.post('authentication', {
+          strategy: 'local',
+          username: this.username,
+          password: this.password
+        }).then(resp => {
+          console.log('authentication', resp);
+          if (resp.data && resp.data.data && resp.data.data.accessToken) {
+            // save accessToken
+            this.client.defaults.headers.common['Authorization'] = resp.data.data.accessToken;
+          } else {
+            console.log('authentication failed: ', resp);
+            throw 'authentication failed';
+          }
+          return this.client.get('users/me');
+        }).then(resp => {
+          console.log('current user: ', resp);
+          if (resp.data && resp.data.data) {
+            return resp.data.data;
+          } else {
+            console.log('user not exists: ', resp);
+            throw 'user not exists';
+          }
+        })
+        .catch(error => {
+          console.log('Mostly connection refused: ' + error);
+          throw error;
+        });
+
+        // add a response status interceptor
+        this.client.interceptors.response.use(function (response) {
+          if (response.data && response.data.status !== 0) {
+            return Promise.reject({
+              status: response.data.status,
+              message: response.data.status.message
+            });
+          }
+          return response;
+        }, Promise.reject);
 
         return this.client._promise
           .then(this.handleConnected.bind(this));
