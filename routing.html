@@ -90,7 +90,7 @@
 
     // add hashbang #! before urls
     var useHashbang = true;
-    page({hashbang: true, click: false});
+    page({hashbang: true, click: false });
     page.url = function(path) {
       return page.base() + '/' + (useHashbang ? '#!' : '') + path;
     };

@@ -1,0 +1,54 @@
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+
+<!-- Part of `mostly-data-table` -->
+<dom-module id="mostly-data-table-form">
+  <style>
+
+  </style>
+  <template>
+    <div id="container"></div>
+  </template>
+  <script>
+    Polymer({
+      is: 'mostly-data-table-form',
+
+      behaviors: [Polymer.Templatizer, Mostly.I18nBehavior],
+
+      properties: {
+        item: {
+          type: Object,
+          notify: true,
+          observer: '_itemChanged'
+        },
+        index: Number
+      },
+
+      ready: function() {
+        var template = this.queryEffectiveChildren('template');
+        // custom notification for the `item` property
+        this._instanceProps = {item: true};
+        this.templatize(template);
+        this.instance = this.stamp({item: this.item});
+        Polymer.dom(this.$.container).appendChild(this.instance.root);
+      },
+
+      _itemChanged: function() {
+        if (this.instance) {
+          this.instance.item = this.item;
+        }
+      },
+
+      _forwardParentProp: function(prop, value) {},
+
+      _forwardInstancePath: function(inst, path, value) {
+        // strip "item."
+        this.fire('item-changed', {item: this.item, path: path.substring(5), value: value});
+      },
+
+      _forwardInstanceProp: function(inst, prop, value) {
+        this.fire('item-changed', {item: this.item, value: value});
+      }
+    });
+  </script>
+</dom-module>

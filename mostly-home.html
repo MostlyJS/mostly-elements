@@ -36,7 +36,7 @@
         margin-right: 0.4em;
       }
 
-      nuxeo-data-table, nuxeo-tasks-list, nuxeo-tasks-list ::content nuxeo-data-list {
+      mostly-data-table, nuxeo-tasks-list, nuxeo-tasks-list ::content mostly-data-list {
         height: 350px !important;
       }
 
@@ -55,41 +55,39 @@
       <div class="content">
         <section name="dashboard" class="flex-layout">
 
-          <!-- recently edited
+          <!-- recently edited -->
           <paper-card>
-            <h3><iron-icon icon="mostly:edit" name="Latest Documents Edited"></iron-icon>[[i18n('home.latestDocumentsEdited')]]</h3>
-            <nuxeo-page-provider auto
+            <h3><iron-icon icon="mostly:edit" name="Services"></iron-icon>[[i18n('home.services')]]</h3>
+            <mostly-page-provider auto
               id="latestQuery"
               page-size="20"
               provider="domain_documents"
               schemas="dublincore,common,uid"
-              enrichers="thumbnail"
-              params='{"queryParams": "/"}'
-              headers='{"X-NXfetch.document": "properties"}'>
-            </nuxeo-page-provider>
-            <nuxeo-data-table id="latestEditedDocs"
+              params='{"queryParams": "/"}'>
+            </mostly-page-provider>
+            <mostly-data-table id="latestEditedDocs"
               nx-provider="latestQuery"
               empty-label="[[i18n('queryWidget.noDocuments')]]"
               on-row-clicked="_navigate">
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
                 <template>
                   <nuxeo-thumbnail document="[[item]]"></nuxeo-thumbnail>
                   <a class="ellipsis" href$="[[urlFor('browse', item.path)]]">[[item.title]]</a>
                 </template>
-              </nuxeo-data-table-column>
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.modified')]]" flex="50">
+              </mostly-data-table-column>
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.modified')]]" flex="50">
                 <template>
                   <nuxeo-date datetime="[[item.properties.dc:modified]]" format="relative"></nuxeo-date>
                 </template>
-              </nuxeo-data-table-column>
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.lastContributor')]]" flex="50">
+              </mostly-data-table-column>
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.lastContributor')]]" flex="50">
                 <template>
-                  <nuxeo-user-tag user="[[item.properties.dc:lastContributor]]"></nuxeo-user-tag>
+                  <playing-user-tag user="[[item.properties.dc:lastContributor]]"></playing-user-tag>
                 </template>
-              </nuxeo-data-table-column>
-            </nuxeo-data-table>
+              </mostly-data-table-column>
+            </mostly-data-table>
           </paper-card>
-           -->
+
           <!-- tasks
           <paper-card>
             <h3><iron-icon icon="nuxeo:tasks" name="Tasks"></iron-icon>[[i18n('home.tasks')]]</h3>

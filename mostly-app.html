@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-layout.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-routing-behavior.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-i18n-behavior.html">
+<link rel="import" href="./behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-filters-behavior.html">
 <link rel="import" href="mostly-app/mostly-progress-indicator.html">
 <link rel="import" href="mostly-app/mostly-menu-item.html">
@@ -302,7 +302,7 @@
 
       Polymer({
         is: 'mostly-app',
-        behaviors: [Nuxeo.RoutingBehavior, Nuxeo.I18nBehavior, Nuxeo.FiltersBehavior],
+        behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior, Nuxeo.FiltersBehavior],
         properties: {
           baseUrl: {
             type: String,

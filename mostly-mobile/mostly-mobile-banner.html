@@ -4,7 +4,7 @@
 @element mostly-mobile-banner
 -->
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-i18n-behavior.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 
 <dom-module id="mostly-mobile-banner">
 
@@ -52,7 +52,7 @@
     Polymer({
       is: 'mostly-mobile-banner',
       behaviors: [
-        Nuxeo.I18nBehavior
+        Mostly.I18nBehavior
       ],
       properties: {
         document: Object,

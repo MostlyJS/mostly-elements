@@ -1,0 +1,118 @@
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+
+<!-- Part of `mostly-data-table` -->
+<dom-module id="mostly-data-table-settings">
+  <template>
+    <style is="custom-style">
+      :host {
+        position: relative;
+      }
+
+      .paper-content {
+        min-width: 20vw;
+        margin-bottom: 2em;
+      }
+
+      paper-icon-button {
+        position: absolute;
+        top: 1.5em;
+        right: 8px;
+        z-index: 1000;
+        width: 1.5em;
+        height: 1.5em;
+        padding: 0;
+      }
+
+      paper-button {
+        margin: 0;
+        padding: 8px 16px;
+      }
+
+      paper-button:hover {
+        @apply(--nx-button-hover);
+      }
+
+      paper-button.primary {
+        @apply(--nx-button-primary);
+      }
+
+      paper-button.primary:hover,
+      paper-button.primary:focus {
+        @apply(--nx-button-primary-hover);
+      }
+
+      .buttons {
+        @apply(--buttons-bar);
+      }
+    </style>
+
+    <mostly-connection id="nxcon"></mostly-connection>
+
+    <nuxeo-dialog id="columnsSettingsPopup" with-backdrop no-auto-focus reparent>
+      <h2>[[i18n('tableSettings.columnSettings')]]</h2>
+      <div class="paper-content layout horizontal">
+        <div class="layout vertical">
+          <div class="row layout horizontal">
+            <div class="label-container">
+              <label></label>
+            </div>
+            <table>
+              <template is="dom-repeat" items="[[columns]]" as="column">
+                <tr>
+                  <td>
+                    <paper-checkbox noink checked="{{!column.hidden}}" on-tap="_columnDisplayChanged">
+                    </paper-checkbox>
+                  </td>
+                  <td>
+                    [[column.name]]
+                  </td>
+                </tr>
+              </template>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="buttons horizontal end-justified layout">
+        <div class="flex start-justified">
+          <paper-button noink on-tap="_resetSettings">[[i18n('tableSettings.columnSettings.reset')]]</paper-button>
+        </div>
+        <paper-button noink class="primary" dialog-dismiss>[[i18n('tableSettings.columnSettings.close')]]</paper-button>
+      </div>
+    </nuxeo-dialog>
+
+    <paper-icon-button noink icon="nuxeo:settings" id="toggleColSettings"
+      on-tap="toggleColsSettingsPopup">
+    </paper-icon-button>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'mostly-data-table-settings',
+
+      behaviors: [Mostly.I18nBehavior],
+
+      properties: {
+        columns: {
+          type: Array,
+          notify: true,
+        },
+      },
+
+      toggleColsSettingsPopup: function() {
+        this.$$('#columnsSettingsPopup').toggle();
+      },
+
+      _columnDisplayChanged: function() {
+        this.fire('settings-changed');
+      },
+
+      _resetSettings: function() {
+        this.columns.forEach(function(column, idx) {
+          this.set('columns.' + idx + '.hidden', column.hiddenBack);
+        }, this);
+        this._columnDisplayChanged();
+      }
+
+    });
+  </script>
+</dom-module>
