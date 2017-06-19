@@ -46,6 +46,10 @@
       }
     });
 
+    page('/service/:id/', function(data) {
+      app.load('service', data.params.id, '', 'view');
+    });
+
     page('/doc/:repo?/:id/', function(data) {
       if (!data.state.contentView) {
         app.currentContentView = null;
@@ -112,6 +116,10 @@
 
         search: function(searchId) {
           return page.url('/search/' + searchId);
+        },
+
+        service: function(processId) {
+          return page.url('/service/' + processId);
         },
 
         queue: function(searchId) {

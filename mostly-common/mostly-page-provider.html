@@ -11,9 +11,13 @@
     </mostly-page-provider>
 
     <mostly-page-provider auto
-                         provider="default_search"
+                         provider="users"
                          page-size="25">
     </mostly-page-provider>
+
+`query` is a GraphQL expression, `provider` is a RESTful endpoint name.
+
+`sort` is a jsonic abbreviated json syntax.
 
 With `auto` set to `true`, results are fetched whenever
 the `provider`, `query`, `params`, `page` or `pageSize` properties are changed.
@@ -236,15 +240,16 @@ element.
        * @method fetch
        */
       fetch: function() {
-        var params = {
-          currentPageIndex: this.page - 1,
-          pageSize: this.pageSize,
-          sortBy: this._sortKeys.join(","),
-          sortOrder: this._sortValues.join(",")
-        };
+        var params = {};
 
         if (this.query) {
           params.query = this.query;
+        } else {
+          params = Object.assign(params, {
+            $skip: (this.page - 1) * this.pageSize,
+            $limit: this.pageSize,
+            $sort: this.sort
+          });
         }
 
         if (Array.isArray(this.params)) {
@@ -273,13 +278,13 @@ element.
         this.$.nxResource.params = params;
         return this.$.nxResource.execute()
           .then(response => {
-            this.currentPage = response.entries.slice(0);
-            this.numberOfPages = response.numberOfPages;
-            this.resultsCount = response.resultsCount;
-            this.aggregations = response.aggregations;
-            this.quickFilters = response.quickFilters;
-            this.isNextPageAvailable = response.isNextPageAvailable;
-            this.currentPageSize = response.currentPageSize;
+            var data = response.data;
+            var metadata = response.metadata;
+            this.currentPage = data.slice(0);
+            this.numberOfPages = Math.floor(metadata.total / metadata.limit);
+            this.resultsCount = metadata.total;
+            this.isNextPageAvailable = metadata.skip + metadata.limit < metadata.total;
+            this.currentPageSize = metadata.limit;
             this.fire('update');
             return response;
           }).catch(err => {
@@ -316,7 +321,7 @@ element.
         if (query) {
           path = '/query';
         } else if (provider) {
-          path = '/query/' + provider;
+          path = '/' + provider;
         }
         return path;
       },

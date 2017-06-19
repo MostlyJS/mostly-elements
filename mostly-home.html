@@ -59,30 +59,35 @@
           <paper-card>
             <h3><iron-icon icon="mostly:edit" name="Services"></iron-icon>[[i18n('home.services')]]</h3>
             <mostly-page-provider auto
-              id="latestQuery"
+              id="statsProcesses"
               page-size="20"
-              provider="domain_documents"
-              schemas="dublincore,common,uid"
-              params='{"queryParams": "/"}'>
+              provider="stats-processes"
+              schemas="app,rss,uptime"
+              sort='app:1'>
             </mostly-page-provider>
-            <mostly-data-table id="latestEditedDocs"
-              nx-provider="latestQuery"
+            <mostly-data-table id="processList"
+              nx-provider="statsProcesses"
               empty-label="[[i18n('queryWidget.noDocuments')]]"
               on-row-clicked="_navigate">
-              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
+              <mostly-data-table-column name="[[i18n('statsProcesses.datatable.header.app')]]" flex="100">
                 <template>
                   <nuxeo-thumbnail document="[[item]]"></nuxeo-thumbnail>
-                  <a class="ellipsis" href$="[[urlFor('browse', item.path)]]">[[item.title]]</a>
+                  <a class="ellipsis" href$="[[urlFor('service', item.app)]]">[[item.app]]</a>
                 </template>
               </mostly-data-table-column>
-              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.modified')]]" flex="50">
+              <mostly-data-table-column name="[[i18n('statsProcesses.datatable.header.eventLoopDelay')]]" flex="50">
                 <template>
-                  <nuxeo-date datetime="[[item.properties.dc:modified]]" format="relative"></nuxeo-date>
+                  [[item.eventLoopDelay]]
                 </template>
               </mostly-data-table-column>
-              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.lastContributor')]]" flex="50">
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.ts')]]" flex="50">
                 <template>
-                  <playing-user-tag user="[[item.properties.dc:lastContributor]]"></playing-user-tag>
+                  <nuxeo-date datetime="[[item.ts]]" format="relative"></nuxeo-date>
+                </template>
+              </mostly-data-table-column>
+              <mostly-data-table-column name="[[i18n('statsProcesses.datatable.header.uptime')]]" flex="50">
+                <template>
+                  [[item.uptime]]
                 </template>
               </mostly-data-table-column>
             </mostly-data-table>

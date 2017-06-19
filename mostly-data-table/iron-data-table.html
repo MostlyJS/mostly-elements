@@ -48,20 +48,20 @@ An element to display a page provider result within a table with infinite scroll
 
 Example:
 
-    <nuxeo-page-provider id="cvProvider" auto
+    <mostly-page-provider id="cvProvider" auto
       provider="default_search"
       page-size="40"
       aggregations="{{aggregations}}">
-    </nuxeo-page-provider>
+    </mostly-page-provider>
 
-    <nuxeo-data-table id="datatable"
+    <mostly-data-table id="datatable"
       nx-provider="cvProvider">
-      <nuxeo-data-table-column name="Full text search" flex="100" filter-by="ecm_fulltext" sort-by="dc:title">
+      <mostly-data-table-column name="Full text search" flex="100" filter-by="ecm_fulltext" sort-by="dc:title">
         <template>
           <a class="title ellipsis">[[item.title]]</a>
         </template>
-      </nuxeo-data-table-column>
-      <nuxeo-data-table-column filter-by="dc_modified_agg" flex="50" sort-by="dc:modified">
+      </mostly-data-table-column>
+      <mostly-data-table-column filter-by="dc_modified_agg" flex="50" sort-by="dc:modified">
         <template is="header">
             <nuxeo-dropdown-aggregation
                 placeholder="Modified"
@@ -72,8 +72,8 @@ Example:
         <template>
           [[item.properties.dc:modified]]
         </template>
-      </nuxeo-data-table-column>
-      <nuxeo-data-table-column filter-by="dc_creator_agg" flex="50">
+      </mostly-data-table-column>
+      <mostly-data-table-column filter-by="dc_creator_agg" flex="50">
               <template is="header">
                 <nuxeo-dropdown-aggregation
                     placeholder="Author"
@@ -84,14 +84,13 @@ Example:
         <template>
           <span class="tag user">[[item.properties.dc:creator]]</span>
         </template>
-      </nuxeo-data-table-column>
-    </nuxeo-data-table>
+      </mostly-data-table-column>
+    </mostly-data-table>
 
-@group Nuxeo UI Elements
-@element nuxeo-data-table
-@demo demo/nuxeo-data-table/index.html
+@group Mostly UI Elements
+@element mostly-data-table
 -->
-<dom-module id="nuxeo-data-table">
+<dom-module id="mostly-data-table">
   <template>
     <style is="custom-style">
       :host {
@@ -190,25 +189,25 @@ Example:
       </template>
 
       <div id="header">
-        <nuxeo-data-table-row header>
-          <nuxeo-data-table-checkbox header hidden$="[[!selectionEnabled]]" on-tap="_toggleSelectAll" checked="[[_isSelectAllChecked]]" indeterminate="[[_isSelectAllIndeterminate]]"></nuxeo-data-table-checkbox>
+        <mostly-data-table-row header>
+          <mostly-data-table-checkbox header hidden$="[[!selectionEnabled]]" on-tap="_toggleSelectAll" checked="[[_isSelectAllChecked]]" indeterminate="[[_isSelectAllIndeterminate]]"></mostly-data-table-checkbox>
           <template is="dom-repeat" items="[[columns]]" as="column">
-            <nuxeo-data-table-cell header
-                             align-right="[[column.alignRight]]"
-                             before-bind="[[beforeCellBind]]"
-                             column="[[column]]"
-                             flex="[[column.flex]]"
-                             hidden="[[column.hidden]]"
-                             order="[[column.order]]"
-                             table="[[_this]]"
-                             template="[[column.headerTemplate]]"
-                             width="[[column.width]]">
-              <nuxeo-data-table-column-sort sort-order="[[sortOrder]]" path="[[column.sortBy]]" on-sort-direction-changed="_sortDirectionChanged" hidden$="[[!column.sortBy]]"></nuxeo-data-table-column-sort>
-            </nuxeo-data-table-cell>
+            <mostly-data-table-cell header
+                    align-right="[[column.alignRight]]"
+                    before-bind="[[beforeCellBind]]"
+                    column="[[column]]"
+                    flex="[[column.flex]]"
+                    hidden="[[column.hidden]]"
+                    order="[[column.order]]"
+                    table="[[_this]]"
+                    template="[[column.headerTemplate]]"
+                    width="[[column.width]]">
+              <mostly-data-table-column-sort sort-order="[[sortOrder]]" path="[[column.sortBy]]" on-sort-direction-changed="_sortDirectionChanged" hidden$="[[!column.sortBy]]"></mostly-data-table-column-sort>
+            </mostly-data-table-cell>
           </template>
-          <nuxeo-data-table-cell flex="0" hidden$="[[!editable]]"></nuxeo-data-table-cell>
-          <nuxeo-data-table-settings columns="{{columns}}" hidden$="[[!settingsEnabled]]"></nuxeo-data-table-settings>
-        </nuxeo-data-table-row>
+          <mostly-data-table-cell flex="0" hidden$="[[!editable]]"></mostly-data-table-cell>
+          <mostly-data-table-settings columns="{{columns}}" hidden$="[[!settingsEnabled]]"></mostly-data-table-settings>
+        </mostly-data-table-row>
       </div>
 
       <iron-scroll-threshold id="scrollThreshold"
@@ -220,48 +219,48 @@ Example:
           scroll-target="scrollThreshold">
           <template>
             <div class="item">
-              <nuxeo-data-table-row on-tap="_onRowClick"
-                            before-bind="[[beforeRowBind]]"
-                            even$="[[!_isEven(index)]]"
-                            expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
-                            index="[[index]]"
-                            item="[[item]]"
-                            tabindex="-1"
-                            selected="[[_isSelected(item, selectedItems, selectedItems.*)]]">
-                <nuxeo-data-table-checkbox hidden$="[[!selectionEnabled]]" tabindex="0" checked="[[selected]]" on-tap="_onCheckBoxTap"></nuxeo-data-table-checkbox>
+              <mostly-data-table-row on-tap="_onRowClick"
+                      before-bind="[[beforeRowBind]]"
+                      even$="[[!_isEven(index)]]"
+                      expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
+                      index="[[index]]"
+                      item="[[item]]"
+                      tabindex="-1"
+                      selected="[[_isSelected(item, selectedItems, selectedItems.*)]]">
+                <mostly-data-table-checkbox hidden$="[[!selectionEnabled]]" tabindex="0" checked="[[selected]]" on-tap="_onCheckBoxTap"></mostly-data-table-checkbox>
                 <template is="dom-repeat" items="[[columns]]" as="column" index-as="colIndex">
-                  <nuxeo-data-table-cell template="[[column.template]]"
-                                 table="[[_this]]"
-                                 align-right="[[column.alignRight]]"
-                                 column="[[column]]"
-                                 expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
-                                 flex="[[column.flex]]"
-                                 hidden="[[column.hidden]]"
-                                 index="[[index]]"
-                                 item="[[item]]"
-                                 order="[[column.order]]"
-                                 selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
-                                 width="[[column.width]]"
-                                 before-bind="[[beforeCellBind]]"></nuxeo-data-table-cell>
+                  <mostly-data-table-cell template="[[column.template]]"
+                          table="[[_this]]"
+                          align-right="[[column.alignRight]]"
+                          column="[[column]]"
+                          expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
+                          flex="[[column.flex]]"
+                          hidden="[[column.hidden]]"
+                          index="[[index]]"
+                          item="[[item]]"
+                          order="[[column.order]]"
+                          selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
+                          width="[[column.width]]"
+                          before-bind="[[beforeCellBind]]"></mostly-data-table-cell>
                 </template>
                 <template is="dom-if" if="[[_isExpanded(item, _expandedItems)]]" on-dom-change="_updateSizeForItem">
-                  <nuxeo-data-table-row-detail index="[[index]]"
-                                       item="[[item]]"
-                                       expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
-                                       selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
-                                       before-bind="[[beforeDetailsBind]]"
-                                       table="[[_this]]"
-                                       template="[[rowDetail]]"></nuxeo-data-table-row-detail>
+                  <mostly-data-table-row-detail index="[[index]]"
+                          item="[[item]]"
+                          expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
+                          selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
+                          before-bind="[[beforeDetailsBind]]"
+                          table="[[_this]]"
+                          template="[[rowDetail]]"></mostly-data-table-row-detail>
                 </template>
-                  <nuxeo-data-table-row-actions index="[[index]]"
-                                       editable="[[editable]]"
-                                       orderable="[[orderable]]"
-                                       template="[[rowForm]]"
-                                       item="[[item]]"
-                                       size="[[items.length]]"
-                                       table="[[_this]]">
-                  </nuxeo-data-table-row-actions>
-              </nuxeo-data-table-row>
+                  <mostly-data-table-row-actions index="[[index]]"
+                          editable="[[editable]]"
+                          orderable="[[orderable]]"
+                          template="[[rowForm]]"
+                          item="[[item]]"
+                          size="[[items.length]]"
+                          table="[[_this]]">
+                  </mostly-data-table-row-actions>
+              </mostly-data-table-row>
             </div>
           </template>
         </iron-list>
@@ -271,7 +270,7 @@ Example:
       </template>
     </div>
     <paper-spinner-lite active></paper-spinner-lite>
-    <content select="nuxeo-data-table-column"></content>
+    <content select="mostly-data-table-column"></content>
     <content select="template[is=row-detail]"></content>
 
     <nuxeo-dialog id="dialog">
@@ -288,11 +287,11 @@ Example:
 
   <script>
     Polymer({
-      is: 'nuxeo-data-table',
+      is: 'mostly-data-table',
 
       behaviors: [
         Polymer.IronResizableBehavior,
-        Nuxeo.PageProviderDisplayBehavior,
+        Mostly.PageProviderDisplayBehavior,
         Mostly.I18nBehavior
       ],
 
@@ -411,9 +410,9 @@ Example:
       },
 
       created: function() {
-        this._observer = Polymer.dom(this).observeNodes(function(info) {
+        this._observer = Polymer.dom(this).observeNodes(info => {
           var hasColumns = function(node) {
-            return (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'NUXEO-DATA-TABLE-COLUMN');
+            return (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'MOSTLY-DATA-TABLE-COLUMN');
           };
 
           var hasDetails = function(node) {
@@ -424,7 +423,7 @@ Example:
 
           if (info.addedNodes.filter(hasColumns).length > 0 ||
             info.removedNodes.filter(hasColumns).length > 0) {
-            this.set('columns', this.getContentChildren('[select=nuxeo-data-table-column]'));
+            this.set('columns', this.getContentChildren('[select=mostly-data-table-column]'));
             this._backupColumnsState();
             this.notifyResize();
           }
@@ -437,7 +436,7 @@ Example:
             var parent = Polymer.dom(this.rowDetail).parentNode;
             this.rowDetail._rootDataHost = parent.dataHost ? (parent.dataHost._rootDataHost || parent.dataHost) : parent;
           }
-        }.bind(this));
+        });
       },
 
       _backupColumnsState: function() {
