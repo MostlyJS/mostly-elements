@@ -215,7 +215,8 @@
 
     <mostly-connection id="nxcon" user="{{currentUser}}"></mostly-connection>
 
-    <mostly-operation id="userWorkspace" op="User.GetUserWorkspace"></mostly-operation>
+    <mostly-resource id="processes" path="/stats-processes"></mostly-resource>
+    <mostly-resource id="process" path="/stats-processes/[[currentProcessId]]"></mostly-resource>
 
     <!-- app layout -->
     <paper-drawer-panel id="drawerPanel" drawer-width="[[drawerWidth]]" responsive-width="720px" edge-swipe-sensitivity="0">
@@ -338,9 +339,9 @@
             observer: '_updateSearch'
           },
 
-          tasks: Array,
+          processes: Array,
 
-          taskCount: Number,
+          processCount: Number,
 
           clipboardCount: Number,
 
@@ -361,7 +362,7 @@
             }
           },
 
-          currentTask: {
+          currentProcess: {
             type: Object,
             value: null
           },
@@ -371,14 +372,10 @@
             observer: '_observeCurrentUser'
           },
 
-          userWorkspace: {
-            type: String
-          },
-
           actionContext: {
             type: Object,
-            computed: '_actionContext(currentDocument, currentUser, tasks, currentTask, taskCount,' +
-            ' clipboard, clipboardDocCount, userWorkspace, docAction, error)'
+            computed: '_actionContext(currentDocument, currentUser, processes, currentProcess, processCount,' +
+            ' clipboard, clipboardDocCount, docAction, error)'
           },
 
           clipboard: {
@@ -406,10 +403,10 @@
           'document-updated': 'refresh',
           'create-document': '_showDocumentCreationWizard',
           'document-created': '_handleDocumentCreated',
-          'workflowStarted': '_refreshAndFetchTasks',
-          'workflowAbandoned': '_refreshAndFetchTasks',
-          'workflowTaskProcess': '_workflowTaskProcess',
-          'workflowTaskProcessed': '_refreshAndFetchTasks',
+          'workflowStarted': '_refreshAndFetchProcesses',
+          'workflowAbandoned': '_refreshAndFetchProcesses',
+          'workflowProcessProcess': '_workflowProcessProcess',
+          'workflowProcessProcessed': '_refreshAndFetchProcesses',
           'added-to-clipboard': '_onAddedToClipboard',
           'add-to-clipboard': '_onAddToClipboard',
           'added-to-collection': '_documentAddedToCollection',
@@ -440,7 +437,7 @@
           });
 
           window.addEventListener('nuxeo-documents-deleted', e => {
-            this._fetchTasks();
+            this._fetchProcesses();
             var navTree = this.$$('navTree');
             if (navTree) {
               navTree.removeDocuments(e.detail.documentIds);
@@ -466,18 +463,18 @@
           }
         },
 
-        loadTask: function(id) {
+        loadProcess: function(id) {
           if (id && id.length > 0){
             this.loading = true;
-            this.currentTaskId = id;
-            this.$.task.get().then(task => {
-              this.currentTask = task;
-              this.show('tasks');
+            this.currentProcessId = id;
+            this.$.process.get().then(process => {
+              this.currentProcess = process;
+              this.show('processes');
               this.loading = false;
             });
           } else {
-            this.currentTask = null;
-            this.show('tasks');
+            this.currentProcess = null;
+            this.show('processes');
           }
         },
 
@@ -525,13 +522,12 @@
           return {
             currentDocument: this.currentDocument,
             user: this.currentUser,
-            taskCount: this.taskCount,
-            tasks: this.tasks,
-            currentTask: this.currentTask,
+            processCount: this.processCount,
+            processes: this.processes,
+            currentProcess: this.currentProcess,
             clipboardDocCount: this.clipboardDocCount,
             clipboard: this.clipboard,
             actionContext: this.actionContext,
-            userWorkspace: this.userWorkspace,
             docAction: this.docAction,
             error: this.error
           };
@@ -612,24 +608,26 @@
           this.$.drawerPanel.closeDrawer();
         },
 
-        _fetchTasks: function() {
-          if (this.$.tasks) {
-            this.$.tasks.params = {'userId': this.currentUser.id};
-            this.$.tasks.get().then(response => {
-              this.tasks = response.entries;
-              this.taskCount = this.tasks.length;
+        _fetchProcesses: function() {
+          if (this.$.processes) {
+            this.$.processes.params = {'userId': this.currentUser.id};
+            this.$.processes.get().then(response => {
+              this.processes = response.data;
+              this.processCount = this.processes.length;
+            }).catch(error => {
+              console.log("processes request failed: " + error);
             });
           }
         },
 
-        _refreshAndFetchTasks: function() {
+        _refreshAndFetchProcesses: function() {
           // let's refresh the current document since it might have been changed (ex: state and version)
           this.refresh();
-          this._fetchTasks();
+          this._fetchProcesses();
         },
 
-        _workflowTaskProcess: function(e) {
-          this.navigateTo('tasks', e.detail.id);
+        _workflowProcessProcess: function(e) {
+          this.navigateTo('processes', e.detail.id);
         },
 
         _onAddedToClipboard: function(e){
@@ -646,11 +644,8 @@
         },
 
         _observeCurrentUser: function() {
-          if (this.currentUser && this.$userWorkspace) {
-            this.$.userWorkspace.execute().then(response => {
-              this.userWorkspace = response.path;
-            });
-            this._fetchTasks();
+          if (this.currentUser) {
+            this._fetchProcesses();
           }
         },
 

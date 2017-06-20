@@ -55,9 +55,9 @@
       <div class="content">
         <section name="dashboard" class="flex-layout">
 
-          <!-- recently edited -->
+          <!-- microservice processes
           <paper-card>
-            <h3><iron-icon icon="mostly:edit" name="Services"></iron-icon>[[i18n('home.services')]]</h3>
+            <h3><iron-icon icon="mostly:edit" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
             <mostly-page-provider auto
               id="statsProcesses"
               page-size="20"
@@ -80,7 +80,7 @@
                   [[item.eventLoopDelay]]
                 </template>
               </mostly-data-table-column>
-              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.ts')]]" flex="50">
+              <mostly-data-table-column name="[[i18n('statsProcesses.datatable.header.ts')]]" flex="50">
                 <template>
                   <nuxeo-date datetime="[[item.ts]]" format="relative"></nuxeo-date>
                 </template>
@@ -92,7 +92,8 @@
               </mostly-data-table-column>
             </mostly-data-table>
           </paper-card>
-
+           -->
+           
           <!-- tasks
           <paper-card>
             <h3><iron-icon icon="nuxeo:tasks" name="Tasks"></iron-icon>[[i18n('home.tasks')]]</h3>

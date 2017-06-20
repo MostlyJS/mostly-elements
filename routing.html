@@ -46,10 +46,6 @@
       }
     });
 
-    page('/service/:id/', function(data) {
-      app.load('service', data.params.id, '', 'view');
-    });
-
     page('/doc/:repo?/:id/', function(data) {
       if (!data.state.contentView) {
         app.currentContentView = null;
@@ -85,6 +81,14 @@
     });
 
     page('/tasks', function() {
+      app.loadTask();
+    });
+
+    page('/processes/:id/', function(data) {
+      app.loadTask(data.params.id);
+    });
+
+    page('/processes', function() {
       app.loadTask();
     });
 
@@ -128,6 +132,10 @@
 
         tasks: function(id) {
           return page.url('/tasks' + (typeof id === 'undefined' ? '' : '/' + id));
+        },
+
+        processes: function(id) {
+          return page.url('/processes' + (typeof id === 'undefined' ? '' : '/' + id));
         },
 
         administration: function(tab) {
