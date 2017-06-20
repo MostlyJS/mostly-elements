@@ -19,9 +19,13 @@ window.mostly.I18n.translate = function (key) {
  * loads a locale using a locale resolver
  */
 window.mostly.I18n.loadLocale = function() {
-  return window.mostly.I18n.localeResolver ? window.mostly.I18n.localeResolver().then(function() {
-    document.dispatchEvent(new Event('i18n-locale-loaded'));
-  }) : new Promise(function() {});
+  if (window.mostly.I18n.localeResolver) {
+    return window.mostly.I18n.localeResolver().then(function() {
+      document.dispatchEvent(new Event('i18n-locale-loaded'));
+    });
+  } else {
+    return new Promise(function() {});
+  };
 };
 
 /**
@@ -43,6 +47,9 @@ function XHRLocaleResolver(msgFolder) {
             if (xhr.status === 200) {
               window.mostly.I18n[language] = JSON.parse(this.response); // cache this locale
               window.mostly.I18n.language = language;
+              // TODO (remove nuxeo i18n)
+              window.nuxeo.I18n[language] = JSON.parse(this.response); // cache this locale
+              window.nuxeo.I18n.language = language;
               resolve(this.response);
             } else if (xhr.status === 404 && url !== referenceFile) {
               console.log('Could not find locale "' + language + '". Defaulting to "en".');
