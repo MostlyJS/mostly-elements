@@ -284,7 +284,7 @@
 
 <nuxeo-slot-content name="homePage" slot="PAGES" order="0">
   <template>
-    <mostly-home name="home" tasks="[[tasks]]"></mostly-home>
+    <mostly-home name="home" processes="[[processes]]"></mostly-home>
   </template>
 </nuxeo-slot-content>
 
@@ -361,7 +361,7 @@
 </nuxeo-slot-content>
 <nuxeo-slot-content name="errorPage" slot="PAGES">
   <template>
-    <nuxeo-page name="error">
+    <mostly-page name="error">
       <div class="header"></div>
       <div class="content">
         <paper-card>
@@ -369,7 +369,7 @@
           </nuxeo-error>
         </paper-card>
       </div>
-    </nuxeo-page>
+    </mostly-page>
   </template>
 </nuxeo-slot-content>
 

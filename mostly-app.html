@@ -271,7 +271,7 @@
 
           <mostly-admin name="admin" user="[[currentUser]]" selected="[[selectedAdminTab]]" entity="[[entity]]"></mostly-admin>
 
-          <playing-profile name="profile" selected="[[selectedProfileTab]]" user="[[currentUser]]"></playing-profile>
+          <mostly-processes name="processes" id="processes-dashboard" processes="[[processes]]" current="[[currentProcess]]"></mostly-processes>
 
           <mostly-themes name="themes" selected="[[selectedProfileTab]]"></mostly-themes>
 
@@ -339,7 +339,10 @@
             observer: '_updateSearch'
           },
 
-          processes: Array,
+          processes: {
+            type: Array,
+            observer: '_processesChanged'
+          },
 
           processCount: Number,
 
@@ -429,6 +432,10 @@
           'pages.iron-items-changed': '_updatePages'
         },
 
+        _processesChanged: function(newVal, oldVal) {
+          console.log('_processesChanged', newVal, oldVal);
+        },
+
         ready: function() {
           this.$.drawerPanel.closeDrawer();
 
@@ -453,6 +460,10 @@
               this.set('docAction', e.detail.value);
             }
           }, true);
+
+          this.$.nxcon.connect().then(res => {
+            this.currentUser = res;
+          });
         },
 
         refresh: function() {
@@ -467,8 +478,8 @@
           if (id && id.length > 0){
             this.loading = true;
             this.currentProcessId = id;
-            this.$.process.get().then(process => {
-              this.currentProcess = process;
+            this.$.process.get().then(response => {
+              this.currentProcess = response.data;
               this.show('processes');
               this.loading = false;
             });
@@ -769,6 +780,7 @@
               el = Polymer.dom(this.$.pages).querySelector('[name=' + page + ']');
             }
             // check if page is already registered (vulcanized)
+            console.log('page changed => ', page);
             if (!Polymer.isInstance(el)) {
               this.loading = true;
               var tag = el.tagName.toLowerCase();

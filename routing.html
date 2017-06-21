@@ -85,11 +85,11 @@
     });
 
     page('/processes/:id/', function(data) {
-      app.loadTask(data.params.id);
+      app.loadProcess(data.params.id);
     });
 
     page('/processes', function() {
-      app.loadTask();
+      app.loadProcess();
     });
 
     page('/:page', function(ctx) {
@@ -157,7 +157,9 @@
       },
       baseUrl: page.base(),
       navigateTo: function() {
-        page(this.urlFor.apply(this, arguments).replace('/#!', ''));
+        throw 'Use page instead navigateTo';
+        var url = this.urlFor.apply(this, arguments);
+        page(url.replace('/#!', ''));
       }
     });
     document.dispatchEvent(new Event('router-changed'));

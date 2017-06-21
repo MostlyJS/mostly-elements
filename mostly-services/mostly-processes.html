@@ -1,0 +1,264 @@
+<!--
+`mostly-processes`
+@group Mostly UI
+@element mostly-processes
+-->
+
+<dom-module id="mostly-processes">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .process-item {
+        cursor: pointer;
+        background: #fff;
+        margin-bottom: 1em;
+      }
+
+      .process-item:hover {
+        @apply(--nuxeo-block-hover);
+      }
+
+      .process-view paper-card {
+        display: block;
+      }
+
+      .process-box {
+        padding: 1em;
+        border: 1px solid var(--nuxeo-border);
+      }
+
+      .process-info {
+        margin-left: .5em;
+      }
+
+      .process-name {
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+
+      .process-property {
+        opacity: .5;
+        margin-right: .5rem;
+      }
+
+      iron-icon.process-name-icon {
+        --iron-icon-height: .9em;
+        --iron-icon-width: .9em;
+        border-radius: 50px;
+        background-color: var(--dark-primary-color);
+        color: white;
+        padding: .4em;
+        margin-right: 1em;
+      }
+
+      .date {
+        color: var(--nuxeo-warn-text);
+      }
+
+      .document-view {
+        margin-right: 1.3rem;
+      }
+
+      nuxeo-document-task,
+      nuxeo-document-view {
+        width: 100%;
+      }
+
+      .process-header {
+        background-color: var(--nuxeo-box);
+        box-shadow: 0 3px 5px rgba(0,0,0,0.04);
+        margin-bottom: 16px;
+        padding: .5em;
+      }
+
+      .workflow-name {
+        font-weight: 400;
+        margin-left: 1em;
+      }
+
+      nuxeo-workflow-graph {
+        position: relative;
+      }
+
+      .prev-button,
+      .next-button {
+        height: 64px;
+        width: 64px;
+      }
+    </style>
+
+    <mostly-page>
+      <div class="header">
+        <template is="dom-if" if="[[_hasCurrent(current)]]">
+          <span class="flex">[[current.app]]</span>
+        </template>
+        <template is="dom-if" if="[[!_hasCurrent(current)]]">
+          <span class="flex">[[i18n('processes.label')]]</span>
+        </template>
+      </div>
+
+      <div class="content">
+
+        <!-- services list of current process -->
+        <template is="dom-if" if="[[_hasCurrent(current)]]">
+          <div class="layout vertical">
+            <div class="layout horizontal center process-header wrap">
+              
+              <paper-icon-button noink icon="icons:chevron-left" class="prev-button" on-tap="_prev" disabled$="[[_isFirst(current, processes)]]"></paper-icon-button>
+
+              <iron-icon icon="icons:content-paste" class="process-name-icon"></iron-icon>
+              <div class="layout horizontal center flex">
+                <h3 class="process-name">[[i18n(current.app)]]</h3>
+                <span class="workflow-name">on 127.0.0.1</span>
+              </div>
+
+              <paper-icon-button noink icon="icons:chevron-right" class="next-button" on-tap="_next" disabled$="[[_isLast(current, processes)]]"></paper-icon-button>
+
+            </div>
+            <div class="layout horizontal wrap">
+              <div class="vertical layout flex-2 document-view">
+                TODO: services
+              </div>
+              <div class="flex process-view">
+                <paper-card>
+                  TODO: [[current.app]]
+                </paper-card>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- processes list -->
+        <template is="dom-if" if="[[!_hasCurrent(current)]]">
+          <div class="processes-list layout vertical">
+            <template is="dom-repeat" items="[[processes]]" as="process">
+              <div class="process-item process-box layout horizontal" on-tap="_process">
+                <div class="layout horizontal flex">
+                  <iron-icon icon="icons:content-paste" class="process-name-icon"></iron-icon>
+                  <div class="process-info layout vertical">
+                    <h3 class="process-name">[[_processName(process.app)]]</h3>
+                  </div>
+                </div>
+                <div class="layout horizontal flex">
+                  <div class="process-info layout vertical">
+                    <h3 class="process-name">[[process.app]]</h3>
+                    <div class="taskDoc">
+                      <span class="process-property">[[i18n('processList.on')]]</span>
+                      <span class="doc-title">127.0.0.1</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="layout vertical flex">
+                  <div>
+                    <span class="process-property">[[i18n('processList.run')]]</span>
+                    <span class="doc-title">[[_countServices(process)]]</span>
+                  </div>
+                </div>
+                <div class="vertical layout">
+                  <span class="process-property">[[i18n('processList.uptime')]]</span>
+                  <span class="date"><nuxeo-date datetime="[[process.uptime]]" format="relative"></nuxeo-date></span>
+                </div>
+              </div>
+            </template>
+            <template is="dom-if" if="[[_empty(processes)]]">
+              <div class="process-box">[[i18n('processes.noTasks')]]</div>
+            </template>
+          </div>
+        </template>
+
+      </div>
+      </div>
+    </mostly-page>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'mostly-processes',
+
+        properties: {
+          processes: {
+            type: Array
+          },
+
+          current: {
+            type: Object,
+            observer: '_currentChanged'
+          }
+        },
+
+        behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior],
+
+        _process: function(e) {
+          page('/processes/' + e.model.process.app);
+        },
+
+        _processName: function(app) {
+          var names = app.split('-');
+          return names.slice(0, names.length - 1).map(word => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          }).join(' ');
+        },
+
+        _currentChanged: function(newVal, oldVal) {
+          console.log('processes::_currentChanged', newVal, oldVal);
+          if (this.current) {
+            //this.$.currentTaskDoc.get();
+          }
+        },
+
+        _hasCurrent: function() {
+          return this.current ? true : false;
+        },
+
+        _date: function(date) {
+          return moment(date).format('MMMM D, YYYY');
+        },
+
+        _countServices: function(process) {
+          if (process.services) {
+            return this.process.services.length;
+          }
+          return 0;
+        },
+
+        _prev: function() {
+          page('/processes/' + this.processes[this.currenIndex - 1].app);
+        },
+
+        _next: function() {
+          page('/processes/' + this.processes[this.currenIndex + 1].app);
+        },
+
+        _isFirst: function() {
+          return this.currenIndex <= 0;
+        },
+
+        _isLast: function() {
+          return this.currenIndex === this.processes.length - 1 || this.currenIndex < 0;
+        },
+
+        _empty: function(processes) {
+          return processes && processes.length === 0;
+        },
+
+        get currenIndex() {
+          if (this.processes && this.current) {
+            for (var i = 0; i < this.processes.length; i++) {
+              if (this.processes[i].id === this.current.id) {
+                return i;
+              }
+            }
+          }
+          return -1;
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

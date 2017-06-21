@@ -79,15 +79,15 @@
         <div tabindex$="{{tabIndex}}" class$="[[_computedClass(selected)]]">
           <div class="process-box vertical layout">
             <div class="task-info horizontal layout center">
-              <span class="process-name">[[process.app]]</span>
+              <span class="process-name">[[_processName(process.app)]]</span>
             </div>
             <div class="task-detail">
               <div class="processDoc horizontal layout center">
                 <span class="process-property">127.0.0.1</span>
               </div>
               <div class="horizontal layout center">
-                <span class="due-date process-property">[[i18n('processList.upTime')]]</span>
-                <span class="date">[[process.upTime]]</span>
+                <span class="due-date process-property">[[i18n('processList.uptime')]]</span>
+                <span class="date">[[process.uptime]]</span>
               </div>
             </div>
           </div>
@@ -127,12 +127,17 @@
         behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior],
 
         _processesChanged: function(newVal, oldVal) {
-          console.log('_processesChanged', newVal, oldVal);
+          console.log('list::_processesChanged', newVal, oldVal);
         },
-        
+
+        _processName: function(app) {
+          var names = app.split('-');
+          return names.slice(0, names.length - 1).join('-');
+        },
+
         _selectionChanged: function() {
           if (this._selection && !this.noNavigation) {
-            this.navigateTo('processes', this._selection.id);
+            page('/processes/' + this._selection.app);
           }
         },
 
@@ -162,18 +167,6 @@
             classes += ' selected';
           }
           return classes;
-        },
-
-        _isUser: function(actor) {
-          return actor['entity-type'] && actor['entity-type'] === 'user';
-        },
-
-        _isGroup: function(actor) {
-          return actor['entity-type'] && actor['entity-type'] === 'group';
-        },
-
-        _isNotUserOrGroup: function(actor) {
-          return !this._isUser(actor) && !this._isGroup(actor);
         }
 
       });

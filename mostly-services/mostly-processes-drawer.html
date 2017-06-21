@@ -29,10 +29,15 @@
         border-top: 1px solid var(--nuxeo-border);
       }
     </style>
+    
+    <mostly-resource id="processes" path="/stats-processes"></mostly-resource>
+
     <div class="title">[[i18n('app.processes')]]</div>
     <mostly-processes-list processes="[[processes]]" current="[[currentProcess]]"></mostly-processes-list>
+    
     <a href$="[[urlFor('processes')]]" class="processes-dashboard">[[i18n('app.viewProcessesDashboard')]]</a>
   </template>
+  
   <script>
     (function() {
       'use strict';
@@ -47,11 +52,33 @@
             type: Array,
             observer: '_processesChanged'
           },
-          currentProcess: Object
+          currentProcess: {
+            type: Object,
+            observer: '_currentChanged'
+          }
         },
 
         _processesChanged: function(newVal, oldVal) {
-          console.log('_processesChanged', newVal, oldVal);
+          console.log('drawer::_processesChanged', newVal, oldVal);
+        },
+
+        _currentChanged: function(newVal, oldVal) {
+          console.log('drawer::_currentChanged', newVal, oldVal);
+        },
+
+        ready: function() {
+          this._fetchProcesses();
+        },
+
+        _fetchProcesses: function() {
+          if (this.$.processes) {
+            this.$.processes.get().then(response => {
+              this.processes = response.data;
+              this.processCount = this.processes.length;
+            }).catch(error => {
+              console.log("processes request failed: " + error);
+            });
+          }
         }
 
       });

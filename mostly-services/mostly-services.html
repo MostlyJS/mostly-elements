@@ -1,6 +1,6 @@
 <!--
 `mostly-services`
-@group Nuxeo UI
+@group Mostly UI
 @element mostly-services
 -->
 
@@ -100,12 +100,7 @@
       }
     </style>
 
-    <nuxeo-document id="currentTaskDoc"
-                    doc-id="[[_docId(current)]]"
-                    enrichers="preview, breadcrumb"
-                    response="{{currentTaskDocument}}"></nuxeo-document>
-
-    <nuxeo-page>
+    <mostly-page>
       <div class="header">
         <template is="dom-if" if="[[_hasCurrent(current)]]">
           <nuxeo-breadcrumb document="[[currentTaskDocument]]"></nuxeo-breadcrumb>
@@ -201,7 +196,7 @@
         </template>
 
       </div>
-    </nuxeo-page>
+    </mostly-page>
 
   </template>
   <script>
@@ -225,7 +220,7 @@
           currentTaskDocument: Object
         },
 
-        behaviors: [Nuxeo.RoutingBehavior, Nuxeo.I18nBehavior],
+        behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior],
 
         _process: function(e) {
           this.navigateTo('tasks', e.model.task.id);
