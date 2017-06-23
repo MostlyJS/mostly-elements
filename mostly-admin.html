@@ -6,7 +6,7 @@
 <dom-module id="mostly-admin">
   <template>
     <template is="dom-if" if="[[visible]]">
-      <iron-pages selected="[[selected]]" attr-for-selected="name" selected-attribute="visible">
+      <iron-pages selected="{{selected}}" attr-for-selected="name" fallback-selection="error" selected-attribute="visible">
 
         <mostly-page name="error">
           <div class="header"></div>
@@ -23,37 +23,40 @@
     </template>
   </template>
   <script>
-    (function() {
-      'use strict';
-
-      Polymer({
-        is: 'mostly-admin',
-        behaviors: [Mostly.I18nBehavior],
-        properties: {
-          visible: Boolean,
-          selected: {
-            type: String,
-            value: 'analytics'
-          },
-          isAdministrator: {
-            type: Boolean,
-            value: false,
-            reflectToAttribute: true
-          },
-          actionContext: {
-            type: Object,
-            computed: '_actionContext(user)'
-          }
+    Polymer({
+      is: 'mostly-admin',
+      behaviors: [Mostly.I18nBehavior],
+      properties: {
+        visible: Boolean,
+        selected: {
+          type: String,
+          value: 'analytics',
+          observer: '_checkError'
         },
-
-        _actionContext: function() {
-          return {user: this.user};
+        isAdministrator: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
         },
-
-        _errorUrl: function() {
-          return window.location.href;
+        actionContext: {
+          type: Object,
+          computed: '_actionContext(user)'
         }
-      });
-    })();
+      },
+
+      _actionContext: function() {
+        return {user: this.user};
+      },
+
+      _errorUrl: function() {
+        return window.location.href;
+      },
+
+      _checkError: function() {
+        if (this.selected === 'error') {
+          this.fire('error', {code: 404});
+        }
+      }
+    });
   </script>
 </dom-module>

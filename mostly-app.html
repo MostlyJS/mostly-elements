@@ -265,7 +265,7 @@
 
       <!-- pages -->
       <paper-header-panel main mode="seamed">
-        <iron-pages id="pages" selected="[[page]]" fallback-selection="error" attr-for-selected="name" selected-attribute="visible">
+        <iron-pages id="pages" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
 
           <nuxeo-slot slot="PAGES" model="[[actionContext]]"></nuxeo-slot>
 
@@ -276,6 +276,16 @@
           -->
 
           <mostly-themes name="themes" selected="[[selectedProfileTab]]"></mostly-themes>
+
+          <mostly-page name="error">
+            <div class="header"></div>
+            <div class="content">
+              <paper-card>
+                <nuxeo-error id="error">
+                </nuxeo-error>
+              </paper-card>
+            </div>
+          </mostly-page>
 
         </iron-pages>
 
@@ -300,571 +310,523 @@
   </template>
 
   <script>
-    (function() {
-      'use strict';
+    Polymer({
+      is: 'mostly-app',
+      behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior, Nuxeo.FiltersBehavior],
+      properties: {
+        baseUrl: {
+          type: String,
+          value: '/',
+          observer: '_baseUrlChanged'
+        },
 
-      Polymer({
-        is: 'mostly-app',
-        behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior, Nuxeo.FiltersBehavior],
-        properties: {
-          baseUrl: {
-            type: String,
-            value: '/'
-          },
+        loading: {
+          type: Boolean,
+          value: false
+        },
 
-          loading: {
-            type: Boolean,
-            value: false
-          },
+        page: {
+          type: String,
+          observer: '_pageChanged'
+        },
 
-          page: {
-            type: String,
-            observer: '_pageChanged'
-          },
+        selectedTab: String,
+        selectedAdminTab: String,
 
-          selectedTab: String,
-          selectedAdminTab: String,
+        currentDocument: Object,
+        currentParent: Object,
+        docId: String,
+        docPath: String,
+        docAction: {
+          type: String,
+          value: 'view'
+        },
 
-          currentDocument: Object,
-          currentParent: Object,
-          docId: String,
-          docPath: String,
-          docAction: {
-            type: String,
-            value: 'view'
-          },
+        entity: Object,
 
-          entity: Object,
+        searchName: {
+          type: String,
+          observer: '_updateSearch'
+        },
 
-          searchName: {
-            type: String,
-            observer: '_updateSearch'
-          },
+        processes: {
+          type: Array,
+          observer: '_processesChanged'
+        },
 
-          processes: {
-            type: Array,
-            observer: '_processesChanged'
-          },
+        processCount: Number,
 
-          processCount: Number,
+        clipboardCount: Number,
 
-          clipboardCount: Number,
+        drawerWidth: {
+          type: String,
+          value: '52px'
+        },
 
-          drawerWidth: {
-            type: String,
-            value: '52px'
-          },
+        drawerOpened: {
+          type: Boolean,
+          value: false
+        },
 
-          drawerOpened: {
-            type: Boolean,
-            value: false
-          },
-
-          keyEventTarget: {
-            type: Object,
-            value: function() {
-              return document.body;
-            }
-          },
-
-          currentProcess: {
-            type: Object,
-            value: null
-          },
-
-          currentUser: {
-            type: Object,
-            observer: '_observeCurrentUser'
-          },
-
-          actionContext: {
-            type: Object,
-            computed: '_actionContext(currentDocument, currentUser, processes, currentProcess, processCount,' +
-            ' clipboard, clipboardDocCount, docAction, error)'
-          },
-
-          clipboard: {
-            type: Object,
-            value: null
-          },
-
-          clipboardDocCount: {
-            type: Number,
-            notify: true
-          },
-
-          _dismissible: {
-            type: Boolean,
-            value: false
-          },
-
-          error: {
-            type: Object,
-            value: {}
+        keyEventTarget: {
+          type: Object,
+          value: function() {
+            return document.body;
           }
         },
 
-        listeners: {
-          'document-updated': 'refresh',
-          'create-document': '_showDocumentCreationWizard',
-          'document-created': '_handleDocumentCreated',
-          'workflowStarted': '_refreshAndFetchProcesses',
-          'workflowAbandoned': '_refreshAndFetchProcesses',
-          'workflowProcessProcess': '_workflowProcessProcess',
-          'workflowProcessProcessed': '_refreshAndFetchProcesses',
-          'added-to-clipboard': '_onAddedToClipboard',
-          'add-to-clipboard': '_onAddToClipboard',
-          'added-to-collection': '_documentAddedToCollection',
-          'removed-from-clipboard': '_documentRemovedFromClipboard',
-          'removed-from-collection': '_documentRemovedFromCollection',
-          'file-deleted': '_documentFileDeleted',
-          'added-to-favorites': '_documentAddedToFavorites',
-          'removed-from-favorites': '_documentRemovedFromFavorites',
-          'document-subscribed': '_documentSubscribed',
-          'document-unsubscribed': '_documentUnsubscribed',
-          'document-locked': '_documentLocked',
-          'document-unlocked': '_documentUnlocked',
-          'theme-changed': '_themeChanged',
-          'search-results': '_showSearchResults',
-          'navigate': '_navigate',
-          'collection-loaded': '_updateCollectionMenu',
-          'notify': '_notify',
-          'nx-clipboard-updated': '_clipboardUpdated',
-          'drawer-pages.iron-items-changed': '_updateDrawer',
-          'pages.iron-items-changed': '_updatePages'
+        currentProcess: {
+          type: Object,
+          value: null
         },
 
-        _processesChanged: function(newVal, oldVal) {
-          console.log('app::_processesChanged', newVal, oldVal);
+        currentUser: {
+          type: Object,
+          observer: '_observeCurrentUser'
         },
 
-        ready: function() {
-          this.$.drawerPanel.closeDrawer();
-
-          window.addEventListener('unhandledrejection', error => {
-            this._onError(error);
-          });
-
-          window.addEventListener('nuxeo-documents-deleted', e => {
-            this._fetchProcesses();
-            var navTree = this.$$('navTree');
-            if (navTree) {
-              navTree.removeDocuments(e.detail.documentIds);
-            }
-          });
-
-          window.addEventListener('nuxeo-documents-deleted-error', e => {
-            this._documentsDeletedError(e.detail.response, e.detail.documents);
-          });
-
-          window.addEventListener('selected-tab-changed', e => {
-            if (e.srcElement === this.$$('#browser')) {
-              this.set('docAction', e.detail.value);
-            }
-          }, true);
-
-          this.$.nxcon.connect().then(res => {
-            this.currentUser = res;
-          });
+        actionContext: {
+          type: Object,
+          computed: '_actionContext(currentDocument, currentUser, processes, currentProcess, processCount,' +
+          ' clipboard, clipboardDocCount)'
         },
 
-        refresh: function() {
-          if (this.docPath && this.docPath.length > 0) {
-            this.navigateTo('browse', this.docPath ? this.docPath : '');
-          } else {
-            page('/');
+        clipboard: {
+          type: Object,
+          value: null
+        },
+
+        clipboardDocCount: {
+          type: Number,
+          notify: true
+        },
+
+        _dismissible: {
+          type: Boolean,
+          value: false
+        },
+
+        error: {
+          type: Object,
+          value: {}
+        }
+      },
+
+      listeners: {
+        'document-updated': 'refresh',
+        'create-document': '_showDocumentCreationWizard',
+        'document-created': '_handleDocumentCreated',
+        'workflowStarted': '_refreshAndFetchProcesses',
+        'workflowAbandoned': '_refreshAndFetchProcesses',
+        'workflowProcessProcess': '_workflowProcessProcess',
+        'workflowProcessProcessed': '_refreshAndFetchProcesses',
+        'added-to-clipboard': '_onAddedToClipboard',
+        'add-to-clipboard': '_onAddToClipboard',
+        'added-to-collection': '_documentAddedToCollection',
+        'removed-from-clipboard': '_documentRemovedFromClipboard',
+        'removed-from-collection': '_documentRemovedFromCollection',
+        'file-deleted': '_documentFileDeleted',
+        'added-to-favorites': '_documentAddedToFavorites',
+        'removed-from-favorites': '_documentRemovedFromFavorites',
+        'document-subscribed': '_documentSubscribed',
+        'document-unsubscribed': '_documentUnsubscribed',
+        'document-locked': '_documentLocked',
+        'document-unlocked': '_documentUnlocked',
+        'theme-changed': '_themeChanged',
+        'search-results': '_showSearchResults',
+        'navigate': '_navigate',
+        'collection-loaded': '_updateCollectionMenu',
+        'notify': '_notify',
+        'nx-clipboard-updated': '_clipboardUpdated',
+        'drawer-pages.iron-items-changed': '_updateSearch'
+      },
+
+      _processesChanged: function(newVal, oldVal) {
+        console.log('app::_processesChanged', newVal, oldVal);
+      },
+
+      ready: function() {
+        this.$.drawerPanel.closeDrawer();
+
+        window.addEventListener('unhandledrejection', error => {
+          if (e.reason && e.reason.status === 404) {
+            this.showError(404, e.reason.message, this._errorUrl());
           }
-        },
+        });
 
-        loadProcess: function(id) {
-          if (id && id.length > 0){
-            this.loading = true;
-            this.currentProcessId = id;
-            this.$.process.get().then(response => {
-              this.currentProcess = response.data;
-              this.show('processes');
-              this.loading = false;
-            });
-          } else {
-            this.currentProcess = null;
-            this.show('processes');
+        window.addEventListener('nuxeo-documents-deleted', e => {
+          this._fetchProcesses();
+          var navTree = this.$$('navTree');
+          if (navTree) {
+            navTree.removeDocuments(e.detail.documentIds);
           }
-        },
+        });
 
-        load: function(page, id, path, action) {
+        window.addEventListener('nuxeo-documents-deleted-error', e => {
+          this._documentsDeletedError(e.detail.response, e.detail.documents);
+        });
+
+        this.$.nxcon.connect().then(res => {
+          this.currentUser = res;
+        });
+      },
+
+      refresh: function() {
+        if (this.docPath && this.docPath.length > 0) {
+          this.navigateTo('browse', this.docPath ? this.docPath : '');
+        } else {
+          page('/');
+        }
+      },
+
+      loadProcess: function(id) {
+        if (id && id.length > 0){
           this.loading = true;
-          this.docId = id;
-          this.docPath = path;
-          this.docAction = action;
-          this.$.doc.get().then(doc => {
-            if (this.docId && !doc.isVersion) {
-              this.docId = '';
-              this.docPath = doc.path;
-              this.navigateTo('browse', doc.path);
-            } else {
-              var recent = this.$$('#recent');
-              if (recent) {
-                recent.add(doc);
-              }
-              this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
-                doc.contextParameters.breadcrumb.entries.slice(-2, -1)[0];
-              this.set('currentDocument', doc);
-              this.loading = false;
-              this.show(page);
-            }
-          }).catch(err => {
+          this.currentProcessId = id;
+          this.$.process.get().then(response => {
+            this.currentProcess = response.data;
+            this.show('processes');
             this.loading = false;
-            this.set('error', {
-              code: err.status,
-              message: this.i18n('browse.error'),
-              url: err.message
-            });
-            this.show('error');
           });
-        },
+        } else {
+          this.currentProcess = null;
+          this.show('processes');
+        }
+      },
 
-        show: function(page) {
-          this.page = page; // trigger _pageChanged
-        },
+      load: function(page, id, path, action) {
+        this.loading = true;
+        this.docId = id;
+        this.docPath = path;
+        this.docAction = action;
+        this.$.doc.get().then(doc => {
+          if (this.docId && !doc.isVersion) {
+            this.docId = '';
+            this.docPath = doc.path;
+            this.navigateTo('browse', doc.path);
+          } else {
+            var recent = this.$$('#recent');
+            if (recent) {
+              recent.add(doc);
+            }
+            this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
+              doc.contextParameters.breadcrumb.entries.slice(-2, -1)[0];
+            this.set('currentDocument', doc);
+            this.loading = false;
+            this.show(page);
+          }
+        }).catch(err => {
+          this.showError(err.status, this.i18n('browse.error'), err.message);
+        });
+      },
 
-        _logo: function(baseUrl) {
-          return '../bower_components/mostly-elements/themes/' + (localStorage.getItem('theme') || 'default') + '/logo.png';
-        },
+      showError: function(code, msg, url) {
+        this.loading = false;
+        var errorEl = this.$.error;
+        errorEl.code = code;
+        errorEl.message = msg;
+        errorEl.url = url;
+        this.show('error');
+      },
 
-        _actionContext: function() {
-          return {
-            currentDocument: this.currentDocument,
-            user: this.currentUser,
-            processCount: this.processCount,
-            processes: this.processes,
-            currentProcess: this.currentProcess,
-            clipboardDocCount: this.clipboardDocCount,
-            clipboard: this.clipboard,
-            actionContext: this.actionContext,
-            docAction: this.docAction,
-            error: this.error
-          };
-        },
+      show: function(page) {
+        this.page = page; // trigger _pageChanged
+      },
 
-        _focusMenu: function() {
-          this.$.menu.focus();
-        },
+      _baseUrlChanged: function() {
+        //Nuxeo.RoutingBehavior.baseUrl = this.baseUrl;
+      },
 
-        _showSuggester: function() {
-          this.$.suggester.toggle();
-        },
+      _logo: function(baseUrl) {
+        return '../bower_components/mostly-elements/themes/' + (localStorage.getItem('theme') || 'default') + '/logo.png';
+      },
 
-        _showDocumentCreationWizard: function(e) {
-          if (e.detail.keyboardEvent && (e.detail.keyboardEvent.ctrlKey || e.detail.keyboardEvent.metaKey)) {
+      _actionContext: function() {
+        return {
+          currentDocument: this.currentDocument,
+          user: this.currentUser,
+          processCount: this.processCount,
+          processes: this.processes,
+          currentProcess: this.currentProcess,
+          clipboardDocCount: this.clipboardDocCount,
+          clipboard: this.clipboard,
+          actionContext: this.actionContext
+        };
+      },
+
+      _focusMenu: function() {
+        this.$.menu.focus();
+      },
+
+      _showSuggester: function() {
+        this.$.suggester.toggle();
+      },
+
+      _showDocumentCreationWizard: function(e) {
+        if (e.detail.keyboardEvent && (e.detail.keyboardEvent.ctrlKey || e.detail.keyboardEvent.metaKey)) {
+          return;
+        }
+        if (e.detail.files) {
+          this.$.importPopup.toggleDialogImport(e.detail.files);
+        } else if (e.detail.type) {
+          this.$.importPopup.toggleDialogCreate(e.detail.type);
+        } else {
+          this.$.importPopup.toggleDialog();
+        }
+      },
+
+      _navigate: function(e) {
+        if (e.detail.doc) {
+          this.navigateTo('browse', e.detail.doc.path);
+          if (e.detail.isFromCollection) {
+            this.$$('#collectionsForm').displayMembers(e.detail.srcDoc, e.detail.doc);
+          }
+        }
+      },
+
+      _updateSearch: function() {
+        this.searchForm = this.$$("nuxeo-search-form[search-name='" + this.searchName + "']");
+        if (this.searchForm && this._searchOnLoad) {
+          this.searchForm._search();
+          this._searchOnLoad = false;
+        }
+      },
+
+      _updateCollectionMenu: function(e) {
+        if (e.detail.provider) {
+          this.$$('#collectionsForm').loadCollection(e.detail.collection, e.detail.provider);
+        }
+      },
+
+      _showSearchResults: function(e) {
+        //page('/search/' + e.target.searchName);
+        this.navigateTo('search', e.target.searchName);
+      },
+
+      _toggleDrawer: function(e) {
+        if (this._selected === e.detail.selected && this.drawerOpened) {
+          this._closeDrawer();
+        } else {
+          this._openDrawer();
+        }
+        this._selected = e.detail.selected;
+      },
+
+      _openDrawer: function() {
+        this.drawerWidth = '350px';
+        this.drawerOpened = true;
+        var drawerPanel = this.$.drawerPanel;
+        if (drawerPanel.narrow) {
+          drawerPanel.openDrawer();
+        }
+        if (!this.selectedTab){
+          var drawer = this.$['drawer-pages'];
+          drawer.selectIndex(0);
+          this.selectedTab = drawer.selected
+        }
+      },
+
+      _closeDrawer: function() {
+        this.drawerWidth = '52px';
+        this.drawerOpened = false;
+        this.$.drawerPanel.closeDrawer();
+      },
+
+      _fetchProcesses: function() {
+        if (this.$.processes) {
+          this.$.processes.params = {'userId': this.currentUser.id};
+          this.$.processes.get().then(response => {
+            this.processes = response.data;
+            this.processCount = this.processes.length;
+          }).catch(error => {
+            console.log("processes request failed: " + error);
+          });
+        }
+      },
+
+      _refreshAndFetchProcesses: function() {
+        // let's refresh the current document since it might have been changed (ex: state and version)
+        this.refresh();
+        this._fetchProcesses();
+      },
+
+      _workflowProcessProcess: function(e) {
+        this.navigateTo('processes', e.detail.id);
+      },
+
+      _onAddedToClipboard: function(e){
+        this._toast(
+          this.i18n(e.detail.docIds && e.detail.docIds.length > 1
+            ? 'app.documents.addedToClipboard' : 'app.document.addedToClipboard')
+        );
+      },
+
+      _onAddToClipboard: function(e) {
+        if (e.detail.documents && this.clipboard) {
+          this.clipboard.add(e.detail.documents)
+        }
+      },
+
+      _observeCurrentUser: function() {
+        if (this.currentUser) {
+          this._fetchProcesses();
+        }
+      },
+
+      _displayUser: function(user) {
+        if (user) {
+          var result = '';
+          if (user['nickname']) {
+            result += user['nickname'];
+          }
+          if (result.length === 0 && user['username']) {
+            result = user['username'];
+          }
+          if (result.length === 0) {
+            result = user.id;
+          }
+          return result;
+        }
+      },
+
+      _toast: function(text) {
+        this._notify({detail: {message: text}});
+      },
+
+      _documentAddedToCollection: function(e) {
+        this._toast(
+          this.i18n(e.detail.docIds ? 'app.documents.addedToCollection' : 'app.document.addedToCollection')
+        );
+      },
+
+      _documentRemovedFromCollection: function() {
+        this._toast(this.i18n('app.document.removedFromCollection'));
+      },
+
+      _documentRemovedFromClipboard: function() {
+        this._toast(this.i18n('app.document.removedFromClipboard'));
+      },
+
+      _documentAddedToFavorites: function() {
+        this._toast(this.i18n('app.document.addedToFavorites'));
+      },
+
+      _documentRemovedFromFavorites: function() {
+        this._toast(this.i18n('app.document.removedFromFavorites'));
+      },
+
+      _documentSubscribed: function() {
+        this._toast(this.i18n('app.document.subscribed'));
+      },
+
+      _documentUnsubscribed: function() {
+        this._toast(this.i18n('app.document.unsubscribed'));
+      },
+
+      _documentLocked: function() {
+        this._toast(this.i18n('app.document.locked'));
+      },
+
+      _documentUnlocked: function() {
+        this._toast(this.i18n('app.document.unlocked'));
+      },
+
+      _documentsDeletedError: function(err, documents){
+        var errorMessage = this.i18n(documents && documents.length > 1
+          ? 'app.documents.deleted.error' : 'app.document.deleted.error');
+
+        switch (err.status){
+          case 403: errorMessage = errorMessage + " " +  this.i18n('error.403'); break;
+          default: break;
+        }
+        this._toast(errorMessage);
+      },
+
+      _documentFileDeleted: function() {
+        this._toast(this.i18n('app.document.fileDeleted'));
+        this.fire('document-updated');
+      },
+
+      _themeChanged: function() {
+        this._toast(this.i18n('themes.applying'));
+        location.reload();
+      },
+
+      _handleDocumentCreated: function(e) {
+        if (!e.detail.response.entries || e.detail.response.entries.length === 1) {
+          var doc = e.detail.response.entries ? e.detail.response.entries[0] : e.detail.response;
+          this._toast(this.i18n('app.createdDocument', doc.type.toLowerCase() + ' ' + doc.title));
+        } else {
+          this._toast(this.i18n('app.createdDocuments', e.detail.response.entries.length));
+        }
+      },
+
+      _hasAdministrationPermissions: function(user) {
+        return true || user.isAdministrator || this.isMember(user, 'powerusers');
+      },
+
+      _errorUrl: function() {
+        return window.location.href;
+      },
+
+      _onError: function(e) {
+        this.showError(e.detail.code, e.detail.message, this._errorUrl());
+      },
+
+      _logout: function() {
+        return this.$.nxcon.url + '/logout';
+      },
+
+      _pageChanged: function(page) {
+        if (page !== null) {
+          var el = this.$.pages.selectedItem;
+          // selectItem might be undefined
+          // https://github.com/PolymerElements/iron-pages/issues/52
+          if (!el) {
+            el = Polymer.dom(this.$.pages).querySelector('[name=' + page + ']');
+          }
+          if (!el) {
+            this.showError(404, '', page);
             return;
           }
-          if (e.detail.files) {
-            this.$.importPopup.toggleDialogImport(e.detail.files);
-          } else if (e.detail.type) {
-            this.$.importPopup.toggleDialogCreate(e.detail.type);
-          } else {
-            this.$.importPopup.toggleDialog();
+          // check if page is already registered (vulcanized)
+          console.log('page changed => ', page);
+          if (!Polymer.isInstance(el)) {
+            this.loading = true;
+            var tag = el.tagName.toLowerCase();
+            this.importHref(this.resolveUrl(tag + '.html'), this._pageLoaded, () => {
+              this.showError(404, '', tag + '.html');
+            }, true);
           }
-        },
-
-        _navigate: function(e) {
-          if (e.detail.doc) {
-            this.navigateTo('browse', e.detail.doc.path);
-            if (e.detail.isFromCollection) {
-              this.$$('#collectionsForm').displayMembers(e.detail.srcDoc, e.detail.doc);
-            }
-          }
-        },
-
-        _updateSearch: function() {
-          this.searchForm = this.$$("nuxeo-search-form[search-name='" + this.searchName + "']");
-          if (this.searchForm && this.searchResults) {
-            this.searchResults.searchForm = this.searchForm;
-            if (this.postponedSearch) {
-              this._search();
-            }
-          }
-        },
-
-        _updateCollectionMenu: function(e) {
-          if (e.detail.provider) {
-            this.$$('#collectionsForm').loadCollection(e.detail.collection, e.detail.provider);
-          }
-        },
-
-        _showSearchResults: function(e) {
-          //page('/search/' + e.target.searchName);
-          this.navigateTo('search', e.target.searchName);
-        },
-
-        _toggleDrawer: function(e) {
-          if (this._selected === e.detail.selected && this.drawerOpened) {
-            this._closeDrawer();
-          } else {
-            this._openDrawer();
-          }
-          this._selected = e.detail.selected;
-        },
-
-        _openDrawer: function() {
-          this.drawerWidth = '350px';
-          this.drawerOpened = true;
-          var drawerPanel = this.$.drawerPanel;
-          if (drawerPanel.narrow) {
-            drawerPanel.openDrawer();
-          }
-        },
-
-        _closeDrawer: function() {
-          this.drawerWidth = '52px';
-          this.drawerOpened = false;
-          this.$.drawerPanel.closeDrawer();
-        },
-
-        _fetchProcesses: function() {
-          if (this.$.processes) {
-            this.$.processes.params = {'userId': this.currentUser.id};
-            this.$.processes.get().then(response => {
-              this.processes = response.data;
-              this.processCount = this.processes.length;
-            }).catch(error => {
-              console.log("processes request failed: " + error);
-            });
-          }
-        },
-
-        _refreshAndFetchProcesses: function() {
-          // let's refresh the current document since it might have been changed (ex: state and version)
-          this.refresh();
-          this._fetchProcesses();
-        },
-
-        _workflowProcessProcess: function(e) {
-          this.navigateTo('processes', e.detail.id);
-        },
-
-        _onAddedToClipboard: function(e){
-          this._toast(
-            this.i18n(e.detail.docIds && e.detail.docIds.length > 1
-              ? 'app.documents.addedToClipboard' : 'app.document.addedToClipboard')
-          );
-        },
-
-        _onAddToClipboard: function(e) {
-          if (e.detail.documents && this.clipboard) {
-            this.clipboard.add(e.detail.documents)
-          }
-        },
-
-        _observeCurrentUser: function() {
-          if (this.currentUser) {
-            this._fetchProcesses();
-          }
-        },
-
-        _displayUser: function(user) {
-          if (user) {
-            var result = '';
-            if (user['nickname']) {
-              result += user['nickname'];
-            }
-            if (result.length === 0 && user['username']) {
-              result = user['username'];
-            }
-            if (result.length === 0) {
-              result = user.id;
-            }
-            return result;
-          }
-        },
-
-        _toast: function(text) {
-          this._notify({detail: {message: text}});
-        },
-
-        _documentAddedToCollection: function(e) {
-          this._toast(
-            this.i18n(e.detail.docIds ? 'app.documents.addedToCollection' : 'app.document.addedToCollection')
-          );
-        },
-
-        _documentRemovedFromCollection: function() {
-          this._toast(this.i18n('app.document.removedFromCollection'));
-        },
-
-        _documentRemovedFromClipboard: function() {
-          this._toast(this.i18n('app.document.removedFromClipboard'));
-        },
-
-        _documentAddedToFavorites: function() {
-          this._toast(this.i18n('app.document.addedToFavorites'));
-        },
-
-        _documentRemovedFromFavorites: function() {
-          this._toast(this.i18n('app.document.removedFromFavorites'));
-        },
-
-        _documentSubscribed: function() {
-          this._toast(this.i18n('app.document.subscribed'));
-        },
-
-        _documentUnsubscribed: function() {
-          this._toast(this.i18n('app.document.unsubscribed'));
-        },
-
-        _documentLocked: function() {
-          this._toast(this.i18n('app.document.locked'));
-        },
-
-        _documentUnlocked: function() {
-          this._toast(this.i18n('app.document.unlocked'));
-        },
-
-        _documentsDeletedError: function(err, documents){
-          var errorMessage = this.i18n(documents && documents.length > 1
-            ? 'app.documents.deleted.error' : 'app.document.deleted.error');
-
-          switch (err.status){
-            case 403: errorMessage = errorMessage + " " +  this.i18n('error.403'); break;
-            default: break;
-          }
-          this._toast(errorMessage);
-        },
-
-        _documentFileDeleted: function() {
-          this._toast(this.i18n('app.document.fileDeleted'));
-          this.fire('document-updated');
-        },
-
-        _themeChanged: function() {
-          this._toast(this.i18n('themes.applying'));
-          location.reload();
-        },
-
-        _handleDocumentCreated: function(e) {
-          if (!e.detail.response.entries || e.detail.response.entries.length === 1) {
-            var doc = e.detail.response.entries ? e.detail.response.entries[0] : e.detail.response;
-            this._toast(this.i18n('app.createdDocument', doc.type.toLowerCase() + ' ' + doc.title));
-          } else {
-            this._toast(this.i18n('app.createdDocuments', e.detail.response.entries.length));
-          }
-        },
-
-        _hasAdministrationPermissions: function(user) {
-          return true || user.isAdministrator || this.isMember(user, 'powerusers');
-        },
-
-        _errorUrl: function() {
-          return window.location.href;
-        },
-
-        _onError: function(e) {
-          if (e.reason && e.reason.status === 404) {
-            this.set('error', {
-              code: 404,
-              message: e.reason.message,
-              url: this._errorUrl()
-            });
-            this.show('error');
-          }
-        },
-
-        _logout: function() {
-          return this.$.nxcon.url + '/logout';
-        },
-
-        _pageChanged: function(page) {
-          if (page !== null) {
-            var el = this.$.pages.selectedItem;
-            // selectItem might be undefined
-            // https://github.com/PolymerElements/iron-pages/issues/52
-            if (!el) {
-              el = Polymer.dom(this.$.pages).querySelector('[name=' + page + ']');
-            }
-            // check if page is already registered (vulcanized)
-            console.log('page changed => ', page);
-            if (!Polymer.isInstance(el)) {
-              this.loading = true;
-              var tag = el.tagName.toLowerCase();
-              this.importHref(this.resolveUrl(tag + '.html'), this._pageLoaded, null, true);
-            }
-          }
-        },
-
-        _pageLoaded: function() {
-          this.loading = false;
-        },
-
-        _notify: function(e) {
-          var options = e.detail;
-          if (options.close) {
-            this.$.toast.close();
-          } else if (options.message) {
-            this.$.toast.text = options.message;
-            this.$.toast.duration = options.duration ? options.duration : 3000;
-            this.set('_dismissible', !!options.dismissible);
-            this.$.toast.open();
-          }
-        },
-
-        _dismissToast: function() {
-          this.$.toast.toggle();
-        },
-
-        _clipboardUpdated: function(e) {
-          this.clipboard = this.clipboard || this.$$('#clipboard');
-          this.set('clipboardDocCount', e.detail.docCount);
-        },
-
-        _updateDrawer: function() {
-          this.$['drawer-pages'].items.forEach(drawerPage => {
-            switch (drawerPage.tagName) {
-              case 'NUXEO-SEARCH-FORM':
-                var searchName = drawerPage.getAttribute('search-name');
-                if (searchName === this.searchName) {
-                  this.searchForm = drawerPage;
-                  if (this.searchForm.auto && this.searchResults) {
-                    this.searchResults.searchForm = this.searchForm;
-                    if (this.postponedSearch) {
-                      this._search();
-                    }
-                  }
-                }
-                break;
-            }
-          });
-        },
-
-        _updatePages: function() {
-          this.$['pages'].items.forEach(page => {
-            switch (page.tagName) {
-              case 'NUXEO-SEARCH-RESULTS':
-                this.searchResults = page;
-                if (this.searchForm && this.searchForm.auto) {
-                  this.searchResults.searchForm = this.searchForm;
-                  if (this.postponedSearch) {
-                    this._search();
-                  }
-                }
-            }
-          });
-        },
-
-        anticipateSearch: function() {
-          if (this.searchForm && this.searchResults && this.searchForm.auto) {
-            this._search();
-          } else {
-            this.postponedSearch = true;
-          }
-        },
-
-        _search: function() {
-          this.searchForm._search();
-          this.postponedSearch = false;
         }
+      },
 
-      });
-    })();
+      _pageLoaded: function() {
+        this.loading = false;
+      },
+
+      _notify: function(e) {
+        var options = e.detail;
+        if (options.close) {
+          this.$.toast.close();
+        } else if (options.message) {
+          this.$.toast.text = options.message;
+          this.$.toast.duration = options.duration ? options.duration : 3000;
+          this.set('_dismissible', !!options.dismissible);
+          this.$.toast.open();
+        }
+      },
+
+      _dismissToast: function() {
+        this.$.toast.toggle();
+      },
+
+      _clipboardUpdated: function(e) {
+        this.clipboard = this.clipboard || this.$$('#clipboard');
+        this.set('clipboardDocCount', e.detail.docCount);
+      }
+
+    });
   </script>
 
 </dom-module>
