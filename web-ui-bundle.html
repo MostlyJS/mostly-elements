@@ -288,22 +288,6 @@
   </template>
 </nuxeo-slot-content>
 
-<nuxeo-slot-content name="processesDrawerItem" slot="DRAWER_ITEMS" order="10">
-  <template>
-    <mostly-menu-icon name="processes" icon="nuxeo:collections" id="menuProcesses" label="app.processes" badge="[[processCount]]"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="servicesDrawerPage" slot="DRAWER_PAGES">
-  <template>
-    <mostly-processes-drawer name="processes" processes="[[processes]]" current-process="[[currentProcess]]"></mostly-processes-drawer>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="servicesPage" slot="PAGES">
-  <template>
-    <mostly-services id="services-dashboard" name="services" services="[[services]]" current="[[currentService]]"></mostly-services>
-  </template>
-</nuxeo-slot-content>
-
 <nuxeo-slot-content name="recentsDrawerItem" slot="DRAWER_ITEMS" order="20">
   <template>
     <mostly-menu-icon name="recents" icon="nuxeo:recent" label="app.recentlyViewed"></mostly-menu-icon>

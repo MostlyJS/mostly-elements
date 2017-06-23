@@ -271,7 +271,9 @@
 
           <mostly-admin name="admin" user="[[currentUser]]" selected="[[selectedAdminTab]]" entity="[[entity]]"></mostly-admin>
 
+          <!--
           <mostly-processes name="processes" id="processes-dashboard" processes="[[processes]]" current="[[currentProcess]]"></mostly-processes>
+          -->
 
           <mostly-themes name="themes" selected="[[selectedProfileTab]]"></mostly-themes>
 
@@ -433,7 +435,7 @@
         },
 
         _processesChanged: function(newVal, oldVal) {
-          console.log('_processesChanged', newVal, oldVal);
+          console.log('app::_processesChanged', newVal, oldVal);
         },
 
         ready: function() {
@@ -522,7 +524,7 @@
         },
 
         show: function(page) {
-          this.page = page;
+          this.page = page; // trigger _pageChanged
         },
 
         _logo: function(baseUrl) {
