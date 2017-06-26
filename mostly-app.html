@@ -271,10 +271,6 @@
 
           <mostly-admin name="admin" user="[[currentUser]]" selected="[[selectedAdminTab]]" entity="[[entity]]"></mostly-admin>
 
-          <!--
-          <mostly-processes name="processes" id="processes-dashboard" processes="[[processes]]" current="[[currentProcess]]"></mostly-processes>
-          -->
-
           <mostly-themes name="themes" selected="[[selectedProfileTab]]"></mostly-themes>
 
           <mostly-page name="error">
@@ -351,6 +347,7 @@
 
         processes: {
           type: Array,
+          value: [{"app":"user-services-d69c336fa27a6be4","eventLoopDelay":0.39949893951416016,"heapUsed":46008488,"rss":58089472,"nodeEnv":"development","uptime":166691.957,"ts":1498207300198},{"app":"admin-services-49336c67c6958429","eventLoopDelay":4.260347008705139,"heapUsed":47132568,"rss":83480576,"nodeEnv":"development","uptime":163594.569,"ts":1498207305286}],
           observer: '_processesChanged'
         },
 
@@ -387,8 +384,8 @@
 
         actionContext: {
           type: Object,
-          computed: '_actionContext(currentDocument, currentUser, processes, currentProcess, processCount,' +
-          ' clipboard, clipboardDocCount)'
+          // TODO: not working with currentDocument, clipboardDocCount?
+          computed: '_actionContext(currentUser, processes, currentProcess, processCount, clipboard)'
         },
 
         clipboard: {
@@ -542,15 +539,16 @@
       },
 
       _actionContext: function() {
+        console.log('app::_actionContext', this.processCount, this.processes);
         return {
-          currentDocument: this.currentDocument,
+          //currentDocument: this.currentDocument,
           user: this.currentUser,
           processCount: this.processCount,
           processes: this.processes,
           currentProcess: this.currentProcess,
-          clipboardDocCount: this.clipboardDocCount,
-          clipboard: this.clipboard,
-          actionContext: this.actionContext
+          //clipboardDocCount: this.clipboardDocCount,
+          //clipboard: this.clipboard,
+          //actionContext: this.actionContext
         };
       },
 
@@ -637,7 +635,7 @@
           this.$.processes.params = {'userId': this.currentUser.id};
           this.$.processes.get().then(response => {
             this.processes = response.data;
-            this.processCount = this.processes.length;
+            this.processCount = this.processes.length; // trigger _actionContext
           }).catch(error => {
             console.log("processes request failed: " + error);
           });
@@ -790,7 +788,7 @@
             return;
           }
           // check if page is already registered (vulcanized)
-          console.log('page changed => ', page);
+          console.log('page changed => ', page, el.tagName);
           if (!Polymer.isInstance(el)) {
             this.loading = true;
             var tag = el.tagName.toLowerCase();
