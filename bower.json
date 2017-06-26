@@ -16,7 +16,8 @@
     "Chart.js": "2.1.6",
     "iron-form": "PolymerElements/iron-form#1.1.4",
     "iron-list": "PolymerElements/iron-list#1.3.9",
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "jsonic": "^0.3.0"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

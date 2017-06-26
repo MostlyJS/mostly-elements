@@ -55,7 +55,7 @@
       <div class="content">
         <section name="dashboard" class="flex-layout">
 
-          <!-- microservice processes
+          <!-- microservice processes -->
           <paper-card>
             <h3><iron-icon icon="mostly:edit" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
             <mostly-page-provider auto
@@ -92,14 +92,12 @@
               </mostly-data-table-column>
             </mostly-data-table>
           </paper-card>
-           -->
            
-          <!-- tasks
+          <!-- tasks -->
           <paper-card>
-            <h3><iron-icon icon="nuxeo:tasks" name="Tasks"></iron-icon>[[i18n('home.tasks')]]</h3>
-            <nuxeo-tasks-list id="taskLists" tasks="[[tasks]]"></nuxeo-tasks-list>
+            <h3><iron-icon icon="nuxeo:tasks" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
+            <mostly-processes-list id="processLists" processes="[[processes]]"></mostly-processes-list>
           </paper-card>
-          -->
            
           <!-- recently viewed
           <paper-card>

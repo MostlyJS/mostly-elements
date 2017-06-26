@@ -79,7 +79,7 @@
         },
 
         /**
-         * An array with a path/sortorder ('asc' or 'desc') pairs that are used to sort the items.
+         * An array with a path/sortorder ('asc:1' or 'desc:-1') pairs that are used to sort the items.
          */
         sortOrder: {
           type: Array,
@@ -343,7 +343,7 @@
         var tmpSort = {};
         if (this.sortOrder && this.sortOrder.length > 0) {
           this.sortOrder.forEach(function(sortItem) {
-            tmpSort[sortItem.path] = sortItem.direction;
+            tmpSort[sortItem.path] = sortItem.direction === 'desc'? -1 : 1;
           });
         }
         if (JSON.stringify(this._ppSort) !== JSON.stringify(tmpSort)) {

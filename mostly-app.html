@@ -345,11 +345,7 @@
           observer: '_updateSearch'
         },
 
-        processes: {
-          type: Array,
-          value: [{"app":"user-services-d69c336fa27a6be4","eventLoopDelay":0.39949893951416016,"heapUsed":46008488,"rss":58089472,"nodeEnv":"development","uptime":166691.957,"ts":1498207300198},{"app":"admin-services-49336c67c6958429","eventLoopDelay":4.260347008705139,"heapUsed":47132568,"rss":83480576,"nodeEnv":"development","uptime":163594.569,"ts":1498207305286}],
-          observer: '_processesChanged'
-        },
+        processes: Array,
 
         processCount: Number,
 
@@ -436,10 +432,6 @@
         'notify': '_notify',
         'nx-clipboard-updated': '_clipboardUpdated',
         'drawer-pages.iron-items-changed': '_updateSearch'
-      },
-
-      _processesChanged: function(newVal, oldVal) {
-        console.log('app::_processesChanged', newVal, oldVal);
       },
 
       ready: function() {

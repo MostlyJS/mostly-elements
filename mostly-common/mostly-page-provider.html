@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="mostly-resource.html">
+<script src="../../jsonic/jsonic.js"></script>
 
 <!--
 `mostly-page-provider` performs queries on the repository and provides paginated results.
@@ -247,9 +248,18 @@ element.
         } else {
           params = Object.assign(params, {
             $skip: (this.page - 1) * this.pageSize,
-            $limit: this.pageSize,
-            $sort: this.sort
+            $limit: this.pageSize
           });
+          // TODO axio's way to send object array?
+          if (this.sort) {
+            var sort = this.sort;
+            if (typeof this.sort === 'string') {
+              sort = jsonic(this.sort);
+            }
+            Object.entries(sort).forEach(([key, value]) => {
+              params['$sort[' + key + ']'] = value;
+            });
+          }
         }
 
         if (Array.isArray(this.params)) {
