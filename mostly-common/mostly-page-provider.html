@@ -110,7 +110,7 @@ element.
          */
         pageSize: {
           type: Number,
-          value: -1
+          value: 10
         },
 
         /**
@@ -262,16 +262,14 @@ element.
           }
         }
 
-        if (Array.isArray(this.params)) {
-          params.queryParams = this.params;
-        } else {
-          Object.keys(this.params).forEach(function(key) {
+        if (this.params) {
+          Object.keys(this.params).forEach(key => {
             if (typeof this.params[key] === "string") {
               params[key] = this.params[key];
             } else {
               params[key] = JSON.stringify(this.params[key]);
             }
-          }, this);
+          });
         }
 
         // Append quick filters if any

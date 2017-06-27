@@ -245,41 +245,6 @@
   </template>
 </nuxeo-slot-content>
 
-<!-- DOCUMENT VIEWS -->
-
-<nuxeo-slot-content name="documentViewItem" slot="DOCUMENT_VIEWS_ITEMS" order="10">
-  <template>
-    <mostly-page-item name="view" label="browser.view"></mostly-page-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="documentViewPage" slot="DOCUMENT_VIEWS_PAGES" order="10">
-  <template>
-    <nuxeo-document-page name="view" document="[[document]]"></nuxeo-document-page>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="documentPermissionsItem" slot="DOCUMENT_VIEWS_ITEMS" order="20">
-  <template>
-    <mostly-page-item name="permissions" label="browser.permissions"></mostly-page-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="documentPermissionsPage" slot="DOCUMENT_VIEWS_PAGES" order="20">
-  <template>
-    <nuxeo-document-permissions name="permissions" id="permissions" doc-id="[[document.uid]]"></nuxeo-document-permissions>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="documentHistoryItem" slot="DOCUMENT_VIEWS_ITEMS" order="30">
-  <template>
-    <mostly-page-item name="history" label="browser.history"></mostly-page-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="documentHistoryPage" slot="DOCUMENT_VIEWS_PAGES" order="30">
-  <template>
-    <nuxeo-document-history name="history" document="[[document]]"></nuxeo-document-history>
-  </template>
-</nuxeo-slot-content>
-
 <!-- DRAWER -->
 
 <nuxeo-slot-content name="homePage" slot="PAGES" order="0">
@@ -288,16 +253,6 @@
   </template>
 </nuxeo-slot-content>
 
-<nuxeo-slot-content name="recentsDrawerItem" slot="DRAWER_ITEMS" order="20">
-  <template>
-    <mostly-menu-icon name="recents" icon="nuxeo:recent" label="app.recentlyViewed"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="recentsDrawerPage" slot="DRAWER_PAGES">
-  <template>
-    <nuxeo-recent-documents name="recents" max-size="10" id="recent"></nuxeo-recent-documents>
-  </template>
-</nuxeo-slot-content>
 
 <nuxeo-slot-content name="defaultSearchMenuButton" slot="DRAWER_ITEMS" order="30">
   <template>
@@ -328,21 +283,6 @@
   </template>
 </nuxeo-slot-content>
 
-<nuxeo-slot-content name="browseDrawerItem" slot="DRAWER_ITEMS" order="50">
-  <template>
-    <mostly-menu-icon name="browser" icon="nuxeo:browse" label="app.browse"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="browseDrawerPage" slot="DRAWER_PAGES">
-  <template>
-    <nuxeo-document-tree name="browser" id="navTree" label="app.browse" current-document="[[currentDocument]]"></nuxeo-document-tree>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="browsePage" slot="PAGES">
-  <template>
-    <nuxeo-browser name="browse" id="browser" document="[[currentDocument]]" clipboard="[[clipboard]]" selected-tab="[[docAction]]"></nuxeo-browser>
-  </template>
-</nuxeo-slot-content>
 <nuxeo-slot-content name="errorPage" slot="PAGES">
   <template>
     <mostly-page name="error">
@@ -354,6 +294,17 @@
         </paper-card>
       </div>
     </mostly-page>
+  </template>
+</nuxeo-slot-content>
+
+<nuxeo-slot-content name="recentsDrawerItem" slot="DRAWER_ITEMS" order="50">
+  <template>
+    <mostly-menu-icon name="recents" icon="nuxeo:recent" label="app.recentlyViewed"></mostly-menu-icon>
+  </template>
+</nuxeo-slot-content>
+<nuxeo-slot-content name="recentsDrawerPage" slot="DRAWER_PAGES">
+  <template>
+    <nuxeo-recent-documents name="recents" max-size="10" id="recent"></nuxeo-recent-documents>
   </template>
 </nuxeo-slot-content>
 
