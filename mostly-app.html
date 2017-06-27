@@ -215,6 +215,11 @@
 
     <mostly-connection id="nxcon" user="{{currentUser}}"></mostly-connection>
 
+    <playing-document id="doc" doc-id="[[docId]]" doc-path="[[docPath]]"
+            document="{{currentDocument}}"
+            enrichers="permissions, breadcrumb, preview, favorites, subscribedNotifications, thumbnail, renditions, pendingTasks, runnableWorkflows, runningWorkflows, collections, audit, subtypes, tags">
+    </playing-document>
+
     <mostly-resource id="processes" path="/stats-processes"></mostly-resource>
     <mostly-resource id="process" path="/stats-processes/[[currentProcessId]]"></mostly-resource>
 
@@ -472,8 +477,8 @@
         if (id && id.length > 0){
           this.loading = true;
           this.currentProcessId = id;
-          this.$.process.get().then(response => {
-            this.currentProcess = response.data;
+          this.$.process.get().then(resp => {
+            this.currentProcess = resp.data;
             this.show('processes');
             this.loading = false;
           });
@@ -488,7 +493,8 @@
         this.docId = id;
         this.docPath = path;
         this.docAction = action;
-        this.$.doc.get().then(doc => {
+        this.$.doc.get().then(resp => {
+          var doc = resp.data;
           if (this.docId && !doc.isVersion) {
             this.docId = '';
             this.docPath = doc.path;
@@ -625,8 +631,8 @@
       _fetchProcesses: function() {
         if (this.$.processes) {
           this.$.processes.params = {'userId': this.currentUser.id};
-          this.$.processes.get().then(response => {
-            this.processes = response.data;
+          this.$.processes.get().then(resp => {
+            this.processes = resp.data;
             this.processCount = this.processes.length; // trigger _actionContext
           }).catch(error => {
             console.log("processes request failed: " + error);
