@@ -34,9 +34,9 @@
       },
 
       _thumbnail: function(doc) {
-        if (doc && doc.uid && doc.contextParameters && doc.contextParameters.thumbnail &&
-          doc.contextParameters.thumbnail.url) {
-          return doc.contextParameters.thumbnail.url;
+        if (doc && doc.uid && doc.metadata && doc.metadata.thumbnail &&
+          doc.metadata.thumbnail.url) {
+          return doc.metadata.thumbnail.url;
         }
       }
     });
