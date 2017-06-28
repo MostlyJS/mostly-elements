@@ -313,7 +313,7 @@
   <script>
     Polymer({
       is: 'mostly-app',
-      behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior, Nuxeo.FiltersBehavior],
+      behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior, Mostly.FiltersBehavior],
       properties: {
         baseUrl: {
           type: String,
@@ -442,7 +442,7 @@
       ready: function() {
         this.$.drawerPanel.closeDrawer();
 
-        window.addEventListener('unhandledrejection', error => {
+        window.addEventListener('unhandledrejection', e => {
           if (e.reason && e.reason.status === 404) {
             this.showError(404, e.reason.message, this._errorUrl());
           }
@@ -502,10 +502,10 @@
           } else {
             var recent = this.$$('#recent');
             if (recent) {
-              recent.add(doc);
+              //TODO recent.add(doc);
             }
             this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
-              doc.contextParameters.breadcrumb.entries.slice(-2, -1)[0];
+              doc.metadata.breadcrumbs.slice(-2, -1)[0];
             this.set('currentDocument', doc);
             this.loading = false;
             this.show(page);
@@ -521,6 +521,7 @@
         errorEl.code = code;
         errorEl.message = msg;
         errorEl.url = url;
+        console.error('showError', code, msg, url);
         this.show('error');
       },
 
