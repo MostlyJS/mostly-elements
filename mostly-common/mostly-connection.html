@@ -99,7 +99,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
           username: this.username,
           password: this.password
         }).then(resp => {
-          console.log('authentication', resp);
+          //console.log('authentication', resp);
           if (resp.data && resp.data.data && resp.data.data.accessToken) {
             // save accessToken
             this.client.defaults.headers.common['Authorization'] = resp.data.data.accessToken;
@@ -109,8 +109,8 @@ Note: Elements that depend on a connectionId use `nx` as default.
           }
           return this.client.get('users/me');
         }).then(resp => {
-          console.log('current user: ', resp);
           if (resp.data && resp.data.data) {
+            console.log('current user: ', resp.data.data);
             return resp.data.data;
           } else {
             console.log('user not exists: ', resp);

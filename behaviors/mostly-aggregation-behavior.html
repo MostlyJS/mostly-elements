@@ -1,0 +1,115 @@
+<script>
+  var Mostly = Mostly || {};
+  (function () {
+
+    /**
+     * @polymerBehavior Mostly.AggregationBehavior
+     */
+    Mostly.AggregationBehavior = {
+      properties: {
+
+        data: {
+          type: Object
+        },
+
+        value: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+
+        buckets: {
+          type: Object,
+          computed: '_computeBuckets(data)'
+        },
+
+        _isEmpty: {
+          type: Boolean,
+          value: true
+        }
+
+      },
+
+      observers: [
+        '_observeData(data)'
+      ],
+
+      _observeData: function() {
+        if (this.data && this.data.extendedBuckets) {
+          this._isEmpty = this.data.extendedBuckets.length === 0;
+        } else {
+          this._isEmpty = true;
+        }
+      },
+
+      _computeBuckets: function(data) {
+        if (data) {
+          var buckets = data.extendedBuckets;
+          var selectedBuckets = data.selection;
+          buckets.forEach(function(item) {
+            item.checked = selectedBuckets.indexOf(item.key) >= 0;
+          });
+          return buckets;
+        }
+      },
+
+      _computeValues: function() {
+        var values = [];
+        this.buckets.forEach(function(item) {
+          if (item.checked) {
+            values.push(item.key);
+          }
+        });
+        this.value = values;
+      },
+
+      _computeLabel: function(item) {
+        if (item.fetchedKey) {
+          var entry = item.fetchedKey;
+          if (entry['entity-type'] === 'directoryEntry') {
+            return this.labelForDirectoryEntry(entry);
+          } else if (entry['entity-type'] === 'user') {
+            return this.labelForUserEntry(entry);
+          } else {
+            var i18nKey = this.i18n('label.ui.aggregate.' + item.key);
+            return i18nKey === 'label.ui.aggregate.' + item.key ? item.key : i18nKey;
+          }
+        } else {
+          var i18nKey = this.i18n('label.ui.aggregate.' + item.key);
+          return i18nKey === 'label.ui.aggregate.' + item.key ? item.key : i18nKey;
+        }
+      },
+
+      labelForDirectoryEntry: function(entry) {
+        var lang = window.nuxeo.I18n.language || 'en';
+        if (lang.indexOf('-') > -1) {
+          lang = lang.split('-')[0];
+        }
+        var labels = [];
+        while (entry) {
+          if (entry['label_' + lang]) {
+            labels.push(entry['label_' + lang]);
+          } else if (entry['label']) {
+            labels.push(entry['label']);
+          } else if (entry['label_en']) {
+            labels.push(entry['label_en']);
+          } else {
+            labels.push(entry['_id']);
+          }
+          entry = entry.parent;
+        }
+        return labels.reverse().join('/');
+      },
+
+      labelForUserEntry: function(entry) {
+        if (entry['firstName'] && entry['firstName'].length > 0
+          && entry['lastName'] && entry['lastName'].length > 0) {
+          return entry['firstName'] + " " + entry['lastName'];
+        } else {
+          return entry['username'] || entry['_id'];
+        }
+      }
+
+    };
+  })();
+</script>

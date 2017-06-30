@@ -1,0 +1,90 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../widgets/mostly-select2.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+<link rel="import" href="../behaviors/mostly-aggregation-behavior.html">
+
+<!--
+An element to interact with page provider aggregations as suggestions.
+
+    <mostly-page-provider provider="default_search" auto
+                         aggregations="{{aggregations}}"
+                         params="[[params]]">
+    </mostly-page-provider>
+
+    <mostly-dropdown-aggregation data="[[aggregations.dc_creator_agg]]" multiple
+                                value="{{params.dc_creator_agg}}">
+    </mostly-dropdown-aggregation>
+
+@group Mostly UI
+@element mostly-dropdown-aggregation
+-->
+<dom-module id="mostly-dropdown-aggregation">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+      }
+    </style>
+
+    <div class="layout vertical">
+      <mostly-select2 data="[[_computedData]]"
+              min-chars="[[minChars]]"
+              multiple="[[multiple]]"
+              placeholder="[[placeholder]]"
+              value="{{value}}">
+      </mostly-select2>
+    </div>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'mostly-dropdown-aggregation',
+      behaviors: [Mostly.I18nBehavior, Mostly.AggregationBehavior],
+      properties: {
+
+        value: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+
+        multiple: {
+          type: Boolean,
+          value: false
+        },
+
+        minChars: {
+          type: Number,
+          value: 0
+        },
+
+        placeholder: String,
+
+        _computedData: {
+          type: Object,
+          value: []
+        }
+      },
+
+      observers: [
+        '_computeData(data)'
+      ],
+
+      _computeData: function () {
+        if (this.data) {
+          this._computedData = this.data.extendedBuckets.map(function (item) {
+            var label = this._computeLabel(item) + ' (' + item.docCount + ')';
+            return {
+              id: item.key,
+              text: label,
+              displayLabel: label
+            };
+          }.bind(this));
+        } else {
+          this._computedData = [];
+        }
+      }
+    });
+  </script>
+</dom-module>

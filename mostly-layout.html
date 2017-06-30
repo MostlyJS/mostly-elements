@@ -6,7 +6,7 @@ An element to import and stamp layout elements.
 
 Example:
 
-    <mostly-layout href="mostly-note-view-layout.html" model='{"document": {...}}'></mostly-layout>
+    <mostly-layout href="playing-folder-view-layout.html" model='{"document": {...}}'></mostly-layout>
 
 @group Mostly UI
 @element mostly-layout
@@ -46,7 +46,7 @@ Example:
          **/
         error: {
           type: String,
-          value: 'Failed to find layout'
+          value: 'Failed to find layout ' + this.href
         },
 
         /**
@@ -72,6 +72,7 @@ Example:
       },
 
       _stamp: function(href) {
+        console.log('mostly-layout:_stamp', href);
         if (!href) {
           this.hidden = true;
           return;

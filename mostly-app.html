@@ -282,8 +282,8 @@
             <div class="header"></div>
             <div class="content">
               <paper-card>
-                <nuxeo-error id="error">
-                </nuxeo-error>
+                <mostly-error id="error">
+                </mostly-error>
               </paper-card>
             </div>
           </mostly-page>
@@ -448,6 +448,7 @@
 
         window.addEventListener('unhandledrejection', e => {
           if (e.reason && e.reason.status === 404) {
+            console.error('unhandledrejection', e);
             this.showError(404, e.reason.message, this._errorUrl());
           }
         });
@@ -515,6 +516,7 @@
             this.show(page);
           }
         }).catch(err => {
+          console.error('load', err.status, err.message);
           this.showError(err.status, this.i18n('browse.error'), err.message);
         });
       },

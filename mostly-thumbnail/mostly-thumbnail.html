@@ -34,9 +34,13 @@
       },
 
       _thumbnail: function(doc) {
-        if (doc && doc.uid && doc.metadata && doc.metadata.thumbnail &&
-          doc.metadata.thumbnail.url) {
-          return doc.metadata.thumbnail.url;
+        if (doc && doc._id) {
+          if (doc.metadata && doc.metadata.thumbnail && doc.metadata.thumbnail.url) {
+            return doc.metadata.thumbnail.url;
+          }
+          if (doc.thumbnail && doc.thumbnail.url) {
+            return doc.thumbnail.url;
+          }
         }
       }
     });
