@@ -1,0 +1,107 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="behaviors/mostly-i18n-behavior.html">
+<!--
+An element to display errors.
+
+Example:
+
+    <mostly-error code="404"></mostly-error>
+
+@group Mostly UI
+@element mostly-error
+-->
+<dom-module id="mostly-error">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 24px;
+        background: rgba(0, 0, 0, 0.025);
+        border-radius: 4px;
+        border: 1px dashed rgba(0, 0, 0, 0.1);
+      }
+
+      .code {
+        @apply(--layout-flex);
+        text-transform: uppercase;
+        color: var(--nuxeo-text-default, rgba(0,0,0,0.3));
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+
+      .description {
+        @apply(--layout-flex);
+        text-transform: uppercase;
+        color: var(--nuxeo-text-default, rgba(0,0,0,0.3));
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 500;
+        padding: 8px;
+      }
+
+      .url {
+        @apply(--layout-flex);
+        color: var(--nuxeo-text-default, rgba(0,0,0,0.3));
+        text-align: center;
+        padding: 16px 0;
+        font-size: .8rem;
+      }
+
+      .message {
+        @apply(--layout-flex);
+        color: var(--nuxeo-text-default, rgba(0,0,0,0.3));
+        text-align: center;
+        padding: 8px 0;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+    </style>
+    <div class="code" hidden$="[[!code]]">[[code]]</div>
+    <div class="description" hidden$="[[!code]]">[[_label(code)]]</div>
+    <div class="url" hidden$="[[!url]]">[[url]]</div>
+    <div class="message" hidden$="[[!message]]">[[message]]</div>
+  </template>
+  <script>
+    Polymer({
+      is: 'mostly-error',
+      behaviors: [Mostly.I18nBehavior],
+      properties: {
+        /**
+         * The error code. Description will rely on a label with key 'error.<code>'.
+         **/
+        code: String,
+
+        /**
+         * Error message to display.
+         **/
+        message: String,
+
+        url: String,
+
+        hidden: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      },
+
+      show: function(code, url, message) {
+        if (arguments.length) {
+          this.code = code;
+          this.url = url;
+          this.message = message;
+        }
+        this.hidden = false;
+      },
+
+      hide: function() {
+        this.hidden = true;
+      },
+
+      _label: function() {
+        return this.i18n('error.' + this.code);
+      }
+    });
+  </script>
+</dom-module>

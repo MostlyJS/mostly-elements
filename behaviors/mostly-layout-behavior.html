@@ -1,0 +1,12 @@
+<link rel="import" href="../../nuxeo-ui-elements/nuxeo-routing-behavior.html">
+<link rel="import" href="mostly-filters-behavior.html">
+<link rel="import" href="mostly-format-behavior.html">
+
+<script>
+  var Mostly = Mostly || {};
+
+  /**
+   * @polymerBehavior Mostly.LayoutBehavior
+   */
+  Mostly.LayoutBehavior = [Nuxeo.RoutingBehavior, Mostly.FiltersBehavior, Mostly.FormatBehavior];
+</script>

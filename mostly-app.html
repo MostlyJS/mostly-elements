@@ -6,7 +6,7 @@
 <link rel="import" href="mostly-app/mostly-progress-indicator.html">
 <link rel="import" href="mostly-app/mostly-menu-item.html">
 <link rel="import" href="mostly-app/mostly-menu-icon.html">
-<script src="mostly-app/mostly-doc-types.js"></script>
+<script src="../book-elements/playing-document/playing-doc-types.js"></script>
 
 <!--
 `mostly-app`
@@ -452,7 +452,7 @@
           }
         });
 
-        window.addEventListener('nuxeo-documents-deleted', e => {
+        window.addEventListener('playing-documents-deleted', e => {
           this._fetchProcesses();
           var navTree = this.$$('navTree');
           if (navTree) {
@@ -460,7 +460,7 @@
           }
         });
 
-        window.addEventListener('nuxeo-documents-deleted-error', e => {
+        window.addEventListener('playing-documents-deleted-error', e => {
           this._documentsDeletedError(e.detail.response, e.detail.documents);
         });
 

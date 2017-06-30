@@ -58,35 +58,35 @@
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-document-preview.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-aggregation/nuxeo-checkbox-aggregation.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-aggregation/nuxeo-dropdown-aggregation.html">
-<link rel="import" href="./mostly-data-grid/mostly-data-grid.html">
-<link rel="import" href="./mostly-data-list/mostly-data-list.html">
-<link rel="import" href="./mostly-data-table/iron-data-table.html">
+<link rel="import" href="mostly-data-grid/mostly-data-grid.html">
+<link rel="import" href="mostly-data-list/mostly-data-list.html">
+<link rel="import" href="mostly-data-table/iron-data-table.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-document-permissions/nuxeo-document-permissions.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-error.html">
+<link rel="import" href="mostly-error.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-filter.html">
-<link rel="import" href="./behaviors/mostly-filters-behavior.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-format-behavior.html">
-<link rel="import" href="./behaviors/mostly-i18n-behavior.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-layout.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-layout-behavior.html">
-<link rel="import" href="./behaviors/mostly-page-provider-display-behavior.html">
+<link rel="import" href="behaviors/mostly-filters-behavior.html">
+<link rel="import" href="behaviors/mostly-format-behavior.html">
+<link rel="import" href="behaviors/mostly-i18n-behavior.html">
+<link rel="import" href="mostly-layout.html">
+<link rel="import" href="behaviors/mostly-layout-behavior.html">
+<link rel="import" href="behaviors/mostly-page-provider-display-behavior.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-path-suggestion/nuxeo-path-suggestion.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-quick-filters/nuxeo-quick-filters.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-routing-behavior.html">
 <link rel="import" href="../nuxeo-ui-elements/nuxeo-slots.html">
-<link rel="import" href="./mostly-tree/mostly-tree.html">
+<link rel="import" href="mostly-tree/mostly-tree.html">
 <link rel="import" href="../nuxeo-ui-elements/viewers/nuxeo-image-viewer.html">
 <link rel="import" href="../nuxeo-ui-elements/viewers/nuxeo-pdf-viewer.html">
 <link rel="import" href="../nuxeo-ui-elements/viewers/nuxeo-video-viewer.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-date-picker.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-directory-suggestion.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-document-suggestion.html">
-<link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-tag-suggestion.html">
+<link rel="import" href="../book-elements/widgets/playing-tag-suggestion.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-file.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-operation-button.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-select.html">
-<link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-tag.html">
-<link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-tags.html">
+<link rel="import" href="widgets/mostly-tag.html">
+<link rel="import" href="../book-elements/widgets/playing-tags.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-date.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-input.html">
 <link rel="import" href="../nuxeo-ui-elements/widgets/nuxeo-textarea.html">
@@ -107,11 +107,11 @@
 <link rel="import" href="../marked-element/marked-element.html">
 
 <!-- i18n -->
-<link rel="import" href="./i18n/i18n.html">
+<link rel="import" href="i18n/i18n.html">
 
 <!-- themes -->
-<link rel="import" href="./themes/base.html">
-<link rel="import" href="./themes/loader.html">
+<link rel="import" href="themes/base.html">
+<link rel="import" href="themes/loader.html">
 
 <!-- Uncomment next block to enable Service Worker Support (2/2) -->
 <!--
@@ -141,10 +141,30 @@
 <link rel="import" href="../mostly-admin-elements/mostly-services/mostly-processes-list.html">
 <link rel="import" href="../mostly-admin-elements/mostly-services/mostly-processes-drawer.html">
 
-<!-- Book service elements -->
+<!-- Document/Book service elements -->
 <link rel="import" href="../book-elements/playing-document/playing-document.html">
 <link rel="import" href="../book-elements/playing-document-tree/playing-document-tree.html">
 <link rel="import" href="../book-elements/playing-browser/playing-breadcrumb.html">
+
+<!-- Document layout elements -->
+<link rel="import" href="../book-elements/playing-document/playing-document-layout.html">
+<link rel="import" href="../book-elements/playing-document/playing-document-create.html">
+<link rel="import" href="../book-elements/playing-document/playing-document-import.html">
+<link rel="import" href="../book-elements/playing-document/playing-document-page.html">
+<link rel="import" href="../book-elements/playing-document/playing-document-view.html">
+<link rel="import" href="../book-elements/playing-document/playing-document-edit.html">
+<link rel="import" href="../book-elements/playing-document/playing-document-metadata.html">
+
+<!-- Document elements -->
+<link rel="import" href="../book-elements/playing-document-blob/playing-document-blob.html">
+<link rel="import" href="../book-elements/playing-document-creation/playing-document-creation-stats.html">
+<link rel="import" href="../book-elements/playing-document-creation/playing-document-creation-stats.html">
+<link rel="import" href="../book-elements/playing-document-info/playing-document-info.html">
+<link rel="import" href="../book-elements/playing-document-tree/playing-document-tree.html">
+<link rel="import" href="../book-elements/playing-document-viewer/playing-document-viewer.html">
+
+<!-- Metadata elements -->
+<link rel="import" href="../book-elements/playing-collections/playing-document-collections.html">
 
 <!-- User service elements -->
 <link rel="import" href="../user-elements/widgets/playing-user-tag.html">

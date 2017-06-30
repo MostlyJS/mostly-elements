@@ -1,0 +1,120 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="mostly-error.html">
+<!--
+An element to import and stamp layout elements.
+
+Example:
+
+    <mostly-layout href="mostly-note-view-layout.html" model='{"document": {...}}'></mostly-layout>
+
+@group Mostly UI
+@element mostly-layout
+-->
+<dom-module id="mostly-layout">
+  <template>
+    <mostly-error id="error" code="404" url="[[href]]" message="[[error]]"></mostly-error>
+    <div id="container"></div>
+  </template>
+  <script>
+    Polymer({
+      is: 'mostly-layout',
+
+      behaviors: [Polymer.IronResizableBehavior],
+
+      properties: {
+
+        /**
+         * The href of the element to import.
+         * The name of the element is inferred from the filename.
+         **/
+        href: {
+          type: String,
+          observer: '_stamp'
+        },
+
+        /**
+         * Model object with properties to set on the instantiated element.
+         **/
+        model: {
+          type: Object,
+          value: {}
+        },
+
+        /**
+         * Error message to display if layout is not found.
+         **/
+        error: {
+          type: String,
+          value: 'Failed to find layout'
+        },
+
+        /**
+         * The stamped element.
+         **/
+        element: {
+          type: Object,
+          readOnly: true,
+          notify: true
+        }
+      },
+
+      observers: [
+        '_update(model.*)'
+      ],
+
+      // Trigger the layout validation if it exists.
+      validate: function() {
+        if (this.element && ('function' === typeof this.element.validate)) {
+          return this.element.validate();
+        }
+        return true;
+      },
+
+      _stamp: function(href) {
+        if (!href) {
+          this.hidden = true;
+          return;
+        }
+
+        this.$.error.hidden = true;
+        this.hidden = this.$.container.hidden = false;
+
+        var file = href.split('/').pop(),
+            name = file.split('.')[0];
+
+        this.importHref(href,
+            function() {
+              var element = document.createElement(name);
+
+              if (this.$.container.hasChildNodes()) {
+                this.$.container.replaceChild(element, this.$.container.firstChild);
+              } else {
+                this.$.container.appendChild(element);
+              }
+
+              this._setElement(element);
+              this._update();
+              this.notifyResize();
+            },
+            // error handling
+            function() {
+              this._setElement(undefined);
+              this.$.error.hidden = false;
+              this.$.container.hidden = true;
+              this.notifyResize()
+            });
+      },
+
+      // setup data binding
+      _update: function() {
+        // Object.assign(element, model);
+        if (this.element && this.model) {
+          for (var prop in this.model) {
+            this.element[prop] = this.model[prop];
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>

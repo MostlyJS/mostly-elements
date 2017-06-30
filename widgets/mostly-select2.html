@@ -1,0 +1,98 @@
+<link rel="import" href="../../iron-form-element-behavior/iron-form-element-behavior.html">
+<link rel="import" href="../../iron-validatable-behavior/iron-validatable-behavior.html">
+<link rel="import" href="../mostly-common/mostly-operation.html">
+<link rel="import" href="../behaviors/mostly-select2-behavior.html">
+<link rel="import" href="mostly-select2-theme.html">
+
+<!--
+An element wrapping Select2 and relying on an operation for suggestions
+
+   <mostly-select2 operation="Directory.SuggestEntries"
+          multiple
+          params='{"directoryName": "subject"}'
+          value="{{value}}">
+
+@group Mostly Widgets
+@element mostly-select2
+-->
+
+<dom-module id="mostly-select2">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host([invalid]) .label {
+        color: red;
+      }
+
+      :host([invalid]) .select2-container {
+        border-bottom: 2px solid red;
+      }
+    </style>
+
+    <template is="dom-if" if="[[label]]">
+      <label class="label">[[label]]</label>
+    </template>
+
+    <mostly-operation id="op" op="[[operation]]"></mostly-operation>
+
+    <input type="hidden" id="select2">
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-select2',
+      behaviors: [Mostly.Select2Behavior, Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
+      properties: {
+
+        /**
+         * Operation to call for suggestions.
+         */
+        operation: String,
+
+        /**
+         * Parameters to use in the operation call (will include `searchTerm`).
+         */
+        params: {
+          type: Object
+        },
+
+        /**
+         * Results filtering function (optional).
+         */
+        queryResultsFilter: Function
+      },
+
+      attached: function () {
+        this._initSelect2(this.$.select2);
+      },
+
+      _getValidity: function () {
+        if (!this.required) {
+          return true;
+        }
+        return this.multiple ? !!this.value && this.value.length > 0 : !!this.value;
+      },
+
+      // Implements abstract Nuxeo.Select2 methods
+      _query: function (query) {
+        var params = this.params || {};
+        params.searchTerm = query.term;
+        this.$.op.params = params;
+
+        this.$.op.execute().then(function (response) {
+          var results = Array.isArray(response.entries) ? response.entries : response;
+          if (this.queryResultsFilter) {
+            results = results.filter(this.queryResultsFilter);
+          }
+          query.callback({
+            results: results
+          });
+        }.bind(this));
+      }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,75 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+
+<!--
+An element for showing a tag.
+
+Example:
+
+    <mostly-tag icon="icons:home">Home</mostly-tag>
+
+@group Mostly UI
+@element mostly-tag
+-->
+<dom-module id="mostly-tag">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        background-color: var(--mostly-tag-background, transparent);
+        color: var(--nuxeo-default-text, #000);
+        padding: 4px 6px;
+        font-size: .8rem;
+        margin-bottom: .3em;
+        border-radius: 2em;
+        line-height: initial;
+        text-decoration: none;
+
+        @apply(--mostly-tag);
+      }
+
+      :host[uppercase] {
+        text-transform: uppercase;
+      }
+
+      iron-icon {
+        width: 14px;
+        height: 14px;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <template is="dom-if" if=[[icon]]>
+      <iron-icon icon="[[icon]]"></iron-icon>
+    </template>
+    <content></content>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-tag',
+      properties: {
+
+        /**
+         * Icon to use (iconset_name:icon_name).
+         */
+        icon: String,
+
+        /**
+         * Attribute to uppercase tag content.
+         */
+        uppercase: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      }
+    });
+  </script>
+
+</dom-module>
+
+
