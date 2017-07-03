@@ -6,7 +6,7 @@
 <link rel="import" href="mostly-app/mostly-progress-indicator.html">
 <link rel="import" href="mostly-app/mostly-menu-item.html">
 <link rel="import" href="mostly-app/mostly-menu-icon.html">
-<script src="../book-elements/playing-document/playing-doc-types.js"></script>
+<script src="../playing-content-elements/playing-document/playing-doc-types.js"></script>
 
 <!--
 `mostly-app`
@@ -220,8 +220,8 @@
             enrichers="permissions, breadcrumb, preview, favorites, thumbnail, renditions, pendingTasks, collections, audit, subtypes, tags">
     </playing-document>
 
-    <mostly-resource id="processes" path="/stats-processes"></mostly-resource>
-    <mostly-resource id="process" path="/stats-processes/[[currentProcessId]]"></mostly-resource>
+    <mostly-resource id="processes" path="/processes-stats"></mostly-resource>
+    <mostly-resource id="process" path="/processes-stats/[[currentProcessId]]"></mostly-resource>
 
     <!-- app layout -->
     <paper-drawer-panel id="drawerPanel" drawer-width="[[drawerWidth]]" responsive-width="720px" edge-swipe-sensitivity="0">
@@ -641,7 +641,7 @@
 
       _fetchProcesses: function() {
         if (this.$.processes) {
-          this.$.processes.params = {'userId': this.currentUser.id};
+          this.$.processes.params = {};
           this.$.processes.get().then(resp => {
             this.processes = resp.data;
             this.processCount = this.processes.length; // trigger _actionContext
