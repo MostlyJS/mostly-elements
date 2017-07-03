@@ -1,0 +1,55 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../es6-polyfills.html">
+
+<script>
+  var Mostly = Mostly || {};
+  (function () {
+    /**
+     * `Mostly.RoutingBehavior` provides a `urlFor` helper function for reverse routing.
+     *
+     * @polymerBehavior Mostly.RoutingBehavior
+     */
+    Mostly.RoutingBehavior = {
+      properties: {
+        router: Object,
+        urlFor: {
+          type: Function,
+          notify: true,
+          value: function() {
+            return this.generateUrl;
+          }
+        }
+      },
+
+      ready: function() {
+        this.routerChangedHandler = function() {
+          this.urlFor = null;
+          this.urlFor = this.generateUrl;
+        }.bind(this);
+        document.addEventListener('router-changed', this.routerChangedHandler);
+      },
+
+      detached: function() {
+        document.removeEventListener('router-changed', this.routerChangedHandler);
+      },
+
+      generateUrl: function() {
+        if (this.router) {
+          var route = arguments[0];
+          var baseUrl = Mostly.RoutingBehavior.baseUrl || '';
+          if (route.startsWith('/')) {
+            return baseUrl + route;
+          }
+          if (!this.router[route]) {
+            console.error('Could not generate a url for route ' + route);
+            return;
+          }
+          var params = Array.prototype.slice.call(arguments, 1);
+          return baseUrl + (baseUrl.endsWith('/') ? '' : '/') +
+                           (Mostly.RoutingBehavior.useHashbang ? '#!' : '') +
+                           this.router[route].apply(this, params);
+        }
+      }
+    };
+  })();
+</script>

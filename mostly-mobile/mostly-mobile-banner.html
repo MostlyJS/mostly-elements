@@ -85,7 +85,7 @@
         if (this.baseUrl) {
           var appUrl = this.baseUrl.replace('://', '/');
           if (this.document) {
-            appUrl += '/' + this.document.repository + '/id/' + this.document.uid;
+            appUrl += '/' + this.document.repository + '/id/' + this.document.id;
           }
           if (this.isAndroid) {
             return 'android-app://com.mostlymobile/mostly/' + appUrl;

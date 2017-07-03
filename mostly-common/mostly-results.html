@@ -5,7 +5,7 @@
 <link rel="import" href="mostly-connection.html">
 <link rel="import" href="../../nuxeo-ui-elements/nuxeo-slots.html">
 <link rel="import" href="../behaviors/mostly-format-behavior.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-routing-behavior.html">
+<link rel="import" href="../behaviors/mostly-routing-behavior.html">
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="../mostly-selection/mostly-selection-toolbar.html">
 
@@ -123,7 +123,7 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
   <script>
     Polymer({
       is: 'mostly-results',
-      behaviors: [Nuxeo.RoutingBehavior, Mostly.FormatBehavior],
+      behaviors: [Mostly.RoutingBehavior, Mostly.FormatBehavior],
       properties: {
         // the page provider to display results for
         nxProvider: Object,

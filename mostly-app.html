@@ -1,8 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-layout.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-routing-behavior.html">
-<link rel="import" href="./behaviors/mostly-i18n-behavior.html">
-<link rel="import" href="../nuxeo-ui-elements/nuxeo-filters-behavior.html">
+<link rel="import" href="mostly-layout.html">
+<link rel="import" href="behaviors/mostly-routing-behavior.html">
+<link rel="import" href="behaviors/mostly-i18n-behavior.html">
+<link rel="import" href="behaviors/mostly-filters-behavior.html">
 <link rel="import" href="mostly-app/mostly-progress-indicator.html">
 <link rel="import" href="mostly-app/mostly-menu-item.html">
 <link rel="import" href="mostly-app/mostly-menu-icon.html">
@@ -313,7 +313,7 @@
   <script>
     Polymer({
       is: 'mostly-app',
-      behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior, Mostly.FiltersBehavior],
+      behaviors: [Mostly.RoutingBehavior, Mostly.I18nBehavior, Mostly.FiltersBehavior],
       properties: {
         baseUrl: {
           type: String,
@@ -540,7 +540,7 @@
       },
 
       _baseUrlChanged: function() {
-        //Nuxeo.RoutingBehavior.baseUrl = this.baseUrl;
+        //TODO Mostly.RoutingBehavior.baseUrl = this.baseUrl;
       },
 
       _logo: function(baseUrl) {

@@ -3,7 +3,7 @@
 <link rel="import" href="../../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../paper-badge/paper-badge.html">
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-routing-behavior.html">
+<link rel="import" href="../behaviors/mostly-routing-behavior.html">
 
 <!--
 `mostly-menu-icon`
@@ -39,7 +39,7 @@
   <script>
     Polymer({
       is: 'mostly-menu-icon',
-      behaviors: [Mostly.I18nBehavior, Nuxeo.RoutingBehavior],
+      behaviors: [Mostly.I18nBehavior, Mostly.RoutingBehavior],
       properties: {
         /**
          * The 18n label key

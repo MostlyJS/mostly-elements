@@ -1,5 +1,5 @@
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-routing-behavior.html">
+<link rel="import" href="../behaviors/mostly-routing-behavior.html">
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 
 <!--
@@ -235,7 +235,7 @@
       Polymer({
         is: 'mostly-suggester',
 
-        behaviors: [Nuxeo.RoutingBehavior, Mostly.I18nBehavior],
+        behaviors: [Mostly.RoutingBehavior, Mostly.I18nBehavior],
 
         properties: {
           toggled: {

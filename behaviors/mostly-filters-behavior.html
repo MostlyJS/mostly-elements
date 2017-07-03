@@ -100,21 +100,21 @@
      * Checks if the document has a main blob.
      */
     hasContent: function(doc) {
-      return (doc) ? doc.properties['file:content'] : false;
+      return doc && doc.file;
     },
 
     /**
      * Checks if the document has attachments.
      */
     hasAttachments: function(doc) {
-      return doc && doc.properties && doc.properties['files:files'] && doc.properties['files:files'].length > 0;
+      return doc && doc.files && doc.files.length > 0;
     },
 
     /**
      * Checks if the document has attachments.
      */
     hasVersions: function(doc) {
-      return doc && (doc.properties['uid:major_version'] > 0 || doc.properties['uid:minor_version'] > 0);
+      return doc && doc.version;
     },
 
     /**
@@ -129,7 +129,7 @@
      * Checks if given user is member of the group.
      */
     isMember: function(user, group) {
-      return user && user.properties && user.properties.groups && user.properties.groups.indexOf(group) !== -1;
+      return user && user.groups && user.groups.indexOf(group) !== -1;
     }
 
   };

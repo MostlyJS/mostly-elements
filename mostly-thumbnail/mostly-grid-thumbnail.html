@@ -1,9 +1,9 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-image/iron-image.html">
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-routing-behavior.html">
-<link rel="import" href="../../nuxeo-ui-elements/actions/nuxeo-download-button.html">
-<link rel="import" href="../../nuxeo-ui-elements/actions/nuxeo-favorites-toggle-button.html">
+<link rel="import" href="../behaviors/mostly-routing-behavior.html">
+<link rel="import" href="../../playing-content-elements/actions/playing-download-button.html">
+<link rel="import" href="../../playing-social-elements/actions/playing-favorites-toggle-button.html">
 <link rel="import" href="../widgets/mostly-tag.html">
 
 <!--
@@ -152,8 +152,8 @@
         </div>
       </a>
       <div class="actions">
-        <nuxeo-favorites-toggle-button document="[[doc]]"></nuxeo-favorites-toggle-button>
-        <nuxeo-download-button document="[[doc]]"></nuxeo-download-button>
+        <playing-favorites-toggle-button document="[[doc]]"></playing-favorites-toggle-button>
+        <playing-download-button document="[[doc]]"></playing-download-button>
       </div>
       <div class="select">
         <paper-icon-button noink icon="icons:check" title="select" on-tap="_onCheckBoxTap"></paper-icon-button>
@@ -165,7 +165,7 @@
   <script>
     Polymer({
       is: 'mostly-grid-thumbnail',
-      behaviors: [Nuxeo.RoutingBehavior],
+      behaviors: [Mostly.RoutingBehavior],
       properties: {
         doc: {
           type: Object,
@@ -194,9 +194,9 @@
       ],
 
       _thumbnail: function(doc) {
-        if (doc && doc.uid && doc.contextParameters && doc.contextParameters.thumbnail &&
-          doc.contextParameters.thumbnail.url) {
-          return doc.contextParameters.thumbnail.url;
+        if (doc && doc.id && doc.metadata && doc.metadata.thumbnail &&
+          doc.metadata.thumbnail.url) {
+          return doc.metadata.thumbnail.url;
         }
       },
 

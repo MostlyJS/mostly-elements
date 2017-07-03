@@ -149,14 +149,14 @@
                   <a class="ellipsis" href$="[[urlFor('browse', item.path)]]">[[item.title]]</a>
                 </template>
               </nuxeo-data-table-column>
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.modified')]]" flex="50">
+              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.updatedAt')]]" flex="50">
                 <template>
-                  <nuxeo-date datetime="[[item.properties.dc:modified]]" format="relative"></nuxeo-date>
+                  <nuxeo-date datetime="[[item.updatedAt]]" format="relative"></nuxeo-date>
                 </template>
               </nuxeo-data-table-column>
               <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.lastContributor')]]" flex="50">
                 <template>
-                  <nuxeo-user-tag user="[[item.properties.dc:lastContributor]]"></nuxeo-user-tag>
+                  <nuxeo-user-tag user="[[item.lastContributor]]"></nuxeo-user-tag>
                 </template>
               </nuxeo-data-table-column>
             </nuxeo-data-table>
@@ -171,7 +171,7 @@
   <script>
     Polymer({
       is: 'mostly-home',
-      behaviors: [Mostly.I18nBehavior, Nuxeo.RoutingBehavior, Mostly.FormatBehavior],
+      behaviors: [Mostly.I18nBehavior, Mostly.RoutingBehavior, Mostly.FormatBehavior],
       properties: {
         visible: {
           type: Boolean,
@@ -188,7 +188,7 @@
       _refresh: function() {
         this.$.latestQuery.fetch();
         this._fetchFavorite().then(function(favorite) {
-          this.$.favoritesProvider.params = [favorite.uid];
+          this.$.favoritesProvider.params = [favorite.id];
           this.$.favoritesProvider.page = 1;
           this.$.favoritesProvider.fetch();
         }.bind(this));
