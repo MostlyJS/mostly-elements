@@ -194,9 +194,10 @@
       ],
 
       _thumbnail: function(doc) {
-        if (doc && doc.id && doc.metadata && doc.metadata.thumbnail &&
-          doc.metadata.thumbnail.url) {
-          return doc.metadata.thumbnail.url;
+        if (doc && doc.id) {
+          if (doc.metadata && doc.metadata.thumbnail && doc.metadata.thumbnail.url) {
+            return doc.metadata.thumbnail.url;
+          }
         }
       },
 
