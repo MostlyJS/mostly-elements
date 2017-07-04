@@ -103,28 +103,28 @@
           <paper-card>
             <h3><iron-icon icon="nuxeo:recent" name="Recently Viewed"></iron-icon>[[i18n('app.recentlyViewed')]]</h3>
             <nuxeo-document-storage id="recentStorage" name="nuxeo-recent-documents" documents="{{recentDocuments}}"></nuxeo-document-storage>
-            <nuxeo-data-table id="latestViewedDocs"
+            <mostly-data-table id="latestViewedDocs"
               items="[[recentDocuments]]"
               empty-label="[[i18n('recentDocuments.empty')]]"
               empty-label-when-filtered="[[i18n('recentDocuments.empty')]]"
               on-row-clicked="_navigate">
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
                 <template>
                   <nuxeo-document-thumbnail document="[[item]]"></nuxeo-document-thumbnail>
                   <a class="ellipsis" href$="[[urlFor('browse', item.path)]]">[[item.title]]</a>
                 </template>
-              </nuxeo-data-table-column>
-              <nuxeo-data-table-column name="[[i18n('recentDocumentsTable.type')]]" flex="50">
+              </mostly-data-table-column>
+              <mostly-data-table-column name="[[i18n('recentDocumentsTable.type')]]" flex="50">
                 <template>
                   [[item.type]]
                 </template>
-              </nuxeo-data-table-column>
-              <nuxeo-data-table-column name="[[i18n('recentDocumentsTable.lastViewed')]]" flex="50">
+              </mostly-data-table-column>
+              <mostly-data-table-column name="[[i18n('recentDocumentsTable.lastViewed')]]" flex="50">
                 <template>
                   <nuxeo-date datetime="[[item.lastViewed]]" format="relative"></nuxeo-date>
                 </template>
-              </nuxeo-data-table-column>
-            </nuxeo-data-table>
+              </mostly-data-table-column>
+            </mostly-data-table>
           </paper-card>
            -->
           <!-- favorites
@@ -138,28 +138,28 @@
                headers='{"X-NXfetch.document": "properties"}'
                enrichers="thumbnail">
             </nuxeo-page-provider>
-            <nuxeo-data-table
+            <mostly-data-table
               id="favoriteDocs"
               nx-provider="favoritesProvider"
               empty-label="[[i18n('favorites.empty')]]"
               on-row-clicked="_navigate">
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
                 <template>
                   <nuxeo-document-thumbnail document="[[item]]"></nuxeo-document-thumbnail>
                   <a class="ellipsis" href$="[[urlFor('browse', item.path)]]">[[item.title]]</a>
                 </template>
-              </nuxeo-data-table-column>
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.updatedAt')]]" flex="50">
+              </mostly-data-table-column>
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.updatedAt')]]" flex="50">
                 <template>
                   <nuxeo-date datetime="[[item.updatedAt]]" format="relative"></nuxeo-date>
                 </template>
-              </nuxeo-data-table-column>
-              <nuxeo-data-table-column name="[[i18n('documentContentView.datatable.header.lastContributor')]]" flex="50">
+              </mostly-data-table-column>
+              <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.lastContributor')]]" flex="50">
                 <template>
                   <nuxeo-user-tag user="[[item.lastContributor]]"></nuxeo-user-tag>
                 </template>
-              </nuxeo-data-table-column>
-            </nuxeo-data-table>
+              </mostly-data-table-column>
+            </mostly-data-table>
           </paper-card>
            -->
         </section>

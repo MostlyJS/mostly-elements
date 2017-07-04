@@ -2,7 +2,7 @@
 <link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
-<link rel="import" href="../../nuxeo-ui-elements/widgets/nuxeo-dialog.html">
+<link rel="import" href="../widgets/mostly-dialog.html">
 <link rel="import" href="../mostly-thumbnail/mostly-thumbnail.html">
 
 <!--
@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <nuxeo-dialog id="selectedItemsPopup" no-auto-focus with-backdrop>
+    <mostly-dialog id="selectedItemsPopup" no-auto-focus with-backdrop>
       <h2>[[i18n('selectionToolbar.dialog.heading')]]</h2>
       <paper-dialog-scrollable>
         <template is="dom-repeat" items="[[selectedItems]]">
@@ -86,7 +86,7 @@
       <div class="buttons">
         <paper-button dialog-dismiss>[[i18n('command.close')]]</paper-button>
       </div>
-    </nuxeo-dialog>
+    </mostly-dialog>
 
   </template>
 

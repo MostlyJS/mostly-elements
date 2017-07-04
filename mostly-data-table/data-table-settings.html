@@ -3,7 +3,7 @@
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../mostly-common/mostly-connection.html">
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
-<link rel="import" href="../../nuxeo-ui-elements/widgets/nuxeo-dialog.html">
+<link rel="import" href="../widgets/mostly-dialog.html">
 
 <!-- Part of `mostly-data-table` -->
 <dom-module id="mostly-data-table-settings">
@@ -53,7 +53,7 @@
 
     <mostly-connection id="nxcon"></mostly-connection>
 
-    <nuxeo-dialog id="columnsSettingsPopup" with-backdrop no-auto-focus reparent>
+    <mostly-dialog id="columnsSettingsPopup" with-backdrop no-auto-focus reparent>
       <h2>[[i18n('tableSettings.columnSettings')]]</h2>
       <div class="paper-content layout horizontal">
         <div class="layout vertical">
@@ -83,7 +83,7 @@
         </div>
         <paper-button noink class="primary" dialog-dismiss>[[i18n('tableSettings.columnSettings.close')]]</paper-button>
       </div>
-    </nuxeo-dialog>
+    </mostly-dialog>
 
     <paper-icon-button noink icon="nuxeo:settings" id="toggleColSettings"
       on-tap="toggleColsSettingsPopup">

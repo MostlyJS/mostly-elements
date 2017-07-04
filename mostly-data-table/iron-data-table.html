@@ -25,7 +25,7 @@ limitations under the License.
 <link rel="import" href="../../paper-input/paper-input.html">
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
-<link rel="import" href="../../nuxeo-ui-elements/widgets/nuxeo-dialog.html">
+<link rel="import" href="../widgets/mostly-dialog.html">
 <link rel="import" href="../../nuxeo-ui-elements/nuxeo-quick-filters/nuxeo-quick-filters.html">
 
 <link rel="import" href="data-table-column.html">
@@ -274,15 +274,15 @@ Example:
     <content select="mostly-data-table-column"></content>
     <content select="template[is=row-detail]"></content>
 
-    <nuxeo-dialog id="dialog">
+    <mostly-dialog id="dialog">
       <h1>[[i18n('command.add')]]</h1>
       <form is="iron-form">
-        <content id="form" select="nuxeo-data-table-form"></content>
+        <content id="form" select="mostly-data-table-form"></content>
       </form>
       <div class="buttons">
         <paper-button noink dialog-confirm>[[i18n('command.ok')]]</paper-button>
       </div>
-    </nuxeo-dialog>
+    </mostly-dialog>
 
   </template>
 
