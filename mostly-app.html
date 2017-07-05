@@ -296,6 +296,9 @@
       </paper-header-panel>
     </paper-drawer-panel>
 
+    <playing-document-create-button class$="[[page]]" parent="[[currentParent]]" hidden$="[[isMobile]]"></playing-document-create-button>
+    <playing-document-create-popup id="importPopup" parent="[[currentParent]]" default-path="/default-domain"></playing-document-create-popup>
+
     <mostly-progress-indicator visible="[[loading]]"></mostly-progress-indicator>
 
     <paper-toast id="toast">
