@@ -1,6 +1,6 @@
 <script>
   (function () {
-    var msgFolder = (window.mostly.I18n.baseUrl || location.origin + location.pathname) + '../bower_components/mostly-elements/i18n';
+    var msgFolder = (window.mostly.I18n.baseUrl || location.origin + location.pathname) + 'bower_components/mostly-elements/i18n';
     window.mostly.I18n.language = navigator.language || navigator.userLanguage || 'en';
     window.mostly.I18n.localeResolver = new XHRLocaleResolver(msgFolder);
     window.mostly.I18n.loadLocale().then(function(){

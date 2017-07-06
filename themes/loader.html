@@ -1,6 +1,6 @@
 <script>
   (function () {
-    var url = '../bower_components/mostly-elements/themes/' + (localStorage.getItem('theme') || 'default') + '/theme.html';
+    var url = 'bower_components/mostly-elements/themes/' + (localStorage.getItem('theme') || 'default') + '/theme.html';
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', url, false);
     xhr.onreadystatechange = function() {
@@ -11,7 +11,7 @@
         }
         var link = document.createElement('link');
         link.setAttribute('rel', 'import');
-        link.setAttribute('href', '../bower_components/mostly-elements/themes/' + (localStorage.getItem('theme') || 'default') + '/theme.html');
+        link.setAttribute('href', 'bower_components/mostly-elements/themes/' + (localStorage.getItem('theme') || 'default') + '/theme.html');
         document.head.appendChild(link);
       }
     };
