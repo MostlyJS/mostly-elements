@@ -763,11 +763,11 @@
       },
 
       _handleDocumentCreated: function(e) {
-        if (!e.detail.response.entries || e.detail.response.entries.length === 1) {
-          var doc = e.detail.response.entries ? e.detail.response.entries[0] : e.detail.response;
+        if (!e.detail.response.data || e.detail.response.data.length === 1) {
+          var doc = e.detail.response.data ? e.detail.response.data[0] : e.detail.response.data;
           this._toast(this.i18n('app.createdDocument', doc.type.toLowerCase() + ' ' + doc.title));
         } else {
-          this._toast(this.i18n('app.createdDocuments', e.detail.response.entries.length));
+          this._toast(this.i18n('app.createdDocuments', e.detail.response.data.length));
         }
       },
 
