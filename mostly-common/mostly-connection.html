@@ -1,5 +1,7 @@
 <link rel="import" href="../../polymer/polymer.html">
 <script src="../../axios/dist/axios.js"></script>
+<script src="../../promise-queue/lib/index.js"></script>
+<script src="batch-upload.js"></script>
 
 <!--
 `mostly-connection` wraps a `mostly.Client`.
@@ -67,6 +69,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
         // If we already have a client with the same connection info just keep it
         var id = (this.connectionId) ? this.connectionId : Object.keys(axClients)[0];
         this.client = axClients[id];
+
         if (this.client) {
           // if this instance does not have any properties set properties from the client
           if (!this.url && !this.username && !this.password) {
@@ -85,14 +88,19 @@ Note: Elements that depend on a connectionId use `nx` as default.
             // e.g. username switched, password changed
             this.client = null;
           }
+        } else {
+          var options = {
+            baseURL: this.url,
+            timeout: 1000
+          };
+          this.client = axios.create(options);
+          this.client.batchUpload = new BatchUpload({
+            url: 'blobs',
+            client: this.client
+          });
+          axClients[id] = this.client;
         }
-        var options = {
-          baseURL: this.url,
-          timeout: 1000
-        };
-
-        axClients[id] = this.client = this.client || axios.create(options);
-
+        
         // share the login promise between all instances (one per client)
         this.client._promise = this.client.post('authentication', {
           strategy: 'local',
@@ -185,7 +193,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
        */
       batchUpload: function() {
         return this.connect().then(() => {
-          return this.client.request; // TODO batchUpload()
+          return this.client.batchUpload;
         });
       }
     });
