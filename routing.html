@@ -101,82 +101,79 @@
     });
     
     // add hashbang #! before urls
-    var useHashbang = true;
-    page({hashbang: true, click: false });
-    page.url = function(path) {
-      return page.base() + '/' + (useHashbang ? '#!' : '') + path;
-    };
+    page({ hashbang: true, click: false });
+    
+    Mostly.RoutingBehavior.useHashbang = true;
     
     // extends all the Polymer elements prototype
     Polymer.Base._addFeature({
       router: {
         browse: function(path) {
-          return page.url('/browse' + path);
+          return '/browse' + path;
         },
 
         document: function(id) {
-          return page.url('/doc/' + id);
+          return '/doc/' + id;
         },
 
         home: function() {
-          return page.url('/home');
+          return '/home';
         },
 
         search: function(searchId) {
-          return page.url('/search/' + searchId);
+          return '/search/' + searchId;
         },
 
         service: function(processId) {
-          return page.url('/service/' + processId);
+          return '/service/' + processId;
         },
 
         queue: function(searchId) {
-          return page.url('/queue/' + searchId);
+          return '/queue/' + searchId;
         },
 
         tasks: function(id) {
-          return page.url('/tasks' + (typeof id === 'undefined' ? '' : '/' + id));
+          return '/tasks' + (typeof id === 'undefined' ? '' : '/' + id);
         },
 
         processes: function(id) {
-          return page.url('/processes' + (typeof id === 'undefined' ? '' : '/' + id));
+          return '/processes' + (typeof id === 'undefined' ? '' : '/' + id);
         },
 
         administration: function(tab) {
-          return page.url('/admin/' + tab);
+          return '/admin/' + tab;
         },
 
         user: function(name) {
-          return page.url('/user/' + name);
+          return '/user/' + name;
         },
 
         group: function(name) {
-          return page.url('/group/' + name);
+          return '/group/' + name;
         },
 
         page: function(name) {
-          return page.url('/' + name);
+          return '/' + name;
         }
 
       },
-      baseUrl: page.base(),
+
       navigateTo: function() {
-        var url = this.urlFor.apply(this, arguments);
-        // page(url.replace('/#!', ''));
-        console.log('navigateTo1', url.replace('/#!', ''));
         if (this.router) {
           var route = arguments[0];
           var baseUrl = Mostly.RoutingBehavior.baseUrl || '';
           if (route.startsWith('/')) {
-            console.log('navigateTo2', baseUrl + route);
-            page(baseUrl + route);
+            console.log('navigateTo root', baseUrl + route);
+            return page(baseUrl + route);
           }
-          if (!this.router[route]) {
+          if (this.router[route]) {
+            var params = Array.prototype.slice.call(arguments, 1);
+            var url = this.router[route].apply(this, params);
+            console.log('navigateTo route', url);
+            page(url);
+          } else {
             console.error('Could not navigate to a url for route ' + route);
           }
-          var params = Array.prototype.slice.call(arguments, 1);
-          console.log('navigateTo2', this.router[route].apply(this, params));
-          page(this.router[route].apply(this, params));
         } else {
           console.error('No router defined');
         }

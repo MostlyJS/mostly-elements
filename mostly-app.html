@@ -530,7 +530,7 @@
         errorEl.code = code;
         errorEl.message = msg;
         errorEl.url = url;
-        console.error('showError', code, msg, url);
+        console.error('showError', errorEl);
         this.show('error');
       },
 
@@ -543,7 +543,7 @@
       },
 
       _baseUrlChanged: function() {
-        //TODO Mostly.RoutingBehavior.baseUrl = this.baseUrl;
+        Mostly.RoutingBehavior.baseUrl = this.baseUrl;
       },
 
       _logo: function(baseUrl) {
