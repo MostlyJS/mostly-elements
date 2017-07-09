@@ -62,15 +62,18 @@ BatchUpload.prototype._upload = function(blob) {
   const uploadIndex = this._uploadIndex;
   this._uploadIndex += 1;
   return this._batchIdPromise.then(() => {
+    const form = new FormData();
+    form.append('file', blob.content);
+    form.append('fileName', encodeURIComponent(blob.name));
+    form.append('fileSize', blob.size);
+    form.append('mimeType', blob.mimeType);
+
     const options = {
       method: 'put',
       url: this._url + '/' + this._batchId + '?index=' + uploadIndex,
-      body: blob.content,
+      data: form,
       headers: {
         'Cache-Control': 'no-cache',
-        'X-File-Name': encodeURIComponent(blob.name),
-        'X-File-Size': blob.size,
-        'X-File-Type': blob.mimeType,
         'Content-Type': 'multipart/form-data'
       },
     };
