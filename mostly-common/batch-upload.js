@@ -64,13 +64,12 @@ BatchUpload.prototype._upload = function(blob) {
   return this._batchIdPromise.then(() => {
     const form = new FormData();
     form.append('file', blob.content);
-    form.append('fileName', encodeURIComponent(blob.name));
-    form.append('fileSize', blob.size);
-    form.append('mimeType', blob.mimeType);
-
+    form.append('index', uploadIndex);
+    form.append('vender', 'file');
+    
     const options = {
       method: 'put',
-      url: this._url + '/' + this._batchId + '?index=' + uploadIndex,
+      url: this._url + '/' + this._batchId,
       data: form,
       headers: {
         'Cache-Control': 'no-cache',
@@ -99,7 +98,11 @@ BatchUpload.prototype._fetchBatchId = function() {
     return Promise.resolve(this);
   }
   return this._client.request(options).then(res => {
-    this._batchId = res.data.data.batchId;
+    if (res.data && res.data.data) {
+      this._batchId = res.data.data.id;
+    } else {
+      throw 'Batch not created';
+    }
     return this;
   });
 };
