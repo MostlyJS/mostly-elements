@@ -1,3 +1,20 @@
+/**
+ * The **BatchUpload** class allows to upload {@link Blob} objets to
+ * a playing-blobs service using the batch upload API.
+ *
+ * It creates and maintains a batch id from playing-blobs service.
+ *
+ * @example
+ * var batch = client.batchUpload('blobs');
+ * var blob = new Blob(...);
+ * batch.upload(blob)
+ *   .then(function(res) {
+ *     // res.blob instanceof BatchBlob === true
+ *   })
+ *   .catch(function(error) {
+ *     throw new Error(error);
+ *   });
+ */
 const DEFAULT_OPTS = {
   concurrency: 5,
 };

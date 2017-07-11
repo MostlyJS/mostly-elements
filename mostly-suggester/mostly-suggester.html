@@ -187,9 +187,10 @@
 
     <mostly-connection id="nxcon"></mostly-connection>
     <mostly-operation id="op"
-                     op="Search.SuggestersLauncher"
-                     response="{{items}}"
-                     params='{"searchTerm":"[[searchTerm]]"}'></mostly-operation>
+            path="search"
+            op="suggestersLauncher"
+            response="{{items}}"
+            params='{"searchTerm":"[[searchTerm]]"}'></mostly-operation>
 
     <div class="horizontal layout center flex">
       <div id="suggester" hidden$="[[!toggled]]">

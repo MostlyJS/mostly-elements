@@ -1,7 +1,9 @@
 <link rel="import" href="../../polymer/polymer.html">
 <script src="../../axios/dist/axios.js"></script>
 <script src="../../promise-queue/lib/index.js"></script>
+<script src="blob.js"></script>
 <script src="batch-upload.js"></script>
+<script src="operation.js"></script>
 
 <!--
 `mostly-connection` wraps a `mostly.Client`.
@@ -94,10 +96,19 @@ Note: Elements that depend on a connectionId use `nx` as default.
             timeout: 1000
           };
           this.client = axios.create(options);
-          this.client.batchUpload = new BatchUpload({
-            url: 'blobs',
-            client: this.client
-          });
+
+          // batch upload helper
+          this.client.batchUpload = (opts = {}) => {
+            let options = Object.assign({ client: this.client }, opts);
+            return new BatchUpload(options);
+          };
+
+          // operation helper
+          this.client.operation = (opts = {}) => {
+            let options = Object.assign({ client: this.client }, opts);
+            return new Operation(options);
+          };
+          
           axClients[id] = this.client;
         }
         
@@ -182,18 +193,18 @@ Note: Elements that depend on a connectionId use `nx` as default.
       /**
        * Returns an operation object that allows operations to be executed
        */
-      operation: function(op) {
+      operation: function(url, op) {
         return this.connect().then(() => {
-          return this.client.request; // TODO operation(op)
+          return this.client.operation({ url: url, action: op })
         });
       },
 
       /**
        * Returns an object that allows blobs to be uploaded
        */
-      batchUpload: function() {
+      batchUpload: function(url) {
         return this.connect().then(() => {
-          return this.client.batchUpload;
+          return this.client.batchUpload({ url: url });
         });
       }
     });
