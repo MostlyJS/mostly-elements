@@ -285,7 +285,7 @@ element.
 
         this.$.nxResource.params = params;
         return this.$.nxResource.execute()
-          .then(response => {
+          .then((response) => {
             var data = response.data;
             var metadata = response.metadata;
             this.currentPage = data.slice(0);
@@ -295,7 +295,7 @@ element.
             this.currentPageSize = metadata.limit;
             this.fire('update');
             return response;
-          }).catch(err => {
+          }).catch((err) => {
             this.fire('error', { error : err });
           });
       },

@@ -136,10 +136,10 @@ element.
         if (this.enrichers) {
           options.headers['X-NXenrichers.' + this.enrichersEntity] = this.enrichers;
         }
-        return this.$.nx.operation(this.path, this.op).then(function(operation) {
+        return this.$.nx.operation(this.path, this.op).then((operation) => {
           this._operation = operation;
           return this._doExecute(params, options);
-        }.bind(this));
+        });
       },
 
       _autoExecute: function() {
@@ -157,20 +157,20 @@ element.
           .params(params)
           .input(this.input)
           .execute(options)
-          .then(function(data) {
+          .then((data) => {
             this.fire('response', {response: data.data });
             this.response = data.data;
             this.success = true;
             this._setActiveRequests(this.activeRequests - 1);
             return this.response;
-          }.bind(this))
-          .catch(function(error) {
+          })
+          .catch((error) => {
             this.success = false;
             this.error = error;
             console.log("Operation request failed: " + error);
             this._setActiveRequests(this.activeRequests - 1);
             throw error;
-          }.bind(this));
+          });
       },
 
       _isLoading: function() {
