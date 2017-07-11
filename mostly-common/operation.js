@@ -86,7 +86,7 @@ Operation.prototype.input = function(input) {
  */
 Operation.prototype.execute = function(opts = {}) {
   let options = {
-    method: 'put',
+    method: 'patch',
     url: this._computeRequestURL(),
     data: this._computeRequestBody(),
     headers: {
@@ -109,9 +109,9 @@ Operation.prototype._computeContentTypeHeader = function(input) {
 Operation.prototype._computeRequestURL = function() {
   const input = this._actionParams.input;
   if (input instanceof BatchBlob) {
-    return [this._url, 'upload', input['batch'], input['index'], 'execute', this._action].join('/');
+    return [this._url, input['batch'] + '.' + input['index'], this._action].join('/');
   } else if (input instanceof BatchUpload) {
-    return [this._url, 'upload', input._batchId, 'execute', this._action].join('/');
+    return [this._url, input._batchId, this._action].join('/');
   }
 
   return [this._url, input, this._action].join('/');

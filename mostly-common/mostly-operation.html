@@ -151,6 +151,7 @@ element.
       _doExecute: function(params, options) {
         if (params.context) {
           this._operation = this._operation.context(params.context);
+          delete params.context;
         }
         return this._operation
           .params(params)
