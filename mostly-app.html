@@ -513,7 +513,7 @@
               //TODO recent.add(doc);
             }
             this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
-              doc.metadata.breadcrumbs.slice(-2, -1)[0];
+              doc.metadata.breadcrumbs.slice(-1)[0];
             this.set('currentDocument', doc);
             this.loading = false;
             this.show(page);
