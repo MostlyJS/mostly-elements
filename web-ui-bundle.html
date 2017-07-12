@@ -319,22 +319,6 @@
   </template>
 </nuxeo-slot-content>
 
-<nuxeo-slot-content name="collectionsDrawerItem" slot="DRAWER_ITEMS" order="70">
-  <template>
-    <mostly-menu-icon name="collections" icon="nuxeo:collections" label="app.collections"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="collectionsDrawerPage" slot="DRAWER_PAGES">
-  <template>
-    <nuxeo-collections name="collections" id="collectionsForm"></nuxeo-collections>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="collectionsPage" slot="PAGES">
-  <template>
-    <nuxeo-collection-results name="collection" id="collectionResults" on-navigate="_navigateFromCollection"></nuxeo-collection-results>
-  </template>
-</nuxeo-slot-content>
-
 <nuxeo-slot-content name="personalWorkspaceDrawerItem" slot="DRAWER_ITEMS" order="80">
   <template>
     <mostly-menu-icon name="personalWorkspace" icon="nuxeo:user-space" label="app.personalSpace"></mostly-menu-icon>
