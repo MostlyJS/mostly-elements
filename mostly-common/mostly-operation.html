@@ -54,6 +54,12 @@ element.
           value: ''
         },
 
+        /* The http method */
+        method: {
+          type: String,
+          value: 'patch'
+        },
+
         /* The parameters to send. */
         params: {
           type: Object,
@@ -154,6 +160,7 @@ element.
           delete params.context;
         }
         return this._operation
+          .method(this.method)
           .params(params)
           .input(this.input)
           .execute(options)

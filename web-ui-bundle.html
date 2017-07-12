@@ -168,30 +168,6 @@
 
 <!-- DOCUMENT ACTIONS -->
 
-<nuxeo-slot-content name="addToColDocumentAction" slot="DOCUMENT_ACTIONS" order="10">
-  <template>
-    <nuxeo-add-to-collection-button document="[[document]]"></nuxeo-add-to-collection-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="favoriteToggleDocumentAction" slot="DOCUMENT_ACTIONS" order="20">
-  <template>
-    <playing-favorites-toggle-button document="[[document]]"></playing-favorites-toggle-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="shareDocumentAction" slot="DOCUMENT_ACTIONS" order="30">
-  <template>
-    <nuxeo-share-button document="[[document]]"></nuxeo-share-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="notificationDocumentAction" slot="DOCUMENT_ACTIONS" order="40">
-  <template>
-    <nuxeo-notifications-toggle-button document="[[document]]"></nuxeo-notifications-toggle-button>
-  </template>
-</nuxeo-slot-content>
-
 <nuxeo-slot-content name="clipboardToggleDocumentAction" slot="DOCUMENT_ACTIONS" order="50">
   <template>
     <nuxeo-clipboard-toggle-button document="[[document]]" clipboard="[[clipboard]]"></nuxeo-clipboard-toggle-button>
@@ -305,17 +281,6 @@
 <nuxeo-slot-content name="recentsDrawerPage" slot="DRAWER_PAGES">
   <template>
     <nuxeo-recent-documents name="recents" max-size="10" id="recent"></nuxeo-recent-documents>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="favoritesDrawerItem" slot="DRAWER_ITEMS" order="60">
-  <template>
-    <mostly-menu-icon name="favorites" icon="nuxeo:favorites" label="app.favorites"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="favoritesDrawerPage" slot="DRAWER_PAGES">
-  <template>
-    <playing-favorites name="favorites" doc="[[currentDocument]]"></playing-favorites>
   </template>
 </nuxeo-slot-content>
 

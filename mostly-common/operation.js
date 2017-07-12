@@ -30,12 +30,23 @@ Operation = function(opts = {}) {
   const options = Object.assign({}, opts);
   this._url = options.url;
   this._client = options.client;
+  this._method = options.method || 'patch';
   this._action = options.action;
   this._actionParams = {
     params: {},
     context: {},
     input: undefined,
   };
+};
+
+/**
+ * Sets this operation method.
+ * @param {string} method - The param method.
+ * @returns {Operation} The operation itself.
+ */
+Operation.prototype.method = function(value) {
+  this._method = value;
+  return this;
 };
 
 /**
@@ -86,7 +97,7 @@ Operation.prototype.input = function(input) {
  */
 Operation.prototype.execute = function(opts = {}) {
   let options = {
-    method: 'patch',
+    method: this._method,
     url: this._computeRequestURL(),
     data: this._computeRequestBody(),
     headers: {
