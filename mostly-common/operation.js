@@ -125,7 +125,7 @@ Operation.prototype._computeRequestURL = function() {
     return [this._url, input._batchId, this._action].join('/');
   }
 
-  return [this._url, input, this._action].join('/');
+  return [this._url, input || 'null', this._action].join('/');
 };
 
 Operation.prototype._computeRequestBody = function() {
