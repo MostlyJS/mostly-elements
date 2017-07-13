@@ -146,7 +146,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
           if (response.data && response.data.status !== 0) {
             return Promise.reject({
               status: response.data.status,
-              message: response.data.status.message
+              message: response.data.message
             });
           }
           return response;
