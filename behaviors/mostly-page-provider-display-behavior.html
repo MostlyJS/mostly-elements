@@ -203,9 +203,9 @@
           this.clearSelection();
         }
         var docs = this.nxProvider.currentPage;
-        docs.forEach(function(doc) {
+        docs.forEach((doc) => {
           this.push('items', doc);
-        }.bind(this));
+        });
         this.quickFilters = this.nxProvider.quickFilters;
         this.size = this.items.length;
         this.$.list.notifyResize();
@@ -278,10 +278,12 @@
        * Selects all the items in the list.
        */
       selectAll: function() {
-        this.items.forEach(function(item) {
-          this.selectItem(item);
-        }.bind(this.$.list));
-        this._updateFlags();
+        if (this.items) {
+          this.items.forEach((item) => {
+            this.selectItem(item);
+          });
+          this._updateFlags();
+        }
       },
 
       /**
