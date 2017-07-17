@@ -96,10 +96,15 @@ Operation.prototype.input = function(input) {
  * @returns {Promise} A Promise object resolved with the result of the Operation.
  */
 Operation.prototype.execute = function(opts = {}) {
+  let url = this._computeRequestURL();
+  let body = this._computeRequestBody();
+  let data = Object.assign({}, body.params, {
+    context: body.context,
+  });
   let options = {
     method: this._method,
-    url: this._computeRequestURL(),
-    data: this._computeRequestBody(),
+    url: url,
+    data: data,
     headers: {
       'Cache-Control': 'no-cache',
       'Content-Type': this._computeContentTypeHeader(this._actionParams.input)
@@ -125,6 +130,9 @@ Operation.prototype._computeRequestURL = function() {
     return [this._url, input._batchId, this._action].join('/');
   }
 
+  if (this._action === 'create' && this._method === 'post') {
+    return this._url;
+  }
   return [this._url, input || 'null', this._action].join('/');
 };
 
