@@ -97,19 +97,22 @@ Operation.prototype.input = function(input) {
  */
 Operation.prototype.execute = function(opts = {}) {
   let url = this._computeRequestURL();
-  let body = this._computeRequestBody();
-  let data = Object.assign({}, body.params, {
-    context: body.context,
-  });
+  let data = this._computeRequestBody();
   let options = {
     method: this._method,
     url: url,
-    data: data,
     headers: {
       'Cache-Control': 'no-cache',
       'Content-Type': this._computeContentTypeHeader(this._actionParams.input)
     }
   };
+  if (this._method === 'get' || this._method === 'delete') {
+    options.params = Object.assign({}, data.params);
+  } else {
+    options.data = Object.assign({}, data.params, {
+      context: data.context,
+    });
+  }
   options = Object.assign(options, opts);
   return this._client.request(options);
 };
@@ -131,6 +134,9 @@ Operation.prototype._computeRequestURL = function() {
   }
 
   if (this._action === 'create' && this._method === 'post') {
+    return this._url;
+  }
+  if (this._action === 'remove' && this._method === 'delete') {
     return this._url;
   }
   return [this._url, input || 'null', this._action].join('/');
