@@ -81,7 +81,7 @@ An element wrapping Select2 and relying on an operation for suggestions
         return this.multiple ? !!this.value && this.value.length > 0 : !!this.value;
       },
 
-      // Implements abstract Nuxeo.Select2 methods
+      // Implements abstract Mostly.Select2 methods
       _query: function (query) {
         var params = this.params || {};
         params.searchTerm = query.term;
