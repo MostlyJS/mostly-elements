@@ -137,7 +137,7 @@ Operation.prototype._computeRequestURL = function() {
     return this._url;
   }
   if (this._action === 'remove' && this._method === 'delete') {
-    return this._url;
+    return [this._url, input || 'null'].join('/');
   }
   return [this._url, input || 'null', this._action].join('/');
 };

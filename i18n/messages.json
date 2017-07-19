@@ -243,6 +243,7 @@
   "deleteBlobButton.dialog.yes": "Yes",
   "deleteBlobButton.deleted": "File deleted",
   "deleteBlobButton.tooltip": "Delete",
+  "deleteDocumentsButton.confirm.moveToTrash": "Move selected document(s) to trash?",
   "deleteDocumentsButton.confirm.deleteDocumentsForever": "Permanently delete selected document(s)?",
   "deleteDocumentsButton.tooltip": "Delete selected items",
   "deleteTemplateButton.dialog.confirm": "Delete Template",
