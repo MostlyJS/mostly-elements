@@ -133,6 +133,9 @@ Operation.prototype._computeRequestURL = function() {
     return [this._url, input._batchId, this._action].join('/');
   }
 
+  if (this._action === 'find' && this._method === 'get') {
+    return this._url;
+  }
   if (this._action === 'create' && this._method === 'post') {
     return this._url;
   }
