@@ -286,17 +286,6 @@
   </template>
 </nuxeo-slot-content>
 
-<nuxeo-slot-content name="clipboardDrawerItem" slot="DRAWER_ITEMS" order="90">
-  <template>
-    <mostly-menu-icon name="clipboard" icon="nuxeo:clipboard" label="app.clipboard" badge="[[clipboardCount]]"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="clipboardDrawerPage" slot="DRAWER_PAGES">
-  <template>
-    <nuxeo-clipboard name="clipboard" id="clipboard" target-document="[[currentDocument]]"></nuxeo-clipboard>
-  </template>
-</nuxeo-slot-content>
-
 <!-- RESULT SELECTION ACTIONS -->
 
 <nuxeo-slot-content name="addToClipboardSelectionAction" slot="RESULTS_SELECTION_ACTIONS" order="20">
