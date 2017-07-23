@@ -393,7 +393,7 @@
         actionContext: {
           type: Object,
           // TODO: not working with currentDocument, clipboardDocCount?
-          computed: '_actionContext(currentDocument, currentUser, processes, currentProcess, processCount, clipboard)'
+          computed: '_actionContext(currentDocument, currentUser, processes, currentProcess, processCount, clipboard, clipboardDocCount)'
         },
 
         clipboard: {
@@ -558,8 +558,8 @@
           processCount: this.processCount,
           processes: this.processes,
           currentProcess: this.currentProcess,
-          //clipboardDocCount: this.clipboardDocCount,
-          //clipboard: this.clipboard,
+          clipboardDocCount: this.clipboardDocCount,
+          clipboard: this.clipboard,
           //actionContext: this.actionContext
         };
       },
