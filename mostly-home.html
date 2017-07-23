@@ -93,16 +93,16 @@
             </mostly-data-table>
           </paper-card>
            
-          <!-- tasks -->
+          <!-- processes -->
           <paper-card>
             <h3><iron-icon icon="nuxeo:tasks" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
             <mostly-processes-list id="processLists" processes="[[processes]]"></mostly-processes-list>
           </paper-card>
            
-          <!-- recently viewed
+          <!-- recently viewed -->
           <paper-card>
             <h3><iron-icon icon="nuxeo:recent" name="Recently Viewed"></iron-icon>[[i18n('app.recentlyViewed')]]</h3>
-            <nuxeo-document-storage id="recentStorage" name="nuxeo-recent-documents" documents="{{recentDocuments}}"></nuxeo-document-storage>
+            <playing-document-storage id="recentStorage" name="nuxeo-recent-documents" documents="{{recentDocuments}}"></playing-document-storage>
             <mostly-data-table id="latestViewedDocs"
               items="[[recentDocuments]]"
               empty-label="[[i18n('recentDocuments.empty')]]"
@@ -126,7 +126,7 @@
               </mostly-data-table-column>
             </mostly-data-table>
           </paper-card>
-           -->
+          
           <!-- favorites
           <paper-card>
             <h3><iron-icon icon="nuxeo:favorites" name="Favorites"></iron-icon>[[i18n('home.favorites')]]</h3>

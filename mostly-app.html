@@ -510,7 +510,7 @@
           } else {
             var recent = this.$$('#recent');
             if (recent) {
-              //TODO recent.add(doc);
+              recent.add(doc);
             }
             this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
               doc.metadata.breadcrumbs.slice(-1)[0];
