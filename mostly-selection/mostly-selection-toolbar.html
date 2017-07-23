@@ -7,7 +7,7 @@
 
 <!--
 `mostly-selection-toolbar`
-@group Nuxeo UI
+@group Mostly UI
 @element mostly-selection-toolbar
 -->
 <dom-module id="mostly-selection-toolbar">
@@ -79,7 +79,7 @@
       <paper-dialog-scrollable>
         <template is="dom-repeat" items="[[selectedItems]]">
           <div class="layout horizontal center">
-            <mostly-thumbnail document="[[item]]"></mostly-thumbnail><div>[[item.title]]</div>
+            <mostly-thumbnail url="[[item.metadata.thumbnail.url]]"></mostly-thumbnail><div>[[item.title]]</div>
           </div>
         </template>
       </paper-dialog-scrollable>
