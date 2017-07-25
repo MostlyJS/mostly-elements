@@ -7,12 +7,12 @@
 An element to interact with page provider aggregations as suggestions.
 
     <mostly-page-provider provider="default_search" auto
-                         aggregations="{{aggregations}}"
-                         params="[[params]]">
+            aggregations="{{aggregations}}"
+            params="[[params]]">
     </mostly-page-provider>
 
-    <mostly-dropdown-aggregation data="[[aggregations.dc_creator_agg]]" multiple
-                                value="{{params.dc_creator_agg}}">
+    <mostly-dropdown-aggregation data="[[aggregations.authors]]" multiple
+            value="{{params.authors}}">
     </mostly-dropdown-aggregation>
 
 @group Mostly UI
@@ -72,15 +72,15 @@ An element to interact with page provider aggregations as suggestions.
       ],
 
       _computeData: function () {
-        if (this.data) {
-          this._computedData = this.data.extendedBuckets.map(function (item) {
+        if (this.data && this.data.buckets) {
+          this._computedData = this.data.buckets.map((item) => {
             var label = this._computeLabel(item) + ' (' + item.docCount + ')';
             return {
               id: item.key,
               text: label,
               displayLabel: label
             };
-          }.bind(this));
+          });
         } else {
           this._computedData = [];
         }

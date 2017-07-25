@@ -35,16 +35,16 @@
       ],
 
       _observeData: function() {
-        if (this.data && this.data.extendedBuckets) {
-          this._isEmpty = this.data.extendedBuckets.length === 0;
+        if (this.data && this.data.buckets) {
+          this._isEmpty = this.data.buckets.length === 0;
         } else {
           this._isEmpty = true;
         }
       },
 
       _computeBuckets: function(data) {
-        if (data) {
-          var buckets = data.extendedBuckets;
+        if (data && data.buckets) {
+          var buckets = data.buckets;
           var selectedBuckets = data.selection;
           buckets.forEach(function(item) {
             item.checked = selectedBuckets.indexOf(item.key) >= 0;
@@ -66,9 +66,9 @@
       _computeLabel: function(item) {
         if (item.fetchedKey) {
           var entry = item.fetchedKey;
-          if (entry['entity-type'] === 'directoryEntry') {
+          if (entry['type'] === 'directoryEntry') {
             return this.labelForDirectoryEntry(entry);
-          } else if (entry['entity-type'] === 'user') {
+          } else if (entry['type'] === 'user') {
             return this.labelForUserEntry(entry);
           } else {
             var i18nKey = this.i18n('label.ui.aggregate.' + item.key);
@@ -81,7 +81,7 @@
       },
 
       labelForDirectoryEntry: function(entry) {
-        var lang = window.nuxeo.I18n.language || 'en';
+        var lang = window.mostly.I18n.language || 'en';
         if (lang.indexOf('-') > -1) {
           lang = lang.split('-')[0];
         }

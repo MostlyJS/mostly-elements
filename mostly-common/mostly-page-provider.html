@@ -6,14 +6,14 @@
 `mostly-page-provider` performs queries on the repository and provides paginated results.
 
     <mostly-page-provider auto
-                         query="select * from Document"
-                         page-size="5"
-                         sort="updatedAt">
+            query="select * from Document"
+            page-size="5"
+            sort="updatedAt">
     </mostly-page-provider>
 
     <mostly-page-provider auto
-                         provider="users"
-                         page-size="25">
+            provider="users"
+            page-size="25">
     </mostly-page-provider>
 
 `query` is a GraphQL expression, `provider` is a RESTful endpoint name.
@@ -216,8 +216,7 @@ element.
          * or directory entry and translate directory label.
          */
         fetchAggregates: {
-          type: Boolean,
-          value: false,
+          type: String,
           observer: '_fetchAggregatesChanged'
         },
 
@@ -291,6 +290,8 @@ element.
             this.currentPage = data.slice(0);
             this.numberOfPages = Math.floor(metadata.total / metadata.limit);
             this.resultsCount = metadata.total;
+            this.aggregations = metadata.aggregations;
+            this.quickFilters = metadata.quickFilters;
             this.isNextPageAvailable = metadata.skip + metadata.limit < metadata.total;
             this.currentPageSize = metadata.limit;
             this.fire('update');
@@ -335,13 +336,11 @@ element.
       },
 
       _fetchAggregatesChanged: function() {
-        if (this.headers === null) {
-          this.headers = {};
-        }
-        if (this.fetchAggregates === true) {
-          this.headers['X-NXfetch.aggregate'] = 'key';
+        this.headers = this.headers || {};
+        if (this.fetchAggregates) {
+          this.headers['enrichers-aggregate'] = this.fetchAggregates;
         } else {
-          delete this.headers['X-NXfetch.aggregate'];
+          delete this.headers['enrichers-aggregate'];
         }
       },
 
