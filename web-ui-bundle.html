@@ -229,36 +229,6 @@
   </template>
 </nuxeo-slot-content>
 
-
-<nuxeo-slot-content name="defaultSearchMenuButton" slot="DRAWER_ITEMS" order="30">
-  <template>
-    <mostly-menu-icon name="defaultSearch" icon="nuxeo:search" label="app.search"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="defaultSearchMenuPage" slot="DRAWER_PAGES">
-  <template>
-    <nuxeo-search-form name="defaultSearch" search-name="default" auto
-                       provider="default_search" schemas="dublincore,common,uid"></nuxeo-search-form>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="expiredSearchMenuButton" slot="DRAWER_ITEMS" order="40">
-  <template>
-    <mostly-menu-icon name="expiredSearch" icon="nuxeo:expired" label="app.expiredSearch"></mostly-menu-icon>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="expiredSearchMenuPage" slot="DRAWER_PAGES">
-  <template>
-    <nuxeo-search-form name="expiredSearch" search-name="expired" queue auto
-                       provider="expired_search" schemas="dublincore,common,uid"
-                       label="expiredSearch.expiredDocuments"></nuxeo-search-form>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="searchPage" slot="PAGES">
-  <template>
-    <nuxeo-search-results name="search" id="searchResults" search-form="[[searchForm]]"></nuxeo-search-results>
-  </template>
-</nuxeo-slot-content>
-
 <nuxeo-slot-content name="errorPage" slot="PAGES">
   <template>
     <mostly-page name="error">

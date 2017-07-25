@@ -1,0 +1,206 @@
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-menu/paper-menu.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+
+<!--
+An element for selecting options.
+
+Example:
+
+    <mostly-select label="Options" options=[[options]] selected={{selected}}></mostly-select>
+
+`mostly-select`
+@group Mostly Widgets
+@element mostly-select
+-->
+<dom-module id="mostly-select">
+  <template>
+    <style>
+      :host {
+        display: block;
+        --paper-input-container-underline: {
+          border-bottom: 1px solid var(--paper-input-container-input-color) !important;
+        };
+        --paper-input-container-label: {
+          opacity: 1 !important;
+        };
+      }
+
+      paper-menu {
+        --paper-menu-selected-item: {
+          font-weight: normal;
+        };
+        --paper-menu-focused-item: {
+          font-weight: normal;
+          color: var(--paper-input-container-input-color);
+        };
+        --paper-menu-focused-item-after: {
+          font-weight: normal;
+          color: var(--nuxeo-box, white);
+        }
+      }
+
+      ::content paper-item {
+        font-weight: normal !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 32px;
+        min-height: 32px;
+        padding: 0 12px;
+        cursor: pointer;
+        color: var(--paper-input-container-input-color);
+      }
+
+      ::content paper-item:hover, ::content paper-item[pressed] {
+        background: var(--paper-input-container-focus-color);
+        color: var(--nuxeo-box, white) !important;
+      }
+    </style>
+
+    <paper-dropdown-menu id="paperDropdownMenu"
+            label="[[label]]"
+            placeholder="[[placeholder]]"
+            error-message="[[errorMessage]]"
+            no-label-float$="[[!label]]"
+            always-float-label$="[[!label]]"
+            noink
+            no-animations
+            restore-focus-on-close="false"
+            horizontal-align="left"
+            on-paper-dropdown-open="_resize"
+            readonly$="[[readonly]]"
+            disabled$="[[disabled]]"
+            required$="[[required]]">
+
+      <paper-menu id="paperMenu" class="dropdown-content"
+              attr-for-selected="[[_computeAttrForSelected(attrForSelected, options)]]" selected="{{selected}}">
+        <template is="dom-if" if="[[options]]">
+          <template is="dom-repeat" items="[[options]]" as="item">
+            <paper-item option="[[_id(item)]]">[[_label(item)]]</paper-item>
+          </template>
+        </template>
+        <content></content>
+      </paper-menu>
+      
+    </paper-dropdown-menu>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-select',
+      behaviors: [Polymer.IronResizableBehavior],
+      properties: {
+
+        /**
+         * Label.
+         */
+        label: {
+          type: String,
+          value: null
+        },
+
+        /**
+         * Placeholder.
+         */
+        placeholder: {
+          type: String,
+          value: ' '
+        },
+
+        /**
+         * Error message.
+         */
+        errorMessage: {
+          type: String
+        },
+
+        /**
+         * Options array to show.
+         */
+        options: {
+          type: Array,
+          value: null
+        },
+
+        /**
+         * Gets or sets the selected option.
+         */
+        selected: {
+          type: String,
+          notify: true
+        },
+
+        /**
+         * Attribute value or property of an element for `selected` instead of the default `option` value.
+         */
+        attrForSelected: {
+          type: String,
+          value: null
+        },
+
+        /**
+         * Read only.
+         */
+        readonly:  {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        /**
+         * Disabled.
+         */
+        disabled:  {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        /**
+         * Required.
+         */
+        required:  {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      },
+
+      listeners: {
+        'iron-resize': '_resize'
+      },
+
+      close: function() {
+        this.$.paperDropdownMenu.close();
+      },
+
+      _resize: function() {
+        var button = this.$.paperDropdownMenu.$$('paper-menu-button');
+        button.noOverlap = true;
+        button.verticalOffset = -8;
+        var width = this.getBoundingClientRect().width;
+        if (width > 0) {
+          this.$.paperDropdownMenu.style.width = this.$.paperMenu.style.width = width + 'px';
+        }
+      },
+
+      _id: function(item) {
+        if (!this.selected) { // select first item as default selection
+          this.selected = (item && item.id) ? item.id : item;
+        }
+        return (item && item.id) ? item.id : item;
+      },
+
+      _label: function(item) {
+        return (item && item.label) ? item.label : item;
+      },
+
+      _computeAttrForSelected: function(attrForSelected, options) {
+        return options ? 'option' : attrForSelected;
+      }
+
+    });
+  </script>
+</dom-module>

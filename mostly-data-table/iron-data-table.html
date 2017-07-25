@@ -64,11 +64,11 @@ Example:
       </mostly-data-table-column>
       <mostly-data-table-column filter-by="dc_modified_agg" flex="50" sort-by="updatedAt">
         <template is="header">
-            <nuxeo-dropdown-aggregation
+            <mostly-dropdown-aggregation
                 placeholder="Modified"
                 data="[[aggregations.dc_modified_agg]]"
                 value="{{column.filterValue}}" multiple>
-            </nuxeo-dropdown-aggregation>
+            </mostly-dropdown-aggregation>
         </template>
         <template>
           [[item.updatedAt]]
@@ -76,11 +76,11 @@ Example:
       </mostly-data-table-column>
       <mostly-data-table-column filter-by="dc_creator_agg" flex="50">
               <template is="header">
-                <nuxeo-dropdown-aggregation
+                <mostly-dropdown-aggregation
                     placeholder="Author"
                     data="[[aggregations.dc_creator_agg]]"
                     value="{{column.filterValue}}" multiple>
-                </nuxeo-dropdown-aggregation>
+                </mostly-dropdown-aggregation>
             </template>
         <template>
           <span class="tag user">[[item.creator]]</span>

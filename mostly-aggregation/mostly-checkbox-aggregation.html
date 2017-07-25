@@ -1,0 +1,49 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+<link rel="import" href="../behaviors/mostly-aggregation-behavior.html">
+
+<!--
+An element to interact with page provider aggregations as checkboxes.
+
+    <mostly-page-provider provider="default_search" auto
+            aggregations="{{aggregations}}"
+            params="[[params]]">
+    </mostly-page-provider>
+
+    <mostly-checkbox-aggregation data="[[aggregations.dc_created_agg]]"
+            value="{{params.dc_created_agg}}">
+    </mostly-checkbox-aggregation>
+
+@group Mostly UI
+@element mostly-checkbox-aggregation
+-->
+<dom-module id="mostly-checkbox-aggregation">
+ <template>
+   <style>
+     paper-checkbox {
+       --paper-checkbox-label-spacing: 10px;
+       margin-bottom: 5px;
+     }
+   </style>
+
+  <div class="layout vertical">
+    <template is="dom-repeat" items="{{buckets}}">
+      <paper-checkbox noink checked="{{item.checked}}"
+              on-change="_computeValues">
+        [[_computeLabel(item)]] ([[item.docCount]])
+      </paper-checkbox>
+    </template>
+    <template is="dom-if" if="[[_isEmpty]]">
+      <label class="empty">[[i18n('checkboxAggregation.noResults')]]</label>
+    </template>
+  </div>
+
+ </template>
+ <script>
+   Polymer({
+     is: 'mostly-checkbox-aggregation',
+     behaviors: [Mostly.I18nBehavior, Mostly.AggregationBehavior]
+   });
+ </script>
+</dom-module>
