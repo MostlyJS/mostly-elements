@@ -178,15 +178,15 @@
     },
 
     _selectionFormatter: function(item) {
-      return this.escapeHTML(item.displayLabel || item.title);
+      return this.escapeHTML(item[this.displayField] || item.title);
     },
 
     _resultFormatter: function(item) {
-      return this.escapeHTML(item.displayLabel || item.title);
+      return this.escapeHTML(item[this.displayField] || item.title);
     },
 
     _newEntryFormatter: function(term) {
-      return { id: term, displayLabel: term };
+      return { id: term, [this.displayField]: term };
     },
 
     _initSelection: function(element, callback) {
@@ -194,9 +194,9 @@
         return callback(this.resolveEntry(this.value));
       }
       return callback(
-        this.value.map(function(entry) {
+        this.value.map((entry) => {
           return this.resolveEntry(entry);
-        }.bind(this))
+        })
       );
     },
 
@@ -210,7 +210,7 @@
       } else {
         return {
           id: entry,
-          displayLabel: entry
+          [this.displayField]: entry
         };
       }
     },
@@ -254,22 +254,22 @@
         params.data = this.data;
       } else {
         params.formatResult = this.resultFormatter;
-        params.query = function(query) {
+        params.query = (query) => {
           // debounce requests
-          this.debounce('_select2Query', function() {
+          this.debounce('_select2Query', () => {
             this._query(query);
-          }.bind(this), 300);
-        }.bind(this);
+          }, 300);
+        };
       }
 
       if (this.tagging) {
-        params.createSearchChoice = function(term, data) {
-          if (jQuery(data).filter(function() {
-            return this.displayLabel === term;
+        params.createSearchChoice = (term, data) => {
+          if (jQuery(data).filter(() => {
+            return this[this.displayField] === term;
           }).length === 0) {
             return this.newEntryFormatter(term);
           }
-        }.bind(this);
+        };
       }
 
       // init select2
