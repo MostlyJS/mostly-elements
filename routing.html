@@ -40,9 +40,9 @@
     page('/search/:searchName', function(data) {
       // trigger search when navigating to it directly
       if (page.len === 0) {
-        app.anticipateSearch();
+        app._searchOnLoad = true;
       }
-      app.searchName = data.params.searchName;
+      app.searchName = data.params.searchName; // trigger _updateSearch
       app.show('search');
     });
 

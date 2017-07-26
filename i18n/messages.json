@@ -739,6 +739,7 @@
   "searchForm.savePopup.label": "Enter a name for your saved search.",
   "searchForm.searchFilters": "Search Filters",
   "searchForm.shared.heading": "Share Saved Search",
+  "searchResults.layoutNotFound": "Failed to find search results layout for {0}.",
   "searchResults.noResults": "No documents match the search criteria.",
   "searchResults.results": "Search Results",
   "selectionToolbar.dialog.heading": "Selected Items",

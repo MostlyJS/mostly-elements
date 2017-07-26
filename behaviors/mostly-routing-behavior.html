@@ -22,10 +22,10 @@
       },
 
       ready: function() {
-        this.routerChangedHandler = function() {
+        this.routerChangedHandler = () => {
           this.urlFor = null;
           this.urlFor = this.generateUrl;
-        }.bind(this);
+        };
         document.addEventListener('router-changed', this.routerChangedHandler);
       },
 
