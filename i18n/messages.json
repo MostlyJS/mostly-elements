@@ -1,5 +1,6 @@
 {
   "activity.addedToCollection": "Add to Collection",
+  "activity.addedToFavorites": "Favorite",
   "activity.auditLogRoute":"Request Audit",
   "activity.documentValidated": "Validate",
   "activity.documentCheckedIn": "Check in",
@@ -16,6 +17,7 @@
   "activity.eventWorkflowCategory": "Workflow",
   "activity.lifecycleTransitionEvent": "Update lifecycle",
   "activity.removedFromCollection": "Remove from collection",
+  "activity.removeFromFavorites": "UnFavorite",
   "activity.reviewSuccessfully": "Review successfully",
   "activity.workflowCanceled": "Cancel review",
   "activity.workflowTaskAssigned": "Start review",
