@@ -28,7 +28,7 @@
      * Checks if the document can be added to a collection.
      */
     isCollectionMember: function(doc) {
-      return (doc) ? doc.metadata.facets.indexOf('NotCollectionMember') === -1 : false;
+      return doc && doc.metadata && doc.metadata.facets.indexOf('NotCollectionMember') === -1;
     },
 
     /**
@@ -85,14 +85,14 @@
      * Checks if the document has the given facet.
      */
     hasFacet: function(doc, facet) {
-      return doc && doc.metadata.facets && doc.metadata.facets.indexOf(facet) !== -1;
+      return doc && doc.metadata && doc.metadata.facets && doc.metadata.facets.indexOf(facet) !== -1;
     },
 
     /**
      * Checks if the document has the given permission.
      */
     hasPermission: function(doc, permission) {
-      return doc && doc.metadata && doc.metadata.permissions &&
+      return doc && doc.metadata && doc.metadata && doc.metadata.permissions &&
           doc.metadata.permissions.indexOf(permission) !== -1;
     },
 
@@ -121,7 +121,7 @@
      * Checks if the document belongs to a collection.
      */
     hasCollections: function(doc) {
-      return doc && doc.metadata && doc.metadata.collections &&
+      return doc && doc.metadata && doc.metadata && doc.metadata.collections &&
           doc.metadata.collections.length > 0;
     },
 
