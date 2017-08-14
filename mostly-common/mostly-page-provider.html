@@ -131,6 +131,13 @@ element.
         },
 
         /**
+         * The result interceptor function
+         */
+        interceptor: {
+          type: Object
+        },
+
+        /**
          * Map of properties and direction 'asc' / 'desc'
          */
         sort: {
@@ -228,6 +235,8 @@ element.
           notify: true,
           readOnly: true
         }
+
+
       },
 
       observers: [
@@ -287,14 +296,14 @@ element.
           .then((response) => {
             var data = response.data;
             var metadata = response.metadata;
-            this.currentPage = data.slice(0);
+            this.currentPage = this.interceptor? this.interceptor(data.slice(0)) : data.slice(0);
             this.numberOfPages = Math.floor(metadata.total / metadata.limit);
             this.resultsCount = metadata.total;
             this.aggregations = metadata.aggregations;
             this.quickFilters = metadata.quickFilters;
             this.isNextPageAvailable = metadata.skip + metadata.limit < metadata.total;
             this.currentPageSize = metadata.limit;
-            this.fire('update');
+            this.fire('update'); // trigger PageProviderDisplayBehavior _updateResults
             return response;
           }).catch((err) => {
             this.fire('error', { error : err });

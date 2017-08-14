@@ -70,7 +70,7 @@ element.
       /* The `content enricher` of the resource. */
       enrichers: {type: String, value: ''},
 
-      /* The `content enricher` entity-type of the resource. Default value for Nuxeo Document Model*/
+      /* The `content enricher` entity-type of the resource. Default value for Document Model*/
       enrichersEntity: {type: String, value: 'document'},
 
       /* The `content type` of the request */
@@ -156,10 +156,6 @@ element.
         options.data = this.data;
       }
 
-      // Look up document schemas to be returned
-      if (this.schemas && this.schemas.length > 1) {
-        options.schemas = this.schemas.trim().split(/[\s,]+/);
-      }
       // Look up headers parameter
       options.headers = this.headers || {};
       // add support for plain text responses by default
@@ -169,6 +165,10 @@ element.
       // Look up content enrichers parameter
       if (this.enrichers) {
         options.headers['enrichers-' + this.enrichersEntity] = this.enrichers;
+      }
+      // Look up document schemas to be returned
+      if (this.schemas && this.schemas.length > 1) {
+        options.headers.schemas = this.schemas.trim().split(/[\s,]+/);
       }
 
       // resolve with full response to skip default unmarshallers

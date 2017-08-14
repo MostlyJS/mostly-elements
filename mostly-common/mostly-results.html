@@ -193,7 +193,7 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
       _updateViews: function() {
         var hasDisplayMode;
         this._displayModes = [];
-        this.$.views.items.forEach(function(view) {
+        this.$.views.items.forEach((view) => {
           var name = view.getAttribute("name"),
               icon = view.getAttribute("icon");
           view.nxProvider = this.nxProvider;
@@ -204,7 +204,7 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
             hasDisplayMode = true;
           }
           this.push('_displayModes', {name: name, icon: icon});
-        }.bind(this));
+        });
 
         // if current selected display mode is not available use the first one
         if (!hasDisplayMode) {
