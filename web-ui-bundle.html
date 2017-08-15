@@ -1,35 +1,5 @@
 <!-- ADMIN -->
 
-<nuxeo-slot-content name="adminAnalyticsMenuItem" slot="ADMINISTRATION_MENU" order="10">
-  <template>
-    <nuxeo-filter user="[[user]]" expression="user.isAdministrator">
-      <template>
-        <mostly-menu-item name="analytics" label="analytics.heading" route="administration:analytics"></mostly-menu-item>
-      </template>
-    </nuxeo-filter>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="adminAnalyticsPage" slot="ADMINISTRATION_PAGES">
-  <template>
-    <nuxeo-filter user="[[user]]" expression="user.isAdministrator">
-      <template>
-        <nuxeo-analytics name="analytics" selected="document-distribution"></nuxeo-analytics>
-      </template>
-    </nuxeo-filter>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="adminUserManagementMenuItem" slot="ADMINISTRATION_MENU" order="20">
-  <template>
-    <mostly-menu-item name="user-group-management" label="admin.usersAndGroups.heading" route="administration:user-group-management"></mostly-menu-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="adminUserManagementPage" slot="ADMINISTRATION_PAGES">
-  <template>
-    <nuxeo-user-group-management-page name="user-group-management" is-administrator$="[[user.isAdministrator]]" entity="[[entity]]"></nuxeo-user-group-management-page>
-  </template>
-</nuxeo-slot-content>
-
 <nuxeo-slot-content name="adminVocabManagementMenuItem" slot="ADMINISTRATION_MENU" order="30">
   <template>
     <mostly-menu-item name="vocabulary-management" label="vocabularyManagement.heading" route="administration:vocabulary-management"></mostly-menu-item>
@@ -60,89 +30,6 @@
 <nuxeo-slot-content name="adminCloudServicesPage" slot="ADMINISTRATION_PAGES">
   <template>
     <nuxeo-cloud-services name="cloud-services" id="cloud-services"></nuxeo-cloud-services>
-  </template>
-</nuxeo-slot-content>
-
-<!-- ANALYTICS -->
-
-<nuxeo-slot-content name="analyticsDocumentDistributionItem" slot="ANALYTICS_ITEMS" order="10">
-  <template>
-    <mostly-page-item name="document-distribution" label="analytics.document.distribution"></mostly-page-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="analyticsDocumentDistributionPage" slot="ANALYTICS_PAGES" order="10">
-  <template>
-    <nuxeo-distribution-analytics name="document-distribution"></nuxeo-distribution-analytics>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="analyticsRepositoryItem" slot="ANALYTICS_ITEMS" order="20">
-  <template>
-    <mostly-page-item name="repository" label="analytics.repository"></mostly-page-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="analyticsRepositoryPage" slot="ANALYTICS_PAGES" order="20">
-  <template>
-    <nuxeo-repository-analytics name="repository"></nuxeo-repository-analytics>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="analyticsSearchItem" slot="ANALYTICS_ITEMS" order="30">
-  <template>
-    <mostly-page-item name="search" label="analytics.search"></mostly-page-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="analyticsSearchPage" slot="ANALYTICS_PAGES" order="30">
-  <template>
-    <nuxeo-search-analytics name="search"></nuxeo-search-analytics>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="analyticsWorkflowItem" slot="ANALYTICS_ITEMS" order="40">
-  <template>
-    <mostly-page-item name="workflow" label="analytics.workflow"></mostly-page-item>
-  </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="analyticsWorkflowPage" slot="ANALYTICS_PAGES" order="40">
-  <template>
-    <nuxeo-workflow-analytics name="workflow"></nuxeo-workflow-analytics>
-  </template>
-</nuxeo-slot-content>
-
-<!-- DOCUMENT ACTIONS -->
-
-<nuxeo-slot-content name="exportDocumentAction" slot="DOCUMENT_ACTIONS" order="80">
-  <template>
-    <nuxeo-export-button document="[[document]]"></nuxeo-export-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="workflowDocumentAction" slot="DOCUMENT_ACTIONS" order="90">
-  <template>
-    <nuxeo-workflow-button document="[[document]]"></nuxeo-workflow-button>
-  </template>
-</nuxeo-slot-content>
-
-<!-- DOCUMENT CREATE ACTIONS -->
-
-<nuxeo-slot-content name="defaultDocumentCreateActions" slot="DOCUMENT_CREATE_ACTIONS" order="10">
-  <template>
-    <nuxeo-document-create-shortcuts host-visible$=[[hostVisible]]
-                                     subtypes="[[subtypes]]"></nuxeo-document-create-shortcuts>
-  </template>
-</nuxeo-slot-content>
-
-<!-- DOCUMENT CREATION WIZARD -->
-
-<nuxeo-slot-content name="documentCreateItem" slot="CREATE_POPUP_ITEMS" order="10">
-  <template>
-    <paper-tab name="create">[[i18n('documentCreatePopup.create')]]</paper-tab>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="documentImportItem" slot="CREATE_POPUP_ITEMS" order="20">
-  <template>
-    <paper-tab name="import">[[i18n('documentCreatePopup.import')]]</paper-tab>
   </template>
 </nuxeo-slot-content>
 
