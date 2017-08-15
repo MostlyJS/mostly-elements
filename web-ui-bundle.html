@@ -109,82 +109,7 @@
   </template>
 </nuxeo-slot-content>
 
-<!-- BLOB ACTIONS -->
-
-<nuxeo-slot-content name="deleteBlobAction" slot="BLOB_ACTIONS" order="10">
-  <template>
-    <nuxeo-delete-blob-button document="[[document]]" xpath="[[xpath]]"></nuxeo-delete-blob-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="previewBlobAction" slot="BLOB_ACTIONS" order="20">
-  <template>
-    <nuxeo-preview-button document="[[document]]" xpath="[[xpath]]"></nuxeo-preview-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="downloadBlobAction" slot="BLOB_ACTIONS" order="30">
-  <template>
-    <nuxeo-download-button document="[[document]]" xpath="[[xpath]]"></nuxeo-download-button>
-  </template>
-</nuxeo-slot-content>
-
-<!-- COLECTION ACTIONS -->
-
-<nuxeo-slot-content name="removeCollectionAction" slot="COLLECTION_ACTIONS" order="10">
-  <template>
-    <nuxeo-collection-remove-action members="[[selectedItems]]" all-members="[[items]]" collection="[[collection]]">
-    </nuxeo-collection-remove-action>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="moveTopCollectionAction" slot="COLLECTION_ACTIONS" order="20">
-  <template>
-    <nuxeo-collection-move-top-action members="[[selectedItems]]" all-members="[[items]]" collection="[[collection]]">
-    </nuxeo-collection-move-top-action>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="moveUpCollectionAction" slot="COLLECTION_ACTIONS" order="30">
-  <template>
-    <nuxeo-collection-move-up-action members="[[selectedItems]]" all-members="[[items]]" collection="[[collection]]">
-    </nuxeo-collection-move-up-action>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="moveDownCollectionAction" slot="COLLECTION_ACTIONS" order="40">
-  <template>
-    <nuxeo-collection-move-down-action members="[[selectedItems]]" all-members="[[items]]" collection="[[collection]]">
-    </nuxeo-collection-move-down-action>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="moveBottomCollectionAction" slot="COLLECTION_ACTIONS" order="50">
-  <template>
-    <nuxeo-collection-move-bottom-action members="[[selectedItems]]" all-members="[[items]]" collection="[[collection]]">
-    </nuxeo-collection-move-bottom-action>
-  </template>
-</nuxeo-slot-content>
-
 <!-- DOCUMENT ACTIONS -->
-
-<nuxeo-slot-content name="clipboardToggleDocumentAction" slot="DOCUMENT_ACTIONS" order="50">
-  <template>
-    <nuxeo-clipboard-toggle-button document="[[document]]" clipboard="[[clipboard]]"></nuxeo-clipboard-toggle-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="lockToggleDocumentAction" slot="DOCUMENT_ACTIONS" order="60">
-  <template>
-    <nuxeo-lock-toggle-button document="[[document]]"></nuxeo-lock-toggle-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="previewDocumentAction" slot="DOCUMENT_ACTIONS" order="70">
-  <template>
-    <nuxeo-preview-button document="[[document]]"></nuxeo-preview-button>
-  </template>
-</nuxeo-slot-content>
 
 <nuxeo-slot-content name="exportDocumentAction" slot="DOCUMENT_ACTIONS" order="80">
   <template>
@@ -248,27 +173,12 @@
     <mostly-menu-icon name="personalWorkspace" icon="nuxeo:user-space" label="app.personalSpace"></mostly-menu-icon>
   </template>
 </nuxeo-slot-content>
+
 <nuxeo-slot-content name="personalWorkspaceDrawerPage" slot="DRAWER_PAGES">
   <template>
     <playing-document-tree name="personalWorkspace" label="app.personalSpace"
             current-document="[[currentDocument]]"
             root-doc-path="[[userWorkspace]]"></playing-document-tree>
-  </template>
-</nuxeo-slot-content>
-
-<!-- RESULT SELECTION ACTIONS -->
-
-<nuxeo-slot-content name="addToClipboardSelectionAction" slot="RESULTS_SELECTION_ACTIONS" order="20">
-  <template>
-    <nuxeo-clipboard-documents-button documents="[[selectedItems]]">
-    </nuxeo-clipboard-documents-button>
-  </template>
-</nuxeo-slot-content>
-
-<nuxeo-slot-content name="deleteSelectionAction" slot="RESULTS_SELECTION_ACTIONS" order="30">
-  <template>
-    <nuxeo-delete-documents-button documents="[[selectedItems]]">
-    </nuxeo-delete-documents-button>
   </template>
 </nuxeo-slot-content>
 
