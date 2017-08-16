@@ -236,7 +236,7 @@
         <paper-menu id="menu" selected="{{selectedTab}}" attr-for-selected="name" selected-class="selected" on-iron-activate="_toggleDrawer">
           <nuxeo-slot slot="DRAWER_ITEMS" model="[[actionContext]]"></nuxeo-slot>
           <mostly-menu-icon name="administration" icon="nuxeo:admin" label="app.administration" class="admin-icon"
-                            hidden$="[[!_hasAdministrationPermissions(currentUser)]]">
+                  hidden$="[[!_hasAdministrationPermissions(currentUser)]]">
           </mostly-menu-icon>
           <mostly-menu-icon name="profile" icon="nuxeo:user-settings" label="app.account" class="profile-icon"></mostly-menu-icon>
         </paper-menu>
@@ -247,14 +247,14 @@
 
             <nuxeo-slot slot="DRAWER_PAGES" model="[[actionContext]]"></nuxeo-slot>
 
-            <!--template is="dom-if" if="[[_hasAdministrationPermissions(currentUser)]]"-->
+            <template is="dom-if" if="[[_hasAdministrationPermissions(currentUser)]]">
               <div name="administration">
                 <div class="header">[[i18n('app.administration')]]</div>
                 <iron-selector selected="{{selectedAdminTab}}" attr-for-selected="name">
                   <nuxeo-slot slot="ADMINISTRATION_MENU" model="[[actionContext]]"></nuxeo-slot>
                 </iron-selector>
               </div>
-            <!--/template-->
+            </template>
 
             <div name="profile" class="layout vertical">
               <div class="header">[[_displayUser(currentUser)]]</div>

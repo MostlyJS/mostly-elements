@@ -38,12 +38,12 @@
     });
 
     page('/search/:searchName', function(data) {
+      app.searchName = data.params.searchName; // trigger _updateSearch
+      app.show('search');
       // trigger search when navigating to it directly
       if (page.len === 0) {
         app._searchOnLoad = true;
       }
-      app.searchName = data.params.searchName; // trigger _updateSearch
-      app.show('search');
     });
 
     page('/doc/:repo?/:id/', function(data) {
@@ -54,16 +54,16 @@
     });
 
     page('/admin/:tab?', function(data) {
-      app.entity = {};
-      app.show('admin');
       if (data.params.tab) {
         app.selectedAdminTab = data.params.tab;
       }
+      app.entity = {};
+      app.show('admin');
     });
 
     page('/admin/user-group-management/:type/:id', function(data) {
       app.selectedAdminTab = 'user-group-management';
-      app.entity = {type: data.params.type, id: data.params.id};
+      app.entity = { type: data.params.type, id: data.params.id };
       app.show('admin');
     });
 
