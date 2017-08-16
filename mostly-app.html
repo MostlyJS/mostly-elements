@@ -783,7 +783,7 @@
       },
 
       _hasAdministrationPermissions: function(user) {
-        return true || user.isAdministrator || this.isMember(user, 'powerusers');
+        return user.isAdministrator || this.isMember(user, 'powerusers');
       },
 
       _errorUrl: function() {
