@@ -140,9 +140,13 @@ Operation.prototype._computeRequestURL = function() {
     return this._url;
   }
   if (this._action === 'remove' && this._method === 'delete') {
-    return [this._url, input || 'null'].join('/');
+    return [this._url, input].join('/');
   }
-  return [this._url, input || 'null', this._action].join('/');
+  if (input) {
+    return [this._url, input, this._action].join('/');
+  } else {
+    return [this._url, this._action].join('/');
+  }
 };
 
 Operation.prototype._computeRequestBody = function() {

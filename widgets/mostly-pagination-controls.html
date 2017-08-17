@@ -1,0 +1,98 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../iron-icons/av-icons.html">
+
+<!--
+An element to handle pagination.
+
+Example:
+
+    <mostly-pagination-controls page="{{currentePage}}"
+                               number-of-pages="[[numberOfPages]]">
+    </mostly-pagination-controls>
+
+@group Mostly Elements
+@element mostly-pagination-controls
+-->
+<dom-module id="mostly-pagination-controls">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .controls {
+        color: var(--nuxeo-text-default, #000);
+        font-size: 1rem;
+        padding: 0 4px;
+      }
+
+      paper-icon-button {
+        padding: 8px;
+      }
+    </style>
+
+    <div class="horizontal layout end-justified center">
+      <paper-icon-button icon="av:skip-previous" title="First Page"
+              on-tap="_first" disabled$="[[_isFirst(page)]]">
+      </paper-icon-button>
+      <paper-icon-button icon="icons:chevron-left" title="Previous Page"
+              on-tap="_previous" disabled$="[[_isFirst(page)]]">
+      </paper-icon-button>
+      <span class="controls">[[page]]/[[numberOfPages]]</span>
+      <paper-icon-button icon="icons:chevron-right" title="Next Page"
+              on-tap="_next" disabled$="[[_isLast(page, numberOfPages)]]">
+      </paper-icon-button>
+      <paper-icon-button icon="av:skip-next" title="Last Page"
+              on-tap="_last" disabled$="[[_isLast(page, numberOfPages)]]">
+      </paper-icon-button>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-pagination-controls',
+
+      properties: {
+        /**
+         * The current page.
+         */
+        page: {
+          type: Number,
+          value: 1,
+          notify: true
+        },
+
+        /**
+         * The current number of pages.
+         */
+        numberOfPages: Number
+      },
+
+      _previous: function() {
+        this.page--;
+      },
+
+      _next: function() {
+        this.page++;
+      },
+
+      _first: function() {
+        this.page = 1;
+      },
+
+      _last: function() {
+        this.page = this.numberOfPages;
+      },
+
+      _isFirst: function(page) {
+        return page == 1;
+      },
+
+      _isLast: function(page) {
+        return page == this.numberOfPages;
+      }
+    });
+  </script>
+</dom-module>
