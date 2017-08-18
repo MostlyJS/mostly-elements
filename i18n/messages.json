@@ -484,6 +484,7 @@
   "groupManagement.filterGroups.placeholder": "Type to filter groups",
   "groupManagement.filterUsers.placeholder": "Type to filter users",
   "groupManagement.group.label": "Group Label",
+  "groupManagement.group.description": "Group Description",
   "groupManagement.group.updated": "Group updated",
   "groupManagement.identifier": "Identifier",
   "groupManagement.member": "member",

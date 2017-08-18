@@ -59,6 +59,9 @@ element.
       /* The response from the server. */
       response: {type: Object, value: null, notify: true},
 
+      /* The response.data from the server. */
+      responseData: {type: Object, value: null, notify: true},
+
       /* The `entity-type` of the resource. */
       type: {type: String, value: ''},
 
@@ -197,6 +200,7 @@ element.
       return this._request(config).then(response => {
         this.fire('response', { response: response.data });
         this.response = response.data;
+        this.responseData = this.response.data || this.response;
         this.success = true;
         this._setActiveRequests(this.activeRequests - 1);
         return this.response;
