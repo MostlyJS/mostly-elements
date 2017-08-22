@@ -53,9 +53,6 @@ element.
       /* The parameters to send. */
       params: {type: Object, value: null},
 
-      /* The parameters $select to send. */
-      select: {type: Object, value: null},
-
       /* The data to pass to the server. */
       data: {type: Object, value: null},
 
@@ -172,16 +169,14 @@ element.
       if (this.enrichers) {
         options.headers['enrichers-' + this.enrichersEntity] = this.enrichers;
       }
-      // Look up document schemas to be returned
-      if (this.schemas && this.schemas.length > 1) {
-        options.headers.schemas = this.schemas.trim().split(/[\s,]+/);
-      }
-
       // resolve with full response to skip default unmarshallers
       options.resolveWithFullResponse = true;
 
       var params = this.params || {};
-      if (this.select) params.$select = this.select;
+      // Look up document schemas to be returned
+      if (this.schemas && this.schemas.length > 1) {
+        params.$select = this.schemas.trim().split(/[\s,]+/);
+      }
       return this.$.nx.request().then(request => {
         this._request = request;
         return this._doExecute(params, options);
