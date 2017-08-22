@@ -53,6 +53,9 @@ element.
       /* The parameters to send. */
       params: {type: Object, value: null},
 
+      /* The parameters $select to send. */
+      select: {type: Object, value: null},
+
       /* The data to pass to the server. */
       data: {type: Object, value: null},
 
@@ -178,6 +181,7 @@ element.
       options.resolveWithFullResponse = true;
 
       var params = this.params || {};
+      if (this.select) params.$select = this.select;
       return this.$.nx.request().then(request => {
         this._request = request;
         return this._doExecute(params, options);
