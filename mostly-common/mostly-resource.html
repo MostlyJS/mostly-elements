@@ -175,7 +175,7 @@ element.
       var params = this.params || {};
       // Look up document schemas to be returned
       if (this.schemas && this.schemas.length > 1) {
-        params.$select = this.schemas.trim().split(/[\s,]+/);
+        params.$select = this.schemas;
       }
       return this.$.nx.request().then(request => {
         this._request = request;
