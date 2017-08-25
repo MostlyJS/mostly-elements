@@ -144,6 +144,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
         // add a response status interceptor
         this.client.interceptors.response.use(function (response) {
           if (response.data && response.data.status !== 0) {
+            console.error(`request ${response.request.responseURL} failed:`, response.data.status, response.data.message);
             return Promise.reject({
               status: response.data.status,
               message: response.data.message
