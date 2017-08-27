@@ -940,7 +940,7 @@
   "vocabularyManagement.edit.actions": "Actions",
   "vocabularyManagement.edit.id": "ID",
   "vocabularyManagement.edit.label_en": "English Label",
-  "vocabularyManagement.edit.label_fr": "French Label",
+  "vocabularyManagement.edit.label_zh": "Chinese Label",
   "vocabularyManagement.edit.label": "Label",
   "vocabularyManagement.edit.obsolete": "Obsolete",
   "vocabularyManagement.edit.ordering": "Ordering",
