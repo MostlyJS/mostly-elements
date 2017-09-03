@@ -507,20 +507,25 @@
         this.docAction = action;
         this.$.doc.get().then(resp => {
           var doc = resp.data;
-          if (this.docId && !doc.isVersion) {
-            this.docId = '';
-            this.docPath = doc.path;
-            this.navigateTo('browse', doc.path);
-          } else {
-            var recent = this.$$('#recent');
-            if (recent) {
-              recent.add(doc);
+          if (doc) {
+            if (this.docId && !doc.isVersion) {
+              this.docId = '';
+              this.docPath = doc.path;
+              this.navigateTo('browse', doc.path);
+            } else {
+              var recent = this.$$('#recent');
+              if (recent) {
+                recent.add(doc);
+              }
+              this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
+                doc.metadata.breadcrumbs.slice(-1)[0];
+              this.set('currentDocument', doc);
+              this.loading = false;
+              this.show(page);
             }
-            this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
-              doc.metadata.breadcrumbs.slice(-1)[0];
-            this.set('currentDocument', doc);
-            this.loading = false;
-            this.show(page);
+          } else {
+            console.error('load document is null', id, path);
+            this.showError(404, this.i18n('browse.error'), path);
           }
         }).catch(err => {
           console.error('load', err.status, err.message);
