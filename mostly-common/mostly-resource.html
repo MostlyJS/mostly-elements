@@ -173,6 +173,9 @@ element.
       options.resolveWithFullResponse = true;
 
       var params = this.params || {};
+      if (typeof this.params === 'string') {
+        params = JSON.parse(this.params);
+      }
       // Look up document schemas to be returned
       if (this.schemas && this.schemas.length > 1) {
         params.$select = this.schemas;
