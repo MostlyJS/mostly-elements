@@ -209,8 +209,8 @@
         }
       } else {
         return {
-          id: entry,
-          [this.displayField]: entry
+          id: entry.id,
+          [this.displayField]: entry[this.displayField]
         };
       }
     },
