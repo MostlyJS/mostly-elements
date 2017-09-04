@@ -207,10 +207,15 @@
                 return this.data[i];
             }
         }
-      } else {
+      } else if (typeof entry === 'object') {
         return {
           id: entry.id,
           [this.displayField]: entry[this.displayField]
+        };
+      } else {
+        return {
+          id: entry,
+          [this.displayField]: entry
         };
       }
     },
