@@ -1,36 +1,36 @@
 <!-- ADMIN -->
 
-<nuxeo-slot-content name="adminAuditMenuItem" slot="ADMINISTRATION_MENU" order="40">
+<mostly-slot-content name="adminAuditMenuItem" slot="ADMINISTRATION_MENU" order="40">
   <template>
     <mostly-menu-item name="audit" label="audit.heading" route="administration:audit"></mostly-menu-item>
   </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="adminAuditPage" slot="ADMINISTRATION_PAGES">
+</mostly-slot-content>
+<mostly-slot-content name="adminAuditPage" slot="ADMINISTRATION_PAGES">
   <template>
     <nuxeo-audit name="audit" id="audit"></nuxeo-audit>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
-<nuxeo-slot-content name="adminCloudServicesMenuItem" slot="ADMINISTRATION_MENU" order="50">
+<mostly-slot-content name="adminCloudServicesMenuItem" slot="ADMINISTRATION_MENU" order="50">
   <template>
     <mostly-menu-item name="cloudServices" label="cloudServices.heading" route="administration:cloud-services"></mostly-menu-item>
   </template>
-</nuxeo-slot-content>
-<nuxeo-slot-content name="adminCloudServicesPage" slot="ADMINISTRATION_PAGES">
+</mostly-slot-content>
+<mostly-slot-content name="adminCloudServicesPage" slot="ADMINISTRATION_PAGES">
   <template>
     <nuxeo-cloud-services name="cloud-services" id="cloud-services"></nuxeo-cloud-services>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
 <!-- DRAWER -->
 
-<nuxeo-slot-content name="homePage" slot="PAGES" order="0">
+<mostly-slot-content name="homePage" slot="PAGES" order="0">
   <template>
     <mostly-home name="home" processes="[[processes]]"></mostly-home>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
-<nuxeo-slot-content name="errorPage" slot="PAGES">
+<mostly-slot-content name="errorPage" slot="PAGES">
   <template>
     <mostly-page name="error">
       <div class="header"></div>
@@ -42,52 +42,52 @@
       </div>
     </mostly-page>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
-<nuxeo-slot-content name="personalWorkspaceDrawerItem" slot="DRAWER_ITEMS" order="80">
+<mostly-slot-content name="personalWorkspaceDrawerItem" slot="DRAWER_ITEMS" order="80">
   <template>
     <mostly-menu-icon name="personalWorkspace" icon="mostly:user-space" label="app.personalSpace"></mostly-menu-icon>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
-<nuxeo-slot-content name="personalWorkspaceDrawerPage" slot="DRAWER_PAGES">
+<mostly-slot-content name="personalWorkspaceDrawerPage" slot="DRAWER_PAGES">
   <template>
     <playing-document-tree name="personalWorkspace" label="app.personalSpace"
             current-document="[[currentDocument]]"
             root-doc-path="[[userWorkspace]]"></playing-document-tree>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
 <!-- THEMES -->
 
-<nuxeo-slot-content name="defaultTheme" slot="THEMES" order="10">
+<mostly-slot-content name="defaultTheme" slot="THEMES" order="10">
   <template>
     <mostly-theme name="default"></mostly-theme>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
-<nuxeo-slot-content name="darkTheme" slot="THEMES" order="20">
+<mostly-slot-content name="darkTheme" slot="THEMES" order="20">
   <template>
     <mostly-theme name="dark"></mostly-theme>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
-<nuxeo-slot-content name="kawaiiTheme" slot="THEMES" order="30">
+<mostly-slot-content name="kawaiiTheme" slot="THEMES" order="30">
   <template>
     <mostly-theme name="kawaii"></mostly-theme>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
-<nuxeo-slot-content name="lightTheme" slot="THEMES" order="40">
+<mostly-slot-content name="lightTheme" slot="THEMES" order="40">
   <template>
     <mostly-theme name="light"></mostly-theme>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>
 
 <!-- USER MENU -->
 
-<nuxeo-slot-content name="themesUserMenuItem" slot="USER_MENU" order="20">
+<mostly-slot-content name="themesUserMenuItem" slot="USER_MENU" order="20">
   <template>
     <mostly-menu-item name="themes" label="app.user.themes" route="page:themes"></mostly-menu-item>
   </template>
-</nuxeo-slot-content>
+</mostly-slot-content>

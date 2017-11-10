@@ -2,7 +2,7 @@
 <link rel="import" href="../../iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../../iron-pages/iron-pages.html">
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-slots.html">
+<link rel="import" href="../mostly-slots.html">
 <link rel="import" href="mostly-connection.html">
 <link rel="import" href="../behaviors/mostly-format-behavior.html">
 <link rel="import" href="../behaviors/mostly-routing-behavior.html">
@@ -81,7 +81,7 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
               on-clear-selected-items="_clearSelectedItems">
 
         <content select=".selectionActions"></content>
-        <nuxeo-slot slot="RESULTS_SELECTION_ACTIONS" model="[[actionContext]]"></nuxeo-slot>
+        <mostly-slot slot="RESULTS_SELECTION_ACTIONS" model="[[actionContext]]"></mostly-slot>
 
       </mostly-selection-toolbar>
 
@@ -98,9 +98,9 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
         <content select=".actions"></content>
 
         <!-- 0.9 compatibility -->
-        <nuxeo-slot slot="DOCUMENT_LISTING_ACTIONS" model="[[actionContext]]"></nuxeo-slot>
+        <mostly-slot slot="DOCUMENT_LISTING_ACTIONS" model="[[actionContext]]"></mostly-slot>
 
-        <nuxeo-slot slot="RESULTS_ACTIONS" model="[[actionContext]]"></nuxeo-slot>
+        <mostly-slot slot="RESULTS_ACTIONS" model="[[actionContext]]"></mostly-slot>
 
       </div>
 
