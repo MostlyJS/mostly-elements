@@ -235,10 +235,10 @@
         <!-- menu -->
         <paper-menu id="menu" selected="{{selectedTab}}" attr-for-selected="name" selected-class="selected" on-iron-activate="_toggleDrawer">
           <nuxeo-slot slot="DRAWER_ITEMS" model="[[actionContext]]"></nuxeo-slot>
-          <mostly-menu-icon name="administration" icon="nuxeo:admin" label="app.administration" class="admin-icon"
+          <mostly-menu-icon name="administration" icon="mostly:admin" label="app.administration" class="admin-icon"
                   hidden$="[[!_hasAdministrationPermissions(currentUser)]]">
           </mostly-menu-icon>
-          <mostly-menu-icon name="profile" icon="nuxeo:user-settings" label="app.account" class="profile-icon"></mostly-menu-icon>
+          <mostly-menu-icon name="profile" icon="mostly:user-settings" label="app.account" class="profile-icon"></mostly-menu-icon>
         </paper-menu>
 
         <!-- drawer -->
