@@ -1,0 +1,61 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+<link rel="import" href="../behaviors/mostly-format-behavior.html">
+
+<!--
+An element to show a datetime formatted with a tooltip. Format maybe relative to now
+or [moment Format](http://momentjs.com/docs/#/displaying/format/).
+
+Example:
+
+    <mostly-date datetime="2016-01-06T00:00:00.000Z"></mostly-date>
+    <mostly-date datetime="2016-01-06T00:00:00.000Z" format="relative"></mostly-date>
+
+@group Mostly UI
+@element mostly-date
+-->
+<dom-module id="mostly-date">
+  <template>
+    <span id="datetime">[[formatDate(datetime, format)]]</span>
+    <paper-tooltip id="tooltip" for="datetime">[[formatDate(datetime, tooltipFormat)]]</paper-tooltip>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-date',
+      behaviors: [Mostly.I18nBehavior, Mostly.FormatBehavior],
+      properties: {
+
+        /*
+         * A string with the date and time to be shown
+         */
+        datetime: {
+          type: String
+        },
+
+        /*
+         * The format of datetime output text representation. Options are "relative" or the
+         * [moment Format](http://momentjs.com/docs/#/displaying/format/).
+         */
+        format: {
+          type: String,
+          value: "MMMM D, YYYY"
+        },
+
+        /*
+         * The format of datetime output text tooltip. Options are "relative" or the
+         * [moment Format](http://momentjs.com/docs/#/displaying/format/).
+         */
+        tooltipFormat: {
+          type: String,
+          value: "MMMM D, YYYY HH:mm"
+        }
+      },
+
+      ready: function () {
+        document.body.appendChild(this.$.tooltip);
+      }
+    });
+  </script>
+</dom-module>
