@@ -1,0 +1,73 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../mostly-common/mostly-operation.html">
+
+<!--
+An element for running an operation.
+
+Example:
+
+    <mostly-operation-button
+        icon="icons:account-box" label="Get user"
+        operation="User.Get" response="{{operationResponse}}">
+    </mostly-operation-button>
+
+@group Mostly UI
+@element mostly-operation-button
+-->
+<dom-module id="mostly-operation-button">
+  <template>
+
+    <mostly-operation id="op" op="[[operation]]" input="[[input]]" params="[[params]]"></mostly-operation>
+
+    <paper-icon-button id="bt" icon="[[icon]]" on-tap="_execute"></paper-icon-button>
+    <paper-tooltip for="bt">[[label]]</paper-tooltip>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-operation-button',
+
+      properties: {
+
+        /* Icon */
+        icon: String,
+
+        /* Label (shown as tooltip) */
+        label: String,
+
+        /* The id of the operation to call. */
+        operation: String,
+
+        /* The operation input. */
+        input: String,
+
+        /* The parameters to send. */
+        params: {
+          type: Object,
+          value: function() {
+            return {};
+          }
+        },
+
+        /* The response from the server. */
+        response: {
+          type: Object,
+          value: null,
+          notify: true
+        }
+      },
+
+      _execute: function() {
+        this.$.op.execute().then(function(response) {
+          this.fire('operation-executed', {response: response});
+          this.response = response;
+        }.bind(this));
+      }
+
+    });
+  </script>
+</dom-module>
