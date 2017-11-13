@@ -31,7 +31,7 @@ window.mostly.I18n.loadLocale = function() {
 /**
  * The default locale resolver that reads labels from JSON files in a folder, with format messages.<language>.json
  */
-function XHRLocaleResolver(msgFolder) {
+window.mostly.I18n.XHRLocaleResolver = function(msgFolder) {
   return function() {
     return new Promise(function(resolve) {
       // point all english based locales to the reference file
@@ -48,8 +48,8 @@ function XHRLocaleResolver(msgFolder) {
               window.mostly.I18n[language] = JSON.parse(this.response); // cache this locale
               window.mostly.I18n.language = language;
               // TODO (remove nuxeo i18n)
-              window.nuxeo.I18n[language] = JSON.parse(this.response); // cache this locale
-              window.nuxeo.I18n.language = language;
+              //window.nuxeo.I18n[language] = JSON.parse(this.response); // cache this locale
+              //window.nuxeo.I18n.language = language;
               resolve(this.response);
             } else if (xhr.status === 404 && url !== referenceFile) {
               console.log('Could not find locale "' + language + '". Defaulting to "en".');

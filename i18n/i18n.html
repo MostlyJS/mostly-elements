@@ -2,7 +2,7 @@
   (function () {
     var msgFolder = (window.mostly.I18n.baseUrl || location.origin + location.pathname) + 'bower_components/mostly-elements/i18n';
     window.mostly.I18n.language = navigator.language || navigator.userLanguage || 'en';
-    window.mostly.I18n.localeResolver = new XHRLocaleResolver(msgFolder);
+    window.mostly.I18n.localeResolver = new window.mostly.I18n.XHRLocaleResolver(msgFolder);
     window.mostly.I18n.loadLocale().then(function(){
       /* Set html lang attribute. Required by the better-dateinput element */
       document.getElementsByTagName("html")[0].lang =  window.mostly.I18n.language;
