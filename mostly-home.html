@@ -71,7 +71,7 @@
               on-row-clicked="_navigate">
               <mostly-data-table-column name="[[i18n('statsProcesses.datatable.header.app')]]" flex="100">
                 <template>
-                  <nuxeo-thumbnail document="[[item]]"></nuxeo-thumbnail>
+                  <mostly-thumbnail document="[[item]]"></mostly-thumbnail>
                   <a class="ellipsis" href$="[[urlFor('service', item.app)]]">[[item.app]]</a>
                 </template>
               </mostly-data-table-column>
@@ -110,7 +110,7 @@
               on-row-clicked="_navigate">
               <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
                 <template>
-                  <nuxeo-document-thumbnail document="[[item]]"></nuxeo-document-thumbnail>
+                  <playing-document-thumbnail document="[[item]]"></playing-document-thumbnail>
                   <a class="ellipsis" href$="[[urlFor('browse', item.path)]]">[[item.title]]</a>
                 </template>
               </mostly-data-table-column>
@@ -130,14 +130,14 @@
           <!-- favorites
           <paper-card>
             <h3><iron-icon icon="mostly:favorites" name="Favorites"></iron-icon>[[i18n('home.favorites')]]</h3>
-            <nuxeo-operation id="fetchFavOp" op="Favorite.Fetch" response="favorite"></nuxeo-operation>
-            <nuxeo-page-provider id="favoritesProvider"
+            <mostly-operation id="fetchFavOp" op="Favorite.Fetch" response="favorite"></mostly-operation>
+            <mostly-page-provider id="favoritesProvider"
                provider="default_content_collection"
                page-size="20"
                schemas="*"
                headers='{"X-NXfetch.document": "properties"}'
                enrichers="thumbnail">
-            </nuxeo-page-provider>
+            </mostly-page-provider>
             <mostly-data-table
               id="favoriteDocs"
               nx-provider="favoritesProvider"
@@ -145,7 +145,7 @@
               on-row-clicked="_navigate">
               <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
                 <template>
-                  <nuxeo-document-thumbnail document="[[item]]"></nuxeo-document-thumbnail>
+                  <playing-document-thumbnail document="[[item]]"></playing-document-thumbnail>
                   <a class="ellipsis" href$="[[urlFor('browse', item.path)]]">[[item.title]]</a>
                 </template>
               </mostly-data-table-column>
@@ -156,7 +156,7 @@
               </mostly-data-table-column>
               <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.lastContributor')]]" flex="50">
                 <template>
-                  <nuxeo-user-tag user="[[item.lastContributor]]"></nuxeo-user-tag>
+                  <playing-user-tag user="[[item.lastContributor]]"></playing-user-tag>
                 </template>
               </mostly-data-table-column>
             </mostly-data-table>
