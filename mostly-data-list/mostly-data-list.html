@@ -6,7 +6,7 @@
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
 <link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-quick-filters/nuxeo-quick-filters.html">
+<link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
 
 <!--
 An element to display page provider results as a list with infinite scrolling.
@@ -40,7 +40,7 @@ Example:
       </template>
     </mostly-data-list>
 
-@group Nuxeo UI
+@group Mostly UI
 @element mostly-data-list
 @demo demo/mostly-data-list/index.html
 -->
@@ -82,8 +82,8 @@ Example:
       <content select="mostly-selection-toolbar"></content>
 
       <template is="dom-if" if="[[displayQuickFilters]]">
-        <nuxeo-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
-        </nuxeo-quick-filters>
+        <mostly-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
+        </mostly-quick-filters>
       </template>
 
       <div id="filters" class="filters">

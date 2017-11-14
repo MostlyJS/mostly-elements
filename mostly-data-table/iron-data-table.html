@@ -26,7 +26,8 @@ limitations under the License.
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
 <link rel="import" href="../widgets/mostly-dialog.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-quick-filters/nuxeo-quick-filters.html">
+<link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
+<link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
 
 <link rel="import" href="data-table-column.html">
 <link rel="import" href="data-table-column-sort.html">
@@ -41,8 +42,6 @@ limitations under the License.
 
 <link rel="import" href="mostly-data-table-row-actions.html">
 <link rel="import" href="mostly-data-table-form.html">
-
-<link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
 
 <!--
 An element to display a page provider result within a table with infinite scrolling.
@@ -185,8 +184,8 @@ Example:
       <content select="mostly-selection-toolbar"></content>
 
       <template is="dom-if" if="[[displayQuickFilters]]">
-        <nuxeo-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
-        </nuxeo-quick-filters>
+        <mostly-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
+        </mostly-quick-filters>
       </template>
 
       <div id="header">

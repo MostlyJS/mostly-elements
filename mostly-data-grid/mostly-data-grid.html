@@ -5,13 +5,13 @@
 <link rel="import" href="../../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 -->
-<link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
 <link rel="import" href="../../iron-icon/iron-icon.html">
 <link rel="import" href="../../iron-list/iron-list.html">
 <link rel="import" href="../../iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
-<link rel="import" href="../../nuxeo-ui-elements/nuxeo-quick-filters/nuxeo-quick-filters.html">
+<link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
+<link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
 
 <!--
 An element to display page provider results as a grid with infinite scrolling.
@@ -43,7 +43,7 @@ An element to display page provider results as a grid with infinite scrolling.
       </template>
     </mostly-data-grid>
 
-@group Nuxeo UI
+@group Mostly UI
 @element mostly-data-grid
 -->
 <dom-module id="mostly-data-grid">
@@ -173,8 +173,8 @@ An element to display page provider results as a grid with infinite scrolling.
       <content select="mostly-selection-toolbar"></content>
 
       <template is="dom-if" if="[[displayQuickFilters]]">
-        <nuxeo-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
-        </nuxeo-quick-filters>
+        <mostly-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
+        </mostly-quick-filters>
       </template>
 
       <div id="filters" class="filters">

@@ -22,7 +22,6 @@
 /**
  * Creates an Operation.
  * @param {string} opts - The configuration options.
- * @param {string} opts.nuxeo - The {@link Nuxeo} object linked to this `Operation` object.
  * @param {string} opts.id - The ID of the operation.
  * @param {string} opts.url - The automation URL.
  */
