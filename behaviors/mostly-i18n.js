@@ -47,9 +47,6 @@ window.mostly.I18n.XHRLocaleResolver = function(msgFolder) {
             if (xhr.status === 200) {
               window.mostly.I18n[language] = JSON.parse(this.response); // cache this locale
               window.mostly.I18n.language = language;
-              // TODO (remove nuxeo i18n)
-              //window.nuxeo.I18n[language] = JSON.parse(this.response); // cache this locale
-              //window.nuxeo.I18n.language = language;
               resolve(this.response);
             } else if (xhr.status === 404 && url !== referenceFile) {
               console.log('Could not find locale "' + language + '". Defaulting to "en".');

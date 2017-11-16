@@ -131,8 +131,8 @@ BatchUpload.prototype._fetchBatchId = function() {
  *
  * @example
  * ...
- * nuxeoBatch.upload(blob1, blob2, blob3);
- * nuxeoBatch.done()
+ * BatchUpload.upload(blob1, blob2, blob3);
+ * BatchUpload.done()
  *   .then(function(res) {
  *     // res.data.batch === batchId
  *     // res.blobs[0] is the BatchBlob object related to blob1

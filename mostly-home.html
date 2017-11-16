@@ -102,7 +102,7 @@
           <!-- recently viewed -->
           <paper-card>
             <h3><iron-icon icon="mostly:recent" name="Recently Viewed"></iron-icon>[[i18n('app.recentlyViewed')]]</h3>
-            <playing-document-storage id="recentStorage" name="nuxeo-recent-documents" documents="{{recentDocuments}}"></playing-document-storage>
+            <playing-document-storage id="recentStorage" name="playing-recent-documents" documents="{{recentDocuments}}"></playing-document-storage>
             <mostly-data-table id="latestViewedDocs"
               items="[[recentDocuments]]"
               empty-label="[[i18n('recentDocuments.empty')]]"
