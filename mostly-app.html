@@ -220,6 +220,8 @@
             enrichers="permissions, breadcrumb, preview, favorites, thumbnail, renditions, pendingTasks, collections, audit, subtypes, tags"
             schemas="parent.**,creator,books,*"></playing-document>
 
+    <mostly-operation id="userWorkspace" path="workspaces" op="me" method="get"></mostly-operation>
+
     <mostly-resource id="processes" path="processes-stats"></mostly-resource>
     <mostly-resource id="process" path="processes-stats/[[currentProcessId]]"></mostly-resource>
 
@@ -393,6 +395,10 @@
         currentUser: {
           type: Object,
           observer: '_observeCurrentUser'
+        },
+
+        userWorkspace: {
+          type: String
         },
 
         actionContext: {
@@ -570,7 +576,8 @@
           clipboardDocCount: this.clipboardDocCount,
           clipboard: this.clipboard,
           searchForm: this.searchForm,
-          //actionContext: this.actionContext
+          actionContext: this.actionContext,
+          //userWorkspace: this.userWorkspace
         };
       },
 
@@ -693,6 +700,9 @@
 
       _observeCurrentUser: function() {
         if (this.currentUser) {
+          this.$.userWorkspace.execute().then((response) => {
+            this.userWorkspace = response.path;
+          });
           this._fetchProcesses();
         }
       },
