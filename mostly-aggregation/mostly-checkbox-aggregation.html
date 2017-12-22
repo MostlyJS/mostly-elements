@@ -1,4 +1,5 @@
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="../behaviors/mostly-aggregation-behavior.html">
@@ -20,24 +21,26 @@ An element to interact with page provider aggregations as checkboxes.
 -->
 <dom-module id="mostly-checkbox-aggregation">
  <template>
-   <style>
-     paper-checkbox {
-       --paper-checkbox-label-spacing: 10px;
-       margin-bottom: 5px;
-     }
-   </style>
+  <style>
+    :host {
+      @apply --layout-vertical;
+    }
 
-  <div class="layout vertical">
-    <template is="dom-repeat" items="{{buckets}}">
-      <paper-checkbox noink checked="{{item.checked}}"
-              on-change="_computeValues">
-        [[_computeLabel(item)]] ([[item.docCount]])
-      </paper-checkbox>
-    </template>
-    <template is="dom-if" if="[[_isEmpty]]">
-      <label class="empty">[[i18n('checkboxAggregation.noResults')]]</label>
-    </template>
-  </div>
+    paper-checkbox {
+      --paper-checkbox-label-spacing: 10px;
+      margin-bottom: 5px;
+    }
+  </style>
+
+  <template is="dom-repeat" items="{{buckets}}">
+    <paper-checkbox noink checked="{{item.checked}}"
+            on-change="_computeValues">
+      [[_computeLabel(item)]] ([[item.docCount]])
+    </paper-checkbox>
+  </template>
+  <template is="dom-if" if="[[_isEmpty]]">
+    <label class="empty">[[i18n('checkboxAggregation.noResults')]]</label>
+  </template>
 
  </template>
  <script>
