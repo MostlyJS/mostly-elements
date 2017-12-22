@@ -3,11 +3,17 @@
 
 <!-- Part of `mostly-data-table` -->
 <dom-module id="mostly-data-table-form">
-  <style>
-
-  </style>
   <template>
-    <div id="container"></div>
+    <style>
+      #container {
+        margin: 24px;
+      }
+    </style>
+    <iron-form id="editForm">
+      <form>
+        <div id="container"></div>
+      </form>
+    </iron-form>
   </template>
   <script>
     Polymer({
@@ -21,6 +27,12 @@
           notify: true,
           observer: '_itemChanged'
         },
+        slot: {
+          value: 'form',
+          type: String,
+          reflectToAttribute: true,
+          readonly: true
+        },
         index: Number
       },
 
@@ -30,24 +42,23 @@
         this._instanceProps = {item: true};
         this.templatize(template);
         this.instance = this.stamp({item: this.item});
+        this.instance.dispatchEvent = function() {};
         Polymer.dom(this.$.container).appendChild(this.instance.root);
+      },
+
+      validateItem: function() {
+        return this.$.editForm.validate();
       },
 
       _itemChanged: function() {
         if (this.instance) {
           this.instance.item = this.item;
+          this.instance.i18n = this.i18n;
         }
       },
 
-      _forwardParentProp: function(prop, value) {},
-
-      _forwardInstancePath: function(inst, path, value) {
-        // strip "item."
-        this.fire('item-changed', {item: this.item, path: path.substring(5), value: value});
-      },
-
-      _forwardInstanceProp: function(inst, prop, value) {
-        this.fire('item-changed', {item: this.item, value: value});
+      _notifyInstancePropV2: function(inst, prop, value) {
+        this.notifyPath(prop, value);
       }
     });
   </script>

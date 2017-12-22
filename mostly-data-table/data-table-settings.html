@@ -22,7 +22,6 @@
         position: absolute;
         top: 1.5em;
         right: 8px;
-        z-index: 1000;
         width: 1.5em;
         height: 1.5em;
         padding: 0;
@@ -53,7 +52,7 @@
 
     <mostly-connection id="nxcon"></mostly-connection>
 
-    <mostly-dialog id="columnsSettingsPopup" with-backdrop no-auto-focus reparent>
+    <mostly-dialog id="columnsSettingsPopup" with-backdrop>
       <h2>[[i18n('tableSettings.columnSettings')]]</h2>
       <div class="paper-content layout horizontal">
         <div class="layout vertical">
@@ -65,7 +64,9 @@
               <template is="dom-repeat" items="[[columns]]" as="column">
                 <tr>
                   <td>
-                    <paper-checkbox noink checked="{{!column.hidden}}" on-tap="_columnDisplayChanged">
+                    <paper-checkbox noink checked="{{!column.hidden}}"
+                            on-tap="_columnDisplayChanged"
+                            disabled$="_noColumnsSelected">
                     </paper-checkbox>
                   </td>
                   <td>
@@ -108,6 +109,9 @@
       },
 
       _columnDisplayChanged: function() {
+        if (this.columns.every(column => column.hidden)) {
+          e.model.column.hidden = false
+        }
         this.fire('settings-changed');
       },
 

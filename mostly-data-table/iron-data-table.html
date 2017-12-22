@@ -19,12 +19,14 @@ limitations under the License.
 <link rel="import" href="../../iron-list/iron-list.html">
 <link rel="import" href="../../iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="../../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../iron-icons/iron-icons.html">
 <link rel="import" href="../../paper-input/paper-input.html">
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
+
 <link rel="import" href="../widgets/mostly-dialog.html">
 <link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
 <link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
@@ -92,7 +94,7 @@ Example:
 -->
 <dom-module id="mostly-data-table">
   <template>
-    <style is="custom-style">
+    <style>
       :host {
         display: block;
         position: relative;
@@ -100,8 +102,23 @@ Example:
         overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         width: 100%;
-        min-height: 120px;
-        @apply(--iron-data-table);
+        min-height: 300px;
+        @apply --iron-data-table;
+      }
+
+      /* scrollbars */
+      :host ::-webkit-scrollbar-track {
+        width: 12px !important;
+        height: 3px;
+      }
+      :host ::-webkit-scrollbar {
+        background-color: rgba(0, 0, 0, 0.03);
+        width: 12px !important;
+        height: 3px;
+      }
+      :host ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 1px !important;
       }
 
       #container {
@@ -118,8 +135,7 @@ Example:
         box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
         transition: box-shadow 200ms;
         -webkit-transition: box-shadow 200ms;
-        z-index: 1;
-        @apply(--iron-data-table-header);
+        @apply --iron-data-table-header;
         background: var(--nuxeo-table-header-background, #efefef);
       }
 
@@ -135,11 +151,11 @@ Example:
         -webkit-transition: opacity 200ms;
       }
 
-      #list ::content #items {
+      #list .items {
         background: var(--nuxeo-table-items-background, #ffffff);
       }
 
-      :host[loading] .loadable {
+      :host([loading]) .loadable {
         opacity: 0.25;
       }
 
@@ -164,9 +180,9 @@ Example:
       }
 
       .top.actions {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-        @apply(--layout-end-justified);
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        @apply --layout-end-justified;
         margin: 1em 0 1em 0;
       }
     </style>
@@ -181,7 +197,7 @@ Example:
         </div>
       </template>
 
-      <content select="mostly-selection-toolbar"></content>
+      <slot name="mostly-selection-toolbar"></slot>
 
       <template is="dom-if" if="[[displayQuickFilters]]">
         <mostly-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
@@ -190,7 +206,7 @@ Example:
 
       <div id="header">
         <mostly-data-table-row header>
-          <mostly-data-table-checkbox header hidden$="[[!selectionEnabled]]" on-tap="_toggleSelectAll" checked="[[_isSelectAllChecked]]" indeterminate="[[_isSelectAllIndeterminate]]"></mostly-data-table-checkbox>
+          <mostly-data-table-checkbox header class="invisible" hidden$="[[!selectionEnabled]]"></mostly-data-table-checkbox>
           <template is="dom-repeat" items="[[columns]]" as="column">
             <mostly-data-table-cell header
                     align-right="[[column.alignRight]]"
@@ -202,7 +218,7 @@ Example:
                     table="[[_this]]"
                     template="[[column.headerTemplate]]"
                     width="[[column.width]]">
-              <mostly-data-table-column-sort sort-order="[[sortOrder]]" path="[[column.sortBy]]" on-sort-direction-changed="_sortDirectionChanged" hidden$="[[!column.sortBy]]"></mostly-data-table-column-sort>
+              <mostly-data-table-column-sort sort-order="[[sortOrder]]" path="[[column.sortBy]]" on-sort-direction-changed="_sort" hidden$="[[!column.sortBy]]"></mostly-data-table-column-sort>
             </mostly-data-table-cell>
           </template>
           <mostly-data-table-cell flex="0" hidden$="[[!editable]]"></mostly-data-table-cell>
@@ -210,76 +226,75 @@ Example:
         </mostly-data-table-row>
       </div>
 
-      <iron-scroll-threshold id="scrollThreshold"
-        lower-threshold="1000" class="loadable"
-        on-lower-threshold="_loadMoreData">
-        <iron-list id="list" as="item" items="[[items]]"
-          selected-items="{{selectedItems}}"
-          selected-item="{{selectedItem}}"
-          scroll-target="scrollThreshold">
-          <template>
-            <div class="item">
-              <mostly-data-table-row on-tap="_onRowClick"
-                      before-bind="[[beforeRowBind]]"
-                      even$="[[!_isEven(index)]]"
-                      expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
-                      index="[[index]]"
-                      item="[[item]]"
-                      tabindex="-1"
-                      selected="[[_isSelected(item, selectedItems, selectedItems.*)]]">
-                <mostly-data-table-checkbox hidden$="[[!selectionEnabled]]" tabindex="0" checked="[[selected]]" on-tap="_onCheckBoxTap"></mostly-data-table-checkbox>
-                <template is="dom-repeat" items="[[columns]]" as="column" index-as="colIndex">
-                  <mostly-data-table-cell template="[[column.template]]"
-                          table="[[_this]]"
-                          align-right="[[column.alignRight]]"
-                          column="[[column]]"
-                          expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
-                          flex="[[column.flex]]"
-                          hidden="[[column.hidden]]"
-                          index="[[index]]"
-                          item="[[item]]"
-                          order="[[column.order]]"
-                          selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
-                          width="[[column.width]]"
-                          before-bind="[[beforeCellBind]]"></mostly-data-table-cell>
-                </template>
-                <template is="dom-if" if="[[_isExpanded(item, _expandedItems)]]" on-dom-change="_updateSizeForItem">
-                  <mostly-data-table-row-detail index="[[index]]"
-                          item="[[item]]"
-                          expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
-                          selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
-                          before-bind="[[beforeDetailsBind]]"
-                          table="[[_this]]"
-                          template="[[rowDetail]]"></mostly-data-table-row-detail>
-                </template>
-                  <mostly-data-table-row-actions index="[[index]]"
-                          editable="[[editable]]"
-                          orderable="[[orderable]]"
-                          template="[[rowForm]]"
-                          item="[[item]]"
-                          size="[[items.length]]"
-                          table="[[_this]]">
-                  </mostly-data-table-row-actions>
-              </mostly-data-table-row>
-            </div>
-          </template>
-        </iron-list>
-      </iron-scroll-threshold>
       <template is="dom-if" if="[[_isEmpty]]">
         <div class="emptyResult">[[_computedEmptyLabel]]</div>
       </template>
+
+      <iron-list id="list" as="item" items="[[items]]"
+              selected-items="{{selectedItems}}"
+              selected-item="{{selectedItem}}"
+              on-scroll="_scroll">
+        <template>
+          <div class="item">
+            <mostly-data-table-row on-tap="_onRowClick"
+                    before-bind="[[beforeRowBind]]"
+                    even$="[[!_isEven(index)]]"
+                    expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
+                    index="[[index]]"
+                    item="[[item]]"
+                    tabindex="-1"
+                    selected="[[_isSelected(item, selectedItems, selectedItems.*)]]">
+              <mostly-data-table-checkbox hidden$="[[!selectionEnabled]]" tabindex="0" checked="[[selected]]" on-tap="_onCheckBoxTap"></mostly-data-table-checkbox>
+              <template is="dom-repeat" items="[[columns]]" as="column" index-as="colIndex">
+                <mostly-data-table-cell template="[[column.template]]"
+                        table="[[_this]]"
+                        align-right="[[column.alignRight]]"
+                        column="[[column]]"
+                        expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
+                        flex="[[column.flex]]"
+                        hidden="[[column.hidden]]"
+                        index="[[index]]"
+                        item="[[item]]"
+                        order="[[column.order]]"
+                        selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
+                        width="[[column.width]]"
+                        before-bind="[[beforeCellBind]]"></mostly-data-table-cell>
+              </template>
+              <template is="dom-if" if="[[_isExpanded(item, _expandedItems)]]" on-dom-change="_updateSizeForItem">
+                <mostly-data-table-row-detail index="[[index]]"
+                        item="[[item]]"
+                        expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
+                        selected="[[_isSelected(item, selectedItems, selectedItems.*)]]"
+                        before-bind="[[beforeDetailsBind]]"
+                        table="[[_this]]"
+                        template="[[rowDetail]]"></mostly-data-table-row-detail>
+              </template>
+                <mostly-data-table-row-actions index="[[index]]"
+                        editable="[[editable]]"
+                        orderable="[[orderable]]"
+                        template="[[rowForm]]"
+                        item="[[item]]"
+                        size="[[items.length]]"
+                        table="[[_this]]">
+                </mostly-data-table-row-actions>
+            </mostly-data-table-row>
+          </div>
+        </template>
+      </iron-list>
+      
+      <iron-scroll-threshold id="scrollThreshold" scroll-target="list" on-lower-threshold="_threshold"></iron-scroll-threshold>
+
     </div>
     <paper-spinner-lite active></paper-spinner-lite>
-    <content select="mostly-data-table-column"></content>
-    <content select="template[is=row-detail]"></content>
+    <slot id="columns"></slot>
+    <!--slot name="template[is=row-detail]"></slot-->
 
-    <mostly-dialog id="dialog">
-      <h1>[[i18n('command.add')]]</h1>
-      <form is="iron-form">
-        <content id="form" select="mostly-data-table-form"></content>
-      </form>
+    <mostly-dialog id="dialog" with-backdrop>
+      <h2>[[i18n('command.add')]]</h2>
+      <slot id="form" name="form"></slot>
       <div class="buttons">
-        <paper-button noink dialog-confirm>[[i18n('command.ok')]]</paper-button>
+        <paper-button noink dialog-dismiss>[[i18n('command.cancel')]]</paper-button>
+        <paper-button id="save" noink on-tap="_validateEntry" class="primary">[[i18n('command.ok')]]</paper-button>
       </div>
     </mostly-dialog>
 
@@ -302,7 +317,7 @@ Example:
         'edit-entry': '_editEntry',
         'delete-entry': '_deleteEntry',
         'move-upward': '_moveItemUpward',
-        'move-downward': '_moveItemDownward',
+        'move-downward': '_moveItemDownward'
       },
 
       properties: {
@@ -385,7 +400,7 @@ Example:
 
         multiSelection: {
           type: Boolean,
-          value: true,
+          value: true
         },
 
         editable: {
@@ -396,14 +411,23 @@ Example:
         orderable: {
           type: Boolean,
           value: false
+        },
+
+        paginable: {
+          type: Boolean,
+          value: false
         }
 
       },
 
       _itemChanged: function(e) {
         if (this.items) {
-          var index = this.items.indexOf(e.detail.item);
+          var index = e.target.index;
+          if (index === undefined) {
+            index = this.items.indexOf(e.detail.item)
+          }
           if (index >= 0) {
+            var path =  'items.' + index;
             if (e.detail.path) {
               path += '.' + e.detail.path;
             }
@@ -426,7 +450,7 @@ Example:
 
           if (info.addedNodes.filter(hasColumns).length > 0 ||
             info.removedNodes.filter(hasColumns).length > 0) {
-            this.set('columns', this.getContentChildren('[select=mostly-data-table-column]'));
+            this.set('columns', this.$.columns.assignedNodes().filter(hasColumns));
             this._backupColumnsState();
             this.notifyResize();
           }
@@ -573,7 +597,9 @@ Example:
         } else {
           // unreliable with Shadow, document.activeElement doesn't go inside
           // the shadow root.
-          return target.contains(Polymer.dom(document.activeElement).node) || target.tagName === 'A';
+          return target.contains(Polymer.dom(document.activeElement).node)
+            || target.tagName === 'MOSTLY-DATA-TABLE-CHECKBOX'
+            || target.tagName === 'A';
         }
       },
 
@@ -635,7 +661,7 @@ Example:
               fireEvent('expanding-item', e.model.item, this.expandItem);
             }
           } else {
-            this.fire('row-clicked', {item: e.model.item});
+            this.fire('row-clicked', {item: e.model.item, index: e.model.index});
           }
         }
       },
@@ -664,18 +690,47 @@ Example:
 
       _onCheckBoxTap: function(e) {
         if (this.selectionEnabled) {
+          this.$.list.toggleSelectionForIndex(e.model.index);
           var target = e.target || e.srcElement;
-          target.fire('selected');
+          target.fire('selected', {index: e.model.index, shiftKey: e.detail.sourceEvent.shiftKey});
           this._updateFlags();
         }
       },
 
       _editEntry: function(e) {
         e.stopPropagation();
-        var editForm = this.getContentChildren('#form')[0];
-        var items = this.items; // TODO: add support for editing when using a page provider
-        editForm.index = e.detail.index;
-        editForm.item = items[e.detail.index];
+        this._toggleEditDialog(e.detail.index);
+      },
+
+      _validateEntry: function() {
+        var dtform = this.getContentChildren('#form')[0];
+        if (dtform.validateItem()) {
+          if (dtform.index > -1) {
+            this.set('items.' + dtform.index, dtform.item);
+            //this.items[dtform.index] = JSON.parse(JSON.stringify(dtform.item));
+          } else {
+            this.push('items', dtform.item);
+          }
+          this.notifyResize();
+          this.$.dialog.close();
+        }
+      },
+
+      _toggleEditDialog: function(itemIndex) {
+        var dtform = this.getContentChildren('#form')[0];
+        if (typeof itemIndex !== "undefined") {
+          dtform.index = itemIndex;
+          dtform.item = JSON.parse(JSON.stringify(this.items[itemIndex]));
+        } else {
+          dtform.index = -1;
+          var newItem;
+          if ((this.items.length > 1 && 'object' !== typeof this.items[0]) || this.columns.length === 1) {
+            // dirty but will work with primitive such as string, number, etc.
+            dtform.item = '';
+          } else {
+            dtform.item = {};
+          }
+        }
         this.$.dialog.toggle();
       },
 
@@ -686,13 +741,11 @@ Example:
       },
 
       _createEntry: function() {
-        if ((this.items.length > 1 && 'object' !== typeof this.items[0]) || this.columns.length === 1) {
-          // dirty but will work with primitive such as string, number, etc.
-          this.push('items', '');
-        } else {
-          this.push('items', {});
+        if (!this.items) {
+          this.items = [];
         }
         this.notifyResize();
+        this._toggleEditDialog();
       },
 
       _moveItemUpward: function(e) {
@@ -719,6 +772,49 @@ Example:
         if (e.target.withBackdrop) {
           e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
         }
+      },
+
+      fetch: function() {
+        if (this._hasPageProvider()) {
+          if (this.paginable) {
+            if (this.nxProvider.page === 1) {
+              this._reset(0);
+              this.$.scrollThreshold.clearTriggers();
+            }
+            var result = this._fetchPage(this.nxProvider.page, this.nxProvider.pageSize);
+            if (result) {
+              result.then(function() {
+                this.nxProvider.page += 1;
+                this.$.scrollThreshold.clearTriggers();
+                this.$.list.notifyResize();
+              }.bind(this));
+            } else {
+              this.$.scrollThreshold.clearTriggers();
+              this.$.list.notifyResize();
+            }
+          } else {
+            return this._fetchRange(0, this.nxProvider.pageSize, true);
+          }
+        }
+      },
+
+      _threshold: function() {
+        if (this.paginable) {
+          this.fetch();
+        }
+      },
+
+      _scroll: function() {
+        if (!this.paginable) {
+          this._scrollChanged();
+        }
+      },
+
+      _sort: function(e) {
+        if (this.paginable) {
+          this.nxProvider.page = 1;
+        }
+        this._sortDirectionChanged(e);
       }
 
     });
