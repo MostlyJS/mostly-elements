@@ -1,5 +1,7 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../paper-input/paper-input.html">
+<link rel="import" href="../../iron-form-element-behavior/iron-form-element-behavior.html">
+<link rel="import" href="../../iron-validatable-behavior/iron-validatable-behavior.html">
 
 <!--
 An element for generic input in forms
@@ -9,13 +11,45 @@ An element for generic input in forms
 -->
 <dom-module id="mostly-input">
   <template>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        padding-bottom: 8px;
+      }
+
+      :host([hidden]) {
+        display: none;
+      }
+
+      :host([required]) label::after {
+        display: block;
+        content: '*';
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: var(--paper-input-container-invalid-color, red);
+      }
+
+      paper-input {
+        --paper-input-container: {
+          padding: 0;
+        }
+      }
+
+      label {
+        @apply --nuxeo-label;
+      }
+    </style>
+
+    <label>[[label]]</label>
 
     <paper-input id="paperInput"
-            label="[[label]]"
             type="[[type]]"
             name="[[name]]"
             value="{{value}}"
             placeholder$="[[placeholder]]"
+            error-message="[[errorMessage]]"
             autofocus$="[[autofocus]]"
             readonly$="[[readonly]]"
             disabled$="[[disabled]]"
@@ -25,7 +59,9 @@ An element for generic input in forms
             min$="[[min]]"
             max$="[[max]]"
             pattern$="[[pattern]]"
-            always-float-label>
+            validator$="[[validator]]"
+            invalid$="[[invalid]]"
+            no-label-float>
     </paper-input>
 
   </template>
@@ -33,7 +69,7 @@ An element for generic input in forms
   <script>
     Polymer({
       is: 'mostly-input',
-
+      behaviors: [Polymer.IronFormElementBehavior, Polymer.IronValidatableBehavior],
       properties: {
         /**
          * Label.
@@ -62,6 +98,11 @@ An element for generic input in forms
          * Placeholder.
          */
         placeholder: String,
+
+        /**
+         * Error message to show when `invalid` is true.
+         */
+        errorMessage: String,
 
         /**
          * Autofocus.
@@ -122,11 +163,21 @@ An element for generic input in forms
         /**
          * A pattern to validate.
          */
-        pattern: String
+        pattern: String,
+
+        /**
+         * The name of the custom validator
+         */
+        validator: String
       },
 
       focus: function() {
         this.$.paperInput.focus();
+      },
+
+      /* Override method from Polymer.IronValidatableBehavior. */
+      _getValidity: function() {
+        return this.$.paperInput.validate();
       }
 
     });

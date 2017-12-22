@@ -1,6 +1,7 @@
 <link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../../paper-menu/paper-menu.html">
+<link rel="import" href="../../paper-listbox/paper-listbox.html">
 <link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../iron-validatable-behavior/iron-validatable-behavior.html">
 
 <!--
 An element for selecting options.
@@ -18,29 +19,50 @@ Example:
     <style>
       :host {
         display: block;
+        position: relative;
         --paper-input-container-underline: {
           border-bottom: 1px solid var(--paper-input-container-input-color) !important;
         };
-        --paper-input-container-label: {
-          opacity: 1 !important;
-        };
       }
 
-      paper-menu {
-        --paper-menu-selected-item: {
+      :host([hidden]) {
+        display: none;
+      }
+
+      :host([required]) label::after {
+        display: block;
+        content: '*';
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: var(--paper-input-container-invalid-color, red);
+      }
+
+      paper-listbox {
+        --paper-listbox-selected-item: {
           font-weight: normal;
         };
-        --paper-menu-focused-item: {
+        --paper-listbox-focused-item: {
           font-weight: normal;
           color: var(--paper-input-container-input-color);
         };
-        --paper-menu-focused-item-after: {
+        --paper-listbox-focused-item-after: {
           font-weight: normal;
           color: var(--nuxeo-box, white);
         }
       }
 
-      ::content paper-item {
+      paper-dropdown-menu {
+        --paper-input-container: {
+          padding-top: 0;
+        }
+      }
+
+      label {
+        @apply --nuxeo-label;
+      }
+
+      ::slotted(paper-item) {
         font-weight: normal !important;
         white-space: nowrap;
         overflow: hidden;
@@ -52,18 +74,19 @@ Example:
         color: var(--paper-input-container-input-color);
       }
 
-      ::content paper-item:hover, ::content paper-item[pressed] {
+      ::slotted(paper-item:hover), ::slotted(paper-item[pressed]) {
         background: var(--paper-input-container-focus-color);
         color: var(--nuxeo-box, white) !important;
       }
     </style>
 
+    <label>[[label]]</label>
+
     <paper-dropdown-menu id="paperDropdownMenu"
             label="[[label]]"
             placeholder="[[placeholder]]"
             error-message="[[errorMessage]]"
-            no-label-float$="[[!label]]"
-            always-float-label$="[[!label]]"
+            no-label-float
             noink
             no-animations
             restore-focus-on-close="false"
@@ -71,17 +94,19 @@ Example:
             on-paper-dropdown-open="_resize"
             readonly$="[[readonly]]"
             disabled$="[[disabled]]"
-            required$="[[required]]">
+            required$="[[required]]"
+            validator$="[[validator]]"
+            invalid$="[[invalid]]">
 
-      <paper-menu id="paperMenu" class="dropdown-content"
+      <paper-listbox id="paperMenu" slot="dropdown-content"
               attr-for-selected="[[_computeAttrForSelected(attrForSelected, options)]]" selected="{{selected}}">
         <template is="dom-if" if="[[options]]">
           <template is="dom-repeat" items="[[options]]" as="item">
             <paper-item option="[[_id(item)]]">[[_label(item)]]</paper-item>
           </template>
         </template>
-        <content></content>
-      </paper-menu>
+        <slot></slot>
+      </paper-listbox>
       
     </paper-dropdown-menu>
 
@@ -90,7 +115,7 @@ Example:
   <script>
     Polymer({
       is: 'mostly-select',
-      behaviors: [Polymer.IronResizableBehavior],
+      behaviors: [Polymer.IronResizableBehavior, Polymer.IronValidatableBehavior],
       properties: {
 
         /**
@@ -177,7 +202,7 @@ Example:
       },
 
       _resize: function() {
-        var button = this.$.paperDropdownMenu.$$('paper-menu-button');
+        var button = this.$.paperDropdownMenu.$.menuButton;
         button.noOverlap = true;
         button.verticalOffset = -8;
         var width = this.getBoundingClientRect().width;
@@ -199,6 +224,11 @@ Example:
 
       _computeAttrForSelected: function(attrForSelected, options) {
         return options ? 'option' : attrForSelected;
+      },
+
+      /* Override method from Polymer.IronValidatableBehavior. */
+      _getValidity: function() {
+        return this.$.paperDropdownMenu._getValidity();
       }
 
     });

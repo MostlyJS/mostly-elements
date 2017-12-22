@@ -191,8 +191,13 @@
         var template = Polymer.dom(this).querySelector('template');
         var parent = Polymer.dom(parentNode);
         if (template) {
+          delete template.__templatizeOwner;
           this.templatize(template);
           this._instance = this.stamp();
+          for (var prop in this.properties) {
+            this._instance._setPendingProperty(prop, this[prop]);
+          }
+          this._instance._flushProperties();
           var root = this._instance.root;
           parent.insertBefore(root, this);
         }
@@ -209,7 +214,7 @@
 
     _clear: function() {
       if (this._instance) {
-        var c$ = this._instance._children;
+        var c$ = this._instance.children;
         if (c$ && c$.length) {
           // use first child parent, for case when dom-if may have been detached
           var parent = Polymer.dom(Polymer.dom(c$[0]).parentNode);
@@ -221,52 +226,10 @@
       }
     },
 
-    _forwardParentProp: function(prop, value) {
+    _forwardHostPropV2: function(prop, value) {
       if (this._instance) {
-        this._instance.__setProperty(prop, value, true);
+        this._instance.forwardHostProp(prop, value);
       }
-    },
-
-    _forwardParentPath: function(path, value) {
-      if (this._instance) {
-        this._instance._notifyPath(path, value, true);
-      }
-    },
-
-    // overrides stamp() to fix missing initial bindings on subsequent stamps
-    // https://github.com/Polymer/polymer/issues/3755
-    stamp: function(model) {
-      model = model || {};
-
-      if (this._parentProps) {
-        var templatized = this._templatized;
-        for (var prop in this._parentProps) {
-          if (model[prop] === undefined) {
-            model[prop] = templatized[this._parentPropPrefix + prop];
-
-            // fix
-            if (model[prop] === undefined) {
-              model[prop] = this._getBinding(prop, this.dataHost);
-            }
-          }
-        }
-      }
-
-      return new this.ctor(model, this);
-    },
-
-    _getBinding: function(prop, dataHost) {
-      var data = dataHost && dataHost.__data__;
-
-      if (!data) {
-        return undefined;
-      }
-
-      if (prop in data) {
-        return data[prop];
-      }
-
-      return this._getBinding(prop, dataHost.dataHost);
     }
   });
 </script>

@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../paper-input/paper-textarea.html">
+<link rel="import" href="../../iron-validatable-behavior/iron-validatable-behavior.html">
 
 <!--
 An element for generic textarea input in forms
@@ -9,14 +10,49 @@ An element for generic textarea input in forms
 -->
 <dom-module id="mostly-textarea">
   <template>
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        padding-bottom: 8px;
+      }
 
-    <paper-textarea label="[[label]]"
+      :host([hidden]) {
+        display: none;
+      }
+
+      :host([required]) label::after {
+        display: block;
+        content: '*';
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: var(--paper-input-container-invalid-color, red);
+      }
+
+      paper-textarea {
+        --paper-input-container: {
+          padding: 0;
+        }
+      }
+
+      label {
+        @apply --nuxeo-label;
+      }
+    </style>
+
+    <label>[[label]]</label>
+
+    <paper-textarea id="paperTextarea"
             name="[[name]]"
             value="{{value}}"
             required$="[[required]]"
             disabled$="[[disabled]]"
             readonly$="[[readonly]]"
-            always-float-label>
+            error-message="[[errorMessage]]"
+            validator$="[[validator]]"
+            invalid$="[[invalid]]"
+            no-label-float>
     </paper-textarea>
 
   </template>
@@ -50,6 +86,11 @@ An element for generic textarea input in forms
         placeholder: String,
 
         /**
+         * Error message to show when `invalid` is true.
+         */
+        errorMessage: String,
+
+        /**
          * Read only.
          */
         readonly:  {
@@ -75,8 +116,12 @@ An element for generic textarea input in forms
           value: false,
           reflectToAttribute: true
         }
-      }
+      },
 
+      /* Override method from Polymer.IronValidatableBehavior. */
+      _getValidity: function() {
+        return this.$.paperTextarea.validate();
+      }
     });
   </script>
 </dom-module>

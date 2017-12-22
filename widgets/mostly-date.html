@@ -17,7 +17,7 @@ Example:
 -->
 <dom-module id="mostly-date">
   <template>
-    <span id="datetime">[[formatDate(datetime, format)]]</span>
+    <span id="datetime" hidden$="[[!datetime]]">[[formatDate(datetime, format)]]</span>
     <paper-tooltip id="tooltip" for="datetime">[[formatDate(datetime, tooltipFormat)]]</paper-tooltip>
   </template>
 

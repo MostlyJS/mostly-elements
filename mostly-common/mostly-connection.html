@@ -42,7 +42,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
         connectionId: {type: String, value: 'nx'},
 
         /* The base URL of the Mostly gateway server. */
-        url: {type: String, value: ''},
+        url: {type: String, value: '', notify: true},
 
         /* The username. */
         username: {type: String, value: null},
@@ -75,7 +75,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
         if (this.client) {
           // if this instance does not have any properties set properties from the client
           if (!this.url && !this.username && !this.password) {
-            this.url = this.client.defaults.baseURL;
+            this.set('url', this.client._baseURL);
             this.username = this.client._username;
             this.password = this.client._password;
           }
@@ -197,6 +197,16 @@ Note: Elements that depend on a connectionId use `nx` as default.
       operation: function(url, op) {
         return this.connect().then(() => {
           return this.client.operation({ url: url, action: op })
+        });
+      },
+
+      /**
+       * Get the http resource.
+       * @param {string} url The url to be loaded.
+       */
+      http: function(url) {
+        return this.connect().then(() => {
+          return this.client.request({ url: url });
         });
       },
 
