@@ -1,0 +1,126 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../../iron-icons/hardware-icons.html">
+<link rel="import" href="../../iron-collapse/iron-collapse.html">
+
+<!--
+An element for a generic card
+
+Example:
+
+    <mostly-card heading="title">content</mostly-card>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property         | Description | Default
+-----------------------|------------------|----------
+`--mostly-card`         | Mixin applied to the card | `{}`
+
+@group Mostly UI
+@element mostly-card
+@demo demo/widgets/index.html
+-->
+<dom-module id="mostly-card">
+  <template>
+    <style>
+      :host {
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+        box-sizing: border-box;         /* Opera/IE 8+ */
+      }
+
+      :host([collapsible]) #card {
+        padding-bottom: 1px;
+      }
+
+      :host([opened]) #card {
+        padding-bottom: 16px;
+      }
+
+      :host([collapsible]) h3:hover {
+        cursor: pointer;
+        @apply --mostly-link-hover;
+      }
+
+      #card {
+        display: block;
+        background-color: white;
+        padding: 16px;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.04);
+        @apply --mostly-card;
+      }
+
+      h3 {
+        @apply --layout-center;
+        @apply --layout-horizontal;
+        margin: 0 0 1em;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+      }
+    </style>
+
+    <div id="card">
+      <template is="dom-if" if="[[collapsible]]">
+        <h3 on-tap="_toggle">
+          <iron-icon icon="[[_icon(opened)]]" toggle></iron-icon>
+          <span>[[heading]]</span>
+        </h3>
+        <iron-collapse opened="{{opened}}">
+          <div>
+            <slot></slot>
+          </div>
+        </iron-collapse>
+      </template>
+
+      <template is="dom-if" if="[[!collapsible]]">
+        <template is="dom-if" if="[[heading]]">
+          <h3>[[heading]]</h3>
+        </template>
+        <div>
+          <slot></slot>
+        </div>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'mostly-card',
+      properties: {
+
+        /**
+         * Heading of the card
+         */
+        heading: String,
+
+        /**
+         * If the card is collapsible
+         */
+        collapsible: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * If is a collapsible card, if it is opened or not
+         */
+        opened: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      },
+
+      _toggle: function() {
+        this.opened = !this.opened;
+      },
+
+      _icon: function(opened) {
+        return 'hardware:keyboard-arrow-' + (opened ? 'up' : 'down');
+      }
+    });
+  </script>
+</dom-module>
