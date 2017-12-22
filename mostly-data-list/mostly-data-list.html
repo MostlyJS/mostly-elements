@@ -5,8 +5,11 @@
 <link rel="import" href="../../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
+
 <link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
+<link rel="import" href="../mostly-aggregation/mostly-aggregation-navigation.html">
 <link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
+<link rel="import" href="../widgets/mostly-sort-select.html">
 
 <!--
 An element to display page provider results as a list with infinite scrolling.
@@ -48,23 +51,40 @@ Example:
   <template>
 
     <style is="custom-style">
-      #container {
-        @apply(--layout-vertical);
-        @apply(--layout-fit);
-      }
-      #scrollThreshold {
-        @apply(--layout-flex);
-      }
-
-      :host[loading] .loadable {
+      :host([loading]) {
         opacity: 0.25;
       }
 
-      :host[loading] paper-spinner-lite {
+      :host([loading]) paper-spinner-lite {
         position: absolute;
         top: 45%;
         left: 50%;
         --paper-spinner-color: var(--default-primary-color);
+      }
+
+      /* scrollbars */
+      :host ::-webkit-scrollbar-track {
+        width: 12px !important;
+        height: 3px;
+      }
+      :host ::-webkit-scrollbar {
+        background-color: rgba(0, 0, 0, 0.03);
+        width: 12px !important;
+        height: 3px;
+      }
+      :host ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 1px !important;
+      }
+
+      #container {
+        @apply --layout-vertical;
+        @apply --layout-fit;
+      }
+
+      .header {
+        @apply --layout-horizontal;
+        @apply --layout-center;
       }
 
       .emptyResult {
@@ -75,37 +95,62 @@ Example:
         text-align: center;
         font-size: 1.1rem;
       }
+
+      iron-list {
+        height: calc(100%);
+      }
+
+      nuxeo-aggregation-navigation {
+        position: absolute;
+        top: 82px;
+        bottom: 0;
+        right: 12px;
+      }
     </style>
 
     <div id="container">
 
-      <content select="mostly-selection-toolbar"></content>
+      <slot name="mostly-selection-toolbar"></slot>
 
-      <template is="dom-if" if="[[displayQuickFilters]]">
-        <mostly-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
-        </mostly-quick-filters>
-      </template>
+      <div class="header">
 
-      <div id="filters" class="filters">
-        <template is="dom-repeat" items="[[filters]]" as="filter">
-          <span class="tag filter">
-            [[filter.name]]: [[filter.value]]
-            <iron-icon icon="mostly:remove" class="remove" on-tap="_removeFilter"></iron-icon>
-          </span>
+        <template is="dom-if" if="[[displaySort]]">
+          <nuxeo-sort-select label="[[sortLabel]]" options="[[sortOptions]]" selected="{{sortSelected}}"></nuxeo-sort-select>
         </template>
+
+        <template is="dom-if" if="[[displayQuickFilters]]">
+          <mostly-quick-filters quick-filters="{{quickFilters}}" on-quick-filters-changed="_quickFilterChanged">
+          </mostly-quick-filters>
+        </template>
+
+        <div id="filters" class="filters">
+          <template is="dom-repeat" items="[[filters]]" as="filter">
+            <span class="tag filter">
+              [[filter.name]]: [[filter.value]]
+              <iron-icon icon="mostly:remove" class="remove" on-tap="_removeFilter"></iron-icon>
+            </span>
+          </template>
+        </div>
+
       </div>
 
       <template is="dom-if" if="[[_isEmpty]]">
         <div class="emptyResult">[[_computedEmptyLabel]]</div>
       </template>
-      <iron-scroll-threshold id="scrollThreshold"
-        lower-threshold="1000" class="loadable"
-        on-lower-threshold="_loadMoreData">
-        <iron-list id="list" items="[[items]]" scroll-target="scrollThreshold" selected-item="{{selectedItem}}" as="[[as]]">
-        </iron-list>
-      </iron-scroll-threshold>
+      
+      <iron-list id="list" items="[[items]]" as="[[as]]"
+              selection-enabled selected-item="{{selectedItem}}" selected-items="{{selectedItems}}"
+              on-scroll="_scrollChanged">
+        <slot></slot>
+      </iron-list>
+
+      <template is="dom-if" if="[[displayNavigation]]">
+        <mostly-aggregation-navigation buckets="[[buckets]]" on-scroll-to="_onScrollTo"></mostly-aggregation-navigation>
+      </template>
+
     </div>
-    <paper-spinner-lite active hidden$=[[!loading]]></paper-spinner-lite>
+
+    <paper-spinner-lite active$=[[!loading]]></paper-spinner-lite>
 
   </template>
 
@@ -121,69 +166,101 @@ Example:
       properties: {
         multiSelection: {
           type: Boolean,
-          value: false,
+          value: false
         },
+
         selectOnTap: {
           type: Boolean,
-          value: true
+          value: false
+        },
+
+        displayNavigation: {
+          type: Boolean,
+          value: false
+        },
+
+        displaySort: {
+          type: Boolean,
+          value: false
+        },
+
+        sortLabel: {
+          type: String,
+          value: ''
+        },
+
+        sortSelected: {
+          type: Object
+        },
+
+        sortOptions: {
+          type: Array,
+          value: []
         }
       },
 
+      observers: [
+        '_refresh(nxProvider, sortSelected)'
+      ],
+
       ready: function() {
-        if (!this._templateStamped) {
-          // use mostly-data-grid parent's datahost in the iron-list
-          // functions used in the template should be declared
-          // in the mostly-data-grid parent element and not here
-          this.$.list.dataHost = this.dataHost;
-          // get template from mostly-data-grid definition
-          this._template = Polymer.dom(this).querySelector('template');
-          // append template in the <iron-list>
-          Polymer.dom(this.$.list).appendChild(this._template);
-          // set binding to items
-          // iron-list will look for our template and stamp the items
-          this.items = [];
-          this._templateStamped = true;
+        // keyBindings don't allow registering 'down' key
+        // https://github.com/PolymerElements/iron-list/issues/236
+        this.listen(this.$.list, 'keydown', '_keydown');
+      },
 
-          // tmp fix
-          // see https://github.com/PolymerElements/iron-list/issues/236
-          this.$.list._didMoveDown = function() {
-            this._focusPhysicalItem(this._focusedIndex + 1);
-          };
-          // end tmp fix
-
-          this.$.list.selectQueuePrevious = function() {
-            this._didMoveUp();
-            this.toggleSelectionForFocusedItem();
-          };
-          this.$.list.selectQueueNext = function() {
-            this._didMoveDown();
-            this.toggleSelectionForFocusedItem();
-          };
-          this.$.list.toggleSelectionForFocusedItem = function() {
-            this.debounce('toggleSelectionForFocusedItem', function() {
-              var model = this._focusedItem._templateInstance;
-              if (model) {
-                this.toggleSelectionForItem(model[this.as]);
-              }
-            }.bind(this), 300);
-          };
-          this.$.list.addOwnKeyBinding('up', 'toggleSelectionForFocusedItem');
-          this.$.list.addOwnKeyBinding('k', 'selectQueuePrevious');
-          this.$.list.addOwnKeyBinding('down', 'toggleSelectionForFocusedItem');
-          this.$.list.addOwnKeyBinding('j', 'selectQueueNext');
+      _keydown: function(e) {
+        switch (e.key) {
+          case 'ArrowUp':
+            this._select(-1, 1);
+            break;
+          case 'k':
+            this._select(-1, 0);
+            break;
+          case 'ArrowDown':
+            this._select(1, -1);
+            break;
+          case 'j':
+            this._select(1, 0);
+            break;
         }
+      },
+
+      _select: function(indexOffset, focusOffset) {
+        var index = this._selectedItemIndex() + indexOffset;
+        if (index >= 0 && index < this.$.list.items.length) {
+          this.$.list.selectIndex(index);
+          this.$.list.focusItem(index + focusOffset);
+        }
+      },
+
+      selectNext: function() {
+        this._select(1, 0);
+      },
+
+      selectPrevious: function() {
+        this._select(-1, 0);
+      },
+
+      _selectedItemIndex: function() {
+        return this.selectedItem ? this.$.list.items.indexOf(this.selectedItem) : 0;
       },
 
       _removeFilter: function(e) {
         this.fire('column-filter-changed', {value: '', filterBy: e.model.filter.path});
       },
 
-      selectNext: function() {
-        this.$.list.selectQueueNext();
+      _onScrollTo: function(e) {
+        this.scrollToIndex(e.detail.index);
       },
 
-      selectPrevious: function() {
-        this.$.list.selectQueuePrevious();
+      _refresh: function() {
+        if (this.sortSelected && this._hasPageProvider()) {
+          var sort = {};
+          sort[this.sortSelected.field] = this.sortSelected.order;
+          this.nxProvider.sort = sort;
+          this.fetch();
+        }
       }
 
     });
