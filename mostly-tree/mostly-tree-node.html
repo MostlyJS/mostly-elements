@@ -5,40 +5,40 @@
 <!-- Part of `mostly-tree`-->
 <dom-module id="mostly-tree-node">
   <template>
-    <style is="custom-style">
+    <style>
       :host {
         display: block;
-        @apply(--mostly-tree-node-theme);
+        @apply --mostly-tree-node-theme;
       }
 
-      ::content iron-collapse {
+      ::slotted(iron-collapse) {
         padding-left: 2em;
-        @apply(--mostly-tree-children-theme);
+        @apply --mostly-tree-children-theme;
       }
 
-      ::content .more {
-        @apply(--mostly-tree-node-more-theme);
+      ::slotted(.more) {
+        @apply --mostly-tree-node-more-theme;
       }
 
-      ::content #content {
+      ::slotted(#content) {
         position: relative;
         margin: .1rem 0 .2rem;
         line-height: 1.6em;
       }
 
-      ::content #content > iron-icon {
+      ::slotted(#content iron-icon) {
         color: var(--mostly-tag-text);
         width: 1.2rem;
       }
 
-      ::content span iron-icon {
+      ::slotted(span iron-icon) {
         width: .95rem;
         margin: 0 .1rem .3rem 0;
       }
 
     </style>
 
-    <content></content>
+    <slot></slot>
 
   </template>
   <script>
@@ -91,6 +91,11 @@
         isNextAvailable: {
           type: Boolean,
           value: false
+        },
+
+        _parentModel: {
+          type: Boolean,
+          value: true
         }
       },
 
@@ -135,8 +140,9 @@
             this._fetchChildren();
           }
 
+          this.template.__templatizeOwner = null; // XXX: find a way to remove this line
           // templatize must be called once before stamp is called
-          this.templatize(this.template);
+          this.templatize(this.template, true);
           // stamp and prepare bindings
           this._instance = this.stamp({});
           this._instance.item = this.data;
@@ -169,7 +175,7 @@
           return new Promise((resolve) => {
             // clear <iron-collapse> content in case we are re-rendering
             var children = Polymer.dom(this).querySelector('#children');
-            while (children.hasChildNodes()) {
+            while (children.lastChild) {
               children.removeChild(children.lastChild);
             }
 
@@ -227,7 +233,7 @@
       },
 
       _setupToggleListener: function() {
-        this._flushTemplates();
+        Polymer.dom.flush();
         var selectElts = Polymer.dom(this).querySelector('#content').querySelectorAll('[select]');
         for (var i = 0; i < selectElts.length; i++) {
           this.listen(selectElts[i], 'tap', '_selectNode');
@@ -248,7 +254,7 @@
       },
 
       _teardownInstance: function() {
-        var children = this._instance._children;
+        var children = this._instance.children;
         if (children && children.length) {
           var parent = Polymer.dom(Polymer.dom(children[0]).parentNode);
           for (var i = 0; i < children.length; i++) {
