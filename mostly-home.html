@@ -5,30 +5,30 @@
 -->
 <dom-module id="mostly-home">
   <template>
-    <style>
+    <style include="mostly-styles">
 
-      .flex-layout {
+      .dashboard {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
       }
 
-      paper-card {
+      mostly-card {
         min-width: 25em;
         width: 49%;
         height: 420px;
       }
 
       @media (max-width: 1024px) {
-        paper-card {
+        mostly-card {
           width: 100%;
         }
       }
 
       h3 {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
+        @apply --layout-horizontal;
+        @apply --layout-center;
       }
 
       h3 iron-icon {
@@ -51,12 +51,12 @@
     </style>
 
     <mostly-page>
-      <div class="header">[[i18n('home.dashboard')]]</div>
-      <div class="content">
-        <section name="dashboard" class="flex-layout">
+      <div slot="header">[[i18n('home.dashboard')]]</div>
+      <div>
+        <section name="dashboard" class="dashboard">
 
           <!-- microservice processes -->
-          <paper-card>
+          <mostly-card>
             <h3><iron-icon icon="mostly:edit" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
             <mostly-page-provider auto
               id="statsProcesses"
@@ -91,16 +91,16 @@
                 </template>
               </mostly-data-table-column>
             </mostly-data-table>
-          </paper-card>
+          </mostly-card>
            
           <!-- processes -->
-          <paper-card>
+          <mostly-card>
             <h3><iron-icon icon="mostly:tasks" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
             <mostly-processes-list id="processLists" processes="[[processes]]"></mostly-processes-list>
-          </paper-card>
+          </mostly-card>
            
           <!-- recently viewed -->
-          <paper-card>
+          <mostly-card>
             <h3><iron-icon icon="mostly:recent" name="Recently Viewed"></iron-icon>[[i18n('app.recentlyViewed')]]</h3>
             <playing-document-storage id="recentStorage" name="playing-recent-documents" documents="{{recentDocuments}}"></playing-document-storage>
             <mostly-data-table id="latestViewedDocs"
@@ -125,10 +125,10 @@
                 </template>
               </mostly-data-table-column>
             </mostly-data-table>
-          </paper-card>
+          </mostly-card>
           
           <!-- favorites
-          <paper-card>
+          <mostly-card>
             <h3><iron-icon icon="mostly:favorites" name="Favorites"></iron-icon>[[i18n('home.favorites')]]</h3>
             <mostly-operation id="fetchFavOp" op="Favorite.Fetch" response="favorite"></mostly-operation>
             <mostly-page-provider id="favoritesProvider"
@@ -140,6 +140,7 @@
             </mostly-page-provider>
             <mostly-data-table
               id="favoriteDocs"
+              max-items="15"
               nx-provider="favoritesProvider"
               empty-label="[[i18n('favorites.empty')]]"
               on-row-clicked="_navigate">
@@ -160,7 +161,7 @@
                 </template>
               </mostly-data-table-column>
             </mostly-data-table>
-          </paper-card>
+          </mostly-card>
            -->
         </section>
       </div>
@@ -186,11 +187,12 @@
       },
 
       _refresh: function() {
-        this.$.latestQuery.fetch();
+        this.$.latestEditedDocs.fetch();
+        this.$.recentStorage.reload();
         this._fetchFavorite().then(function(favorite) {
           this.$.favoritesProvider.params = [favorite.id];
           this.$.favoritesProvider.page = 1;
-          this.$.favoritesProvider.fetch();
+          this.$.favoriteDocs.fetch();
         }.bind(this));
       },
 

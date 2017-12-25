@@ -8,15 +8,6 @@
     <template is="dom-if" if="[[visible]]">
       <iron-pages selected="{{selected}}" attr-for-selected="name" fallback-selection="error" selected-attribute="visible">
 
-        <mostly-page name="error">
-          <div class="header"></div>
-          <div class="content">
-            <paper-card>
-              <mostly-error id="error" code="404" url="[[_errorUrl()]]"></mostly-error>
-            </paper-card>
-          </div>
-        </mostly-page>
-
         <mostly-slot slot="ADMINISTRATION_PAGES" model="[[actionContext]]"></mostly-slot>
 
       </iron-pages>
@@ -28,24 +19,30 @@
       behaviors: [Mostly.I18nBehavior],
       properties: {
         visible: Boolean,
+
         selected: {
           type: String,
           value: 'analytics',
+          notify: true,
           observer: '_checkError'
         },
+
         isAdministrator: {
           type: Boolean,
           value: false,
           reflectToAttribute: true
         },
+
         actionContext: {
           type: Object,
           computed: '_actionContext(user)'
-        }
+        },
+
+        entity: Object
       },
 
       _actionContext: function() {
-        return {user: this.user};
+        return {user: this.user, entity: this.entity};
       },
 
       _errorUrl: function() {
@@ -53,6 +50,7 @@
       },
 
       _checkError: function() {
+        // XXX: removed fallback-selection="error"
         if (this.selected === 'error') {
           this.fire('error', {code: 404});
         }

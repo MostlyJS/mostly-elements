@@ -1,11 +1,50 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+
+<link rel="import" href="mostly-icons.html">
 <link rel="import" href="mostly-layout.html">
+<link rel="import" href="mostly-slots.html">
 <link rel="import" href="behaviors/mostly-routing-behavior.html">
 <link rel="import" href="behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="behaviors/mostly-filters-behavior.html">
+<link rel="import" href="behaviors/mostly-layout-behavior.html">
+<link rel="import" href="mostly-common/mostly-operation.html">
+<link rel="import" href="mostly-common/mostly-page-provider.html">
+<link rel="import" href="mostly-common/mostly-resource.html">
+
 <link rel="import" href="mostly-app/mostly-progress-indicator.html">
 <link rel="import" href="mostly-app/mostly-menu-item.html">
 <link rel="import" href="mostly-app/mostly-menu-icon.html">
+<link rel="import" href="mostly-app/mostly-page.html">
+<link rel="import" href="mostly-app/mostly-page-item.html">
+
+<link rel="import" href="mostly-data-table/iron-data-table.html">
+
+<link rel="import" href="widgets/mostly-date.html">
+
+<link rel="import" href="../playing-content-elements/playing-document/playing-document.html">
+<link rel="import" href="../playing-content-elements/playing-document-thumbnail/playing-document-thumbnail.html">
+<link rel="import" href="../playing-user-elements/widgets/playing-user-tag.html">
+
+<!-- i18n -->
+<link rel="import" href="../i18n/i18n.html">
+
+<!-- themes -->
+<link rel="import" href="../themes/base.html">
+<link rel="import" href="../themes/loader.html">
+<!--link rel="import" href="../themes/default/theme.html"-->
+
+<!-- routing -->
+<link rel="import" href="routing.html">
+
+<!-- search -->
+<link rel="import" href="../playing-search-elements/playing-search-page.html">
+
 <script src="../playing-content-elements/playing-document/playing-doc-types.js"></script>
 
 <!--
@@ -15,34 +54,13 @@
 -->
 <dom-module id="mostly-app">
   <template>
-    <style>
+    <style include="mostly-styles">
 
-      paper-header-panel {
-        box-shadow: 0 3px 5px rgba(0,0,0,0.1);
-      }
-
-      paper-header-panel ::content .content {
-        position: relative;
-        padding: 16px;
-        box-shadow: 3px 0 5px rgba(0,0,0,0.04) inset;
-      }
-
-      paper-header-panel ::content paper-toolbar {
-        width: 100%;
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-        box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, 0 3px 5px rgba(0,0,0,0.1);
-      }
-
-      paper-header-panel ::content paper-toolbar paper-toolbar {
-        box-shadow: none;
-      }
-
-      paper-header-panel, iron-pages::content paper-header-panel {
+      paper-header-panel, iron-pages paper-header-panel {
         --paper-header-panel-body: {
           background: var(--nuxeo-page-background);
         };
-        height: 100vh;
+        height: 100%;
       }
 
       paper-drawer-panel {
@@ -52,14 +70,16 @@
         --paper-drawer-panel-scrim: {
           z-index: 2;
         };
+        top: var(--nuxeo-app-top);
+        height: calc(100% - var(--nuxeo-app-top));
       }
 
       /* logo */
       #logo {
         position: fixed;
-        width: 52px;
+        width: var(--nuxeo-sidebar-width);
         height: 53px;
-        top: 0;
+        top: var(--nuxeo-app-top);
         left: 0;
         z-index: 102;
         box-sizing: border-box;
@@ -67,43 +87,28 @@
         background-color: var(--nuxeo-sidebar-background);
       }
 
-      #logo iron-icon {
-        width: 52px;
+      #logo img {
+        width: var(--nuxeo-sidebar-width);
         height: 53px;
-      }
-
-      /* Fix for Safari */
-      #logo iron-icon ::content img {
-        width: 52px !important;
-        height: 52px !important;
       }
 
       /* menu */
       #menu {
-        @apply(--nuxeo-sidebar);
+        @apply --nuxeo-sidebar;
         position: fixed;
-        width: 52px;
+        width: var(--nuxeo-sidebar-width);
         height: calc(100% - 54px);
         z-index: 100;
         padding: 53px 0;
         overflow: auto;
       }
 
-      #menu ::content paper-icon-button {
-        color: var(--nuxeo-sidebar-menu);
-        height: 48px;
-        padding: 12px 13px;
-        width: 52px;
-      }
-
-      #logo:hover iron-icon,
-      #menu ::content mostly-menu-icon:hover ::content paper-icon-button,
-      #menu ::content mostly-menu-icon.selected ::content paper-icon-button {
+      #logo:hover img {
         background: rgba(0, 0, 0, 0.2);
         color: var(--nuxeo-sidebar-menu-hover);
       }
 
-      #logo:hover iron-icon {
+      #logo:hover img {
         filter: brightness(110%);
         -webkit-filter: brightness(110%);
       }
@@ -128,63 +133,44 @@
         }
       }
 
-      @media (max-width: 1024px) {
-        paper-header-panel ::content .content {
-          padding: 1.1rem .5rem;
-        }
-      }
-
       /* drawer */
       #drawer {
         overflow: auto;
         width: 100%;
       }
 
-      #drawer .header,
-      #drawer ::content .header {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
-        font-size: 1rem;
-        height: 53px;
-        padding: 0 16px;
-        text-transform: uppercase;
-        text-overflow: ellipsis;
-        color: var(--nuxeo-drawer-header);
-      }
-
       #drawer iron-pages {
-        @apply(--layout-vertical);
+        @apply --layout-vertical;
         color: var(--nuxeo-drawer-text);
         width: 294px;
         height: 100vh;
-        margin-left: 52px;
+        margin-left: var(--nuxeo-sidebar-width);
         background-color: var(--nuxeo-drawer-background);
       }
 
-      #drawer ::content mostly-menu-item:hover,
-      #drawer ::content .list-item:hover {
+      #drawer mostly-menu-item:hover,
+      #drawer .list-item:hover {
         @apply(--nuxeo-block-hover);
       }
 
-      #drawer ::content .list-item.selected,
-      #drawer ::content mostly-menu-item.iron-selected,
-      #drawer ::content .list-item:focus,
-      #drawer ::content mostly-menu-item:focus,
-      #drawer ::content .list-item.selected:focus,
-      #drawer ::content mostly-menu-item.iron-selected:focus {
-        @apply(--nuxeo-block-selected);
+      #drawer .list-item.selected,
+      #drawer mostly-menu-item.iron-selected,
+      #drawer .list-item:focus,
+      #drawer mostly-menu-item:focus,
+      #drawer .list-item.selected:focus,
+      #drawer mostly-menu-item.iron-selected:focus {
+        @apply --nuxeo-block-selected;
       }
 
-      #drawer ::content mostly-menu-item {
-        @apply(--nuxeo-sidebar-item-theme);
-      }
-
-      #drawer ::content mostly-menu-item a {
-        @apply(--nuxeo-sidebar-item-link);
+      #drawer nuxeo-menu-item {
+        @apply --nuxeo-sidebar-item-theme;
+        --nuxeo-menu-item-link {
+          @apply --nuxeo-sidebar-item-link;
+        }
       }
 
       #drawer .profile mostly-menu-item:last-of-type {
-        @apply(--layout-vertical);
+        @apply --layout-vertical;
         border: none;
         justify-content: flex-end;
       }
@@ -201,19 +187,9 @@
         display: none;
       }
 
-      paper-drawer-panel[narrow] ::content mostly-page ::content paper-toolbar ::content .header {
-        margin-left: 32px;
-      }
-
-      @media (max-width: 1024px) {
-        paper-header-panel ::content paper-toolbar .header {
-          overflow-y: scroll;
-        }
-      }
-
     </style>
 
-    <mostly-connection id="nxcon" user="{{currentUser}}"></mostly-connection>
+    <mostly-connection id="nxcon" user="{{currentUser}}" url="{{url}}"></mostly-connection>
 
     <playing-document id="doc" doc-id="[[docId]]" doc-path="[[docPath]]"
             document="{{currentDocument}}"
@@ -226,26 +202,36 @@
     <mostly-resource id="process" path="processes-stats/[[currentProcessId]]"></mostly-resource>
 
     <!-- app layout -->
-    <paper-drawer-panel id="drawerPanel" drawer-width="[[drawerWidth]]" responsive-width="720px" edge-swipe-sensitivity="0">
-      <div drawer>
+    <paper-drawer-panel id="drawerPanel" narrow="{{isNarrow}}" drawer-width="[[drawerWidth]]" responsive-width="720px" edge-swipe-sensitivity="0">
+      <div slot="drawer">
 
         <!-- logo -->
         <a id="logo" href$="[[urlFor('home')]]">
-          <iron-icon src$="[[_logo(baseUrl)]]"></iron-icon>
+          <img src$="[[_logo(baseUrl)]]" alt="[[i18n('accessibility.logo')]]"/>
         </a>
 
         <!-- menu -->
-        <paper-menu id="menu" selected="{{selectedTab}}" attr-for-selected="name" selected-class="selected" on-iron-activate="_toggleDrawer">
+        <paper-listbox id="menu" selected="{{selectedTab}}" attr-for-selected="name" selected-class="selected" on-iron-activate="_toggleDrawer">
           <mostly-slot slot="DRAWER_ITEMS" model="[[actionContext]]"></mostly-slot>
-          <mostly-menu-icon name="administration" icon="mostly:admin" label="app.administration" class="admin-icon"
-                  hidden$="[[!_hasAdministrationPermissions(currentUser)]]">
-          </mostly-menu-icon>
-          <mostly-menu-icon name="profile" icon="mostly:user-settings" label="app.account" class="profile-icon"></mostly-menu-icon>
-        </paper-menu>
+          <mostly-menu-icon name="administration"
+                  icon="mostly:admin"
+                  label="app.administration"
+                  class="admin-icon"
+                  hidden$="[[!_hasAdministrationPermissions(currentUser)]]"></mostly-menu-icon>
+          <mostly-menu-icon name="profile"
+                  src="[[currentUser.contextParameters.userprofile.avatar.data]]"
+                  icon="mostly:user-settings"
+                  label="app.account"
+                  class="profile-icon"></mostly-menu-icon>
+        </paper-listbox>
 
         <!-- drawer -->
         <div id="drawer">
-          <iron-pages id="drawer-pages" selected="[[selectedTab]]" attr-for-selected="name" selected-attribute="visible">
+          <iron-pages id="drawer-pages"
+                  selected="[[selectedTab]]"
+                  attr-for-selected="name"
+                  selected-attribute="visible"
+                  on-iron-items-changed="_updateSearch">
 
             <mostly-slot slot="DRAWER_PAGES" model="[[actionContext]]"></mostly-slot>
 
@@ -262,7 +248,7 @@
               <div class="header">[[_displayUser(currentUser)]]</div>
               <iron-selector selected="{{selectedProfileTab}}" attr-for-selected="name">
                 <mostly-slot slot="USER_MENU" model="[[actionContext]]"></mostly-slot>
-                <mostly-menu-item name="logout" label="app.user.signOut" link="[[_logout()]]"></mostly-menu-item>
+                <mostly-menu-item name="logout" label="app.user.signOut" link="[[_logout(url)]]"></mostly-menu-item>
               </iron-selector>
             </div>
 
@@ -271,28 +257,31 @@
       </div>
 
       <!-- pages -->
-      <paper-header-panel main mode="seamed">
+      <paper-header-panel slot="main" mode="seamed">
         <iron-pages id="pages" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
 
           <mostly-slot slot="PAGES" model="[[actionContext]]"></mostly-slot>
 
-          <mostly-admin name="admin" user="[[currentUser]]" selected="[[selectedAdminTab]]" entity="[[entity]]"></mostly-admin>
+          <mostly-admin name="admin"
+                  user="[[currentUser]]"
+                  selected="[[selectedAdminTab]]"
+                  entity="[[entity]]"
+                  on-error="_onError"></mostly-admin>
 
           <mostly-themes name="themes" selected="[[selectedProfileTab]]"></mostly-themes>
 
           <mostly-page name="error">
-            <div class="header"></div>
-            <div class="content">
+            <div slot="header"></div>
+            <div>
               <paper-card>
-                <mostly-error id="error">
-                </mostly-error>
+                <mostly-error id="error"></mostly-error>
               </paper-card>
             </div>
           </mostly-page>
 
         </iron-pages>
 
-        <paper-icon-button id="drawerToggle" icon="menu" on-tap="_openDrawer" paper-drawer-toggle></paper-icon-button>
+        <paper-icon-button id="drawerToggle" icon="menu" on-tap="_openDrawer" hidden$="[[!isNarrow]]"></paper-icon-button>
         <mostly-suggester id="suggester"></mostly-suggester>
 
       </paper-header-panel>
@@ -320,6 +309,11 @@
       is: 'mostly-app',
       behaviors: [Mostly.RoutingBehavior, Mostly.I18nBehavior, Mostly.FiltersBehavior],
       properties: {
+        productName: {
+          type: String,
+          value: 'Mostly'
+        },
+
         baseUrl: {
           type: String,
           value: '/',
@@ -413,17 +407,13 @@
 
         clipboardDocCount: {
           type: Number,
+          value: 0,
           notify: true
         },
 
         _dismissible: {
           type: Boolean,
           value: false
-        },
-
-        error: {
-          type: Object,
-          value: {}
         }
       },
 
@@ -452,9 +442,10 @@
         'navigate': '_navigate',
         'collection-loaded': '_updateCollectionMenu',
         'notify': '_notify',
-        'nx-clipboard-updated': '_clipboardUpdated',
-        'drawer-pages.iron-items-changed': '_updateSearch'
+        'nx-clipboard-updated': '_clipboardUpdated'
       },
+
+      observers: ['_computeSharedActionContext(currentUser)'],
 
       ready: function() {
         this.$.drawerPanel.closeDrawer();
@@ -468,19 +459,15 @@
 
         window.addEventListener('playing-documents-deleted', e => {
           this._fetchProcesses();
-          var navTree = this.$$('navTree');
-          if (navTree) {
-            navTree.removeDocuments(e.detail.documentIds);
-          }
         });
 
         window.addEventListener('playing-documents-deleted-error', e => {
           this._documentsDeletedError(e.detail.response, e.detail.documents);
         });
 
-        this.$.nxcon.connect().then(res => {
-          this.currentUser = res;
-        });
+        // this.$.nxcon.connect().then(res => {
+        //   this.currentUser = res;
+        // });
       },
 
       refresh: function() {
@@ -534,7 +521,7 @@
             this.showError(404, this.i18n('browse.error'), path);
           }
         }).catch(err => {
-          console.error('load', err.status, err.message);
+          console.error('load error', err.status, err.message);
           this.showError(err.status, this.i18n('browse.error'), err.message);
         });
       },
@@ -551,6 +538,59 @@
 
       show: function(page) {
         this.page = page; // trigger _pageChanged
+        this._updateTitle();
+      },
+
+      _updateTitle: function() {
+        var title = [];
+        switch (this.page) {
+          case 'browse':
+            if (this.currentDocument && this.currentDocument.title) {
+              title.push(this.currentDocument.title);
+              if (this.currentDocument.type === 'Collections') {
+                title.push(this.i18n('app.title.collections'));
+              } else if (this.hasFacet(this.currentDocument, 'Collection')) {
+                if (this.currentDocument.type === 'Favorites') {
+                  title.push(this.i18n('app.title.favorites'));
+                } else {
+                  title.push(this.i18n('app.title.collection'));
+                }
+              }
+            }
+            break;
+
+          case 'search':
+            if (this.searchForm) {
+              if (this.searchForm.selectedSearch && this.searchForm.selectedSearch.title) {
+                title.push(this.searchForm.selectedSearch.title);
+              } else if (this.searchForm.searchName) {
+                title.push(this.i18n('app.title.search.' + this.searchForm.searchName));
+              }
+            }
+            title.push(this.i18n('app.title.search'));
+            break;
+
+          case 'tasks':
+            if (this.currentTask) {
+              title.push(this.i18n(this.currentTask.workflowModelName));
+              title.push(this.i18n(this.currentTask.name));
+            } else {
+              title.push(this.i18n('app.title.' + this.page));
+            }
+            break;
+
+          case 'admin':
+            if (this.selectedAdminTab) {
+              title.push(this.i18n('app.title.admin.' + this.selectedAdminTab));
+            }
+            title.push(this.i18n('app.title.' + this.page));
+            break;
+
+          default:
+            title.push(this.i18n('app.title.' + this.page));
+        }
+        title.push(this.productName);
+        document.title = title.join(' - ');
       },
 
       _documentChanged: function(newVal, oldVal) {
@@ -565,10 +605,17 @@
         return 'bower_components/mostly-elements/themes/' + (localStorage.getItem('theme') || 'default') + '/logo.png';
       },
 
+      showHome: function(e) {
+        if (e && e.detail && e.detail.keyboardEvent) {
+          e.detail.keyboardEvent.preventDefault();
+        }
+        this.show('home');
+      },
+
       _actionContext: function() {
         console.log('app::actionContext computed', this.currentDocument);
         return {
-          currentDocument: this.currentDocument,
+          document: this.currentDocument,
           user: this.currentUser,
           processCount: this.processCount,
           processes: this.processes,
@@ -581,18 +628,31 @@
         };
       },
 
-      _focusMenu: function() {
+      _computeSharedActionContext: function() {
+        if (this.currentUser) {
+          window.Mostly.slots.setSharedModel({user: this.currentUser});
+        }
+      },
+
+      _focusMenu: function(e) {
+        e.detail.keyboardEvent.preventDefault();
         this.$.menu.focus();
       },
 
-      _showSuggester: function() {
+      _showSuggester: function(e) {
+        e.detail.keyboardEvent.preventDefault();
         this.$.suggester.toggle();
       },
 
       _showDocumentCreationWizard: function(e) {
-        if (e.detail.keyboardEvent && (e.detail.keyboardEvent.ctrlKey || e.detail.keyboardEvent.metaKey)) {
-          return;
+        if (e.detail.keyboardEvent) {
+          if (e.detail.keyboardEvent.ctrlKey || e.detail.keyboardEvent.metaKey) {
+            return;
+          } else {
+            e.detail.keyboardEvent.preventDefault();
+          }
         }
+
         if (e.detail.files) {
           this.$.importPopup.toggleDialogImport(e.detail.files);
         } else if (e.detail.type) {
@@ -606,11 +666,12 @@
         if (e.detail.doc) {
           this.navigateTo('browse', e.detail.doc.path);
           if (e.detail.isFromCollection) {
-            this.$$('#collectionsForm').displayMembers(e.detail.srcDoc, e.detail.doc);
+            this.$$('#collectionsForm').displayMembers(e.detail.srcDoc, e.detail.index);
           }
         }
       },
 
+      // lookup the search
       _updateSearch: function() {
         this.searchForm = this.$$("playing-search-form[search-name='" + this.searchName + "']");
         if (this.searchForm && this._searchOnLoad) {
@@ -630,8 +691,8 @@
       },
 
       _showSearchResults: function(e) {
-        //page('/search/' + e.target.searchName);
-        this.navigateTo('search', e.target.searchName);
+        var target = e.composedPath()[0];
+        this.navigateTo('search', target.searchName);
       },
 
       _toggleDrawer: function(e) {
@@ -827,7 +888,7 @@
           }
           // check if page is already registered (vulcanized)
           console.log('page changed => ', page, el.tagName);
-          if (!Polymer.isInstance(el)) {
+          if (!(el instanceof Polymer.Element)) {
             this.loading = true;
             var tag = el.tagName.toLowerCase();
             this.importHref(this.resolveUrl(tag + '.html'), this._pageLoaded, () => {

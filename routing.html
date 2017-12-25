@@ -1,4 +1,4 @@
-<script src="../page/page.js"></script>
+<!--script src="../bower_components/page/page.js"></script-->
 <script>
   window.addEventListener('WebComponentsReady', function() {
 
@@ -30,20 +30,20 @@
     });
 
     // /browse/<path>@<action>
-    page(/^\/browse\/([^@]*)(?:@(.*))?/, function(data) {
+    page(/^\/browse\/(.*)?/, function(data) {
       if (!data.state.contentView) {
-        app.currentContentView = null;
+        app._searchOnLoad = true;
       }
-      app.load('browse', '', '/' + data.params[0], data.params[1] || 'view');
+      app.load('browse', '', '/' + data.params[0], 'view');
     });
 
     page('/search/:searchName', function(data) {
-      app.searchName = data.params.searchName; // trigger _updateSearch
-      app.show('search');
       // trigger search when navigating to it directly
       if (page.len === 0) {
         app._searchOnLoad = true;
       }
+      app.searchName = data.params.searchName; // trigger _updateSearch
+      app.show('search');
     });
 
     page('/doc/:repo?/:id/', function(data) {
@@ -101,84 +101,66 @@
     });
     
     // add hashbang #! before urls
-    page({ hashbang: true, click: false });
+    page({ hashbang: true, click: false, decodeURLComponents: false });
     
     Mostly.RoutingBehavior.useHashbang = true;
     
-    // extends all the Polymer elements prototype
-    Polymer.Base._addFeature({
-      router: {
-        browse: function(path) {
-          return '/browse' + path;
-        },
+    app.router = {
 
-        document: function(id) {
-          return '/doc/' + id;
-        },
+      baseUrl: app.baseUrl,
 
-        home: function() {
-          return '/home';
-        },
-
-        search: function(searchId) {
-          return '/search/' + searchId;
-        },
-
-        service: function(processId) {
-          return '/service/' + processId;
-        },
-
-        queue: function(searchId) {
-          return '/queue/' + searchId;
-        },
-
-        tasks: function(id) {
-          return '/tasks' + (typeof id === 'undefined' ? '' : '/' + id);
-        },
-
-        processes: function(id) {
-          return '/processes' + (typeof id === 'undefined' ? '' : '/' + id);
-        },
-
-        administration: function(tab) {
-          return '/admin/' + tab;
-        },
-
-        user: function(name) {
-          return '/user/' + name;
-        },
-
-        group: function(name) {
-          return '/group/' + name;
-        },
-
-        page: function(name) {
-          return '/' + name;
-        }
-
+      useHashbang: true,
+      
+      browse: function(path) {
+        return '/browse' +  (path ? path.replace(/\%/g, encodeURIComponent('%'))
+                                        .replace(/\?/g, encodeURIComponent('?')) : '');
       },
 
-      navigateTo: function() {
-        if (this.router) {
-          var route = arguments[0];
-          var baseUrl = Mostly.RoutingBehavior.baseUrl || '';
-          if (route.startsWith('/')) {
-            console.log('navigateTo root', baseUrl + route);
-            return page(baseUrl + route);
-          }
-          if (this.router[route]) {
-            var params = Array.prototype.slice.call(arguments, 1);
-            var url = this.router[route].apply(this, params);
-            console.log('navigateTo route', url);
-            page(url);
-          } else {
-            console.error('Could not navigate to a url for route ' + route);
-          }
-        } else {
-          console.error('No router defined');
-        }
-      }
-    });
-    document.dispatchEvent(new Event('router-changed'));
+      document: function(id) {
+        return '/doc/' + id;
+      },
+
+      home: function() {
+        return '/home';
+      },
+
+      search: function(searchId) {
+        return '/search/' + searchId;
+      },
+
+      service: function(processId) {
+        return '/service/' + processId;
+      },
+
+      queue: function(searchId) {
+        return '/queue/' + searchId;
+      },
+
+      tasks: function(id) {
+        return '/tasks' + (typeof id === 'undefined' ? '' : '/' + id);
+      },
+
+      processes: function(id) {
+        return '/processes' + (typeof id === 'undefined' ? '' : '/' + id);
+      },
+
+      administration: function(tab) {
+        return '/admin/' + tab;
+      },
+
+      user: function(name) {
+        return '/user/' + name;
+      },
+
+      group: function(name) {
+        return '/group/' + name;
+      },
+
+      page: function(name) {
+        return '/' + name;
+      },
+
+      navigate: page
+    };
   });
 </script>
