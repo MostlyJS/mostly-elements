@@ -1,0 +1,95 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+
+<link rel="import" href="mostly-dialog.html">
+
+<!--
+`mostly-confirm-button`
+@group Mostly UI
+@element mostly-confirm-button
+-->
+<dom-module id="mostly-confirm-button">
+
+  <template>
+    <style include="mostly-styles">
+      :host {
+        display: block;
+      }
+
+      .title {
+        margin: 16px;
+        text-align: center;
+      }
+
+      .dialog {
+        margin: 0;
+        padding: 0;
+        border-radius: 4px;
+      }
+
+      .actions {
+        @apply --layout-horizontal;
+        @apply --layout-justified;
+        margin: 8px;
+        padding: 0;
+        text-align: right;
+      }
+    </style>
+
+    <paper-button noink id="button" class="primary" on-tap="_toggleDialog">
+      <slot></slot>
+    </paper-button>
+
+    <mostly-dialog id="dialog" class="dialog" no-overlap horizontal-align="auto" vertical-align="auto" on-iron-overlay-closed="_dismiss">
+      <div class="title">[[dialogTitle]]</div>
+      <div class="actions">
+        <paper-button noink dialog-dismiss>[[dialogDismiss]]</paper-button>
+        <paper-button noink dialog-confirm class="primary" on-tap="_confirm">[[dialogConfirm]]</paper-button>
+      </div>
+    </mostly-dialog>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-confirm-button',
+      properties: {
+        dialogTitle: {
+          type: String,
+          value: 'Are you sure?'
+        },
+        dialogConfirm: {
+          type: String,
+          value: 'Yes'
+        },
+        dialogDismiss: {
+          type: String,
+          value: 'No'
+        },
+        _model: {
+          type: Object
+        }
+      },
+
+      ready: function() {
+        this.$.dialog.positionTarget = this.$.button;
+      },
+
+      _toggleDialog: function(e) {
+        this._model = e.model;
+        this.$.dialog.toggle();
+      },
+
+      _confirm: function() {
+        this.fire('confirm', {model: this._model});
+      },
+
+      _dismiss: function() {
+        this.fire('dismiss', {model: this._model});
+      }
+
+    });
+  </script>
+
+</dom-module>
