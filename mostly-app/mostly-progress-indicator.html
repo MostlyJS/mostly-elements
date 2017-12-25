@@ -29,7 +29,7 @@
       }
     </style>
 
-    <paper-progress id="progress" indeterminate hidden$="[[!visible]]"></paper-progress>
+    <paper-progress indeterminate hidden$="[[!visible]]"></paper-progress>
 
   </template>
 </dom-module>
@@ -54,7 +54,7 @@
             'fadein': [{
               name: 'fade-in-animation',
               timing: {delay: 1000, duration: 1500},
-              node: this.$.progress
+              node: this
             }]
           };
         }

@@ -15,51 +15,54 @@
         display: block;
       }
 
-      paper-header-panel {
-        height: 100vh;
+      .page {
+        height: calc(100vh - var(--nuxeo-app-top));
+        display: flex;
+        flex-direction: column;
       }
 
-      paper-header-panel ::content .content {
+      #content {
+        flex: 1 1 auto;
+        position: relative;
+        overflow-y: auto;
         padding: 16px;
       }
-      
-      paper-toolbar {
-        --paper-toolbar-height: 53px;
-        --paper-toolbar-sm-height: 53px;
-        width: 100%;
-        height: 53px;
+
+      .toolbar {
+        flex: 0 0 auto;
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        height: var(--nuxeo-drawer-header-height);
         color: var(--nuxeo-app-header);
         background: var(--nuxeo-app-header-background);
-        box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, 0 3px 5px rgba(0,0,0,0.1);
+        box-shadow: var(--nuxeo-app-header-box-shadow);
         z-index: 3;
       }
 
-      paper-toolbar ::content .header {
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
+      #header::slotted(*), /* chrome, safari */
+      #toolbar::slotted(*){ /* firefox */
+        @apply --layout-horizontal;
+        @apply --layout-center;
         width: 100%;
         padding-right: 64px;
+        padding-left: 16px;
       }
 
       @media (max-width: 1024px) {
-        paper-toolbar ::content .header {
+        #header::slotted(*), /* chrome, safari */
+        #toolbar::slotted(*){ /* firefox */
           overflow-y: scroll;
-        }
-      }
-
-      @media (max-width: 1024px) {
-        paper-header-panel ::content .content {
-          padding: 1.1rem .5rem;
+          padding-left: 48px;
         }
       }
     </style>
 
-    <paper-header-panel mode="seamed">
-      <paper-toolbar>
-        <content select=".header"></content>
-      </paper-toolbar>
-      <content select=".content"></content>
-    </paper-header-panel>
+    <div class="page">
+      <div class="toolbar" id="toolbar">
+          <slot id="header" slot="header" name="header"></slot>
+      </div>
+      <div id="content"><slot></slot></div>
+    </div>
 
   </template>
 </dom-module>

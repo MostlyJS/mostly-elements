@@ -2,6 +2,7 @@
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../../paper-badge/paper-badge.html">
+
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="../behaviors/mostly-routing-behavior.html">
 
@@ -16,6 +17,12 @@
       :host {
         display: block;
         position: relative;
+        outline: none;
+      }
+
+      :host(.selected) paper-icon-button {
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--nuxeo-sidebar-menu-hover);
       }
 
       paper-badge {
@@ -25,10 +32,22 @@
         --paper-badge-width: 16px;
         --paper-badge-height: 16px;
       }
+
+      paper-icon-button {
+        color: var(--nuxeo-sidebar-menu);
+        height: 48px;
+        padding: 12px 13px;
+        width: var(--nuxeo-sidebar-width);
+      }
+
+      paper-icon-button:hover {
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--nuxeo-sidebar-menu-hover);
+      }
    </style>
 
     <a href$="[[_href(urlFor, route, link)]]">
-      <paper-icon-button noink id="button" icon="[[icon]]" name="[[name]]"></paper-icon-button>
+      <paper-icon-button noink id="button" name$="[[name]]"></paper-icon-button>
       <paper-tooltip id="tooltip" for="button" position="right" offset="0" animation-delay="0">[[i18n(label)]]</paper-tooltip>
       <template is="dom-if" if="[[badge]]">
         <paper-badge label="[[badge]]" for="button"></paper-badge>
@@ -46,6 +65,18 @@
          */
         label: {
           type: String
+        },
+
+        /**
+         * The icon
+         */
+        icon: {
+          type: String
+        },
+
+        src: {
+          type: String,
+          value: ''
         },
 
         /**
@@ -72,8 +103,23 @@
         }
       },
 
+      observers: [
+        '_srcOrIcon(icon, src)'
+      ],
+
       ready: function() {
         document.body.appendChild(this.$.tooltip);
+        this.$.tooltip._target = this.$.button;
+        this.$.tooltip._addListeners();
+      },
+
+      _srcOrIcon: function() {
+        if (this.src && this.src.length > 0) {
+          this.$.button.icon = '';
+          this.$.button.src = this.src;
+        } else if (!this.$.button.src || this.$.button.src.length === 0) {
+          this.$.button.icon = this.icon;
+        }
       },
 
       _href: function() {
