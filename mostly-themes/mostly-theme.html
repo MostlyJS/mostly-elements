@@ -1,4 +1,8 @@
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-image/iron-image.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../paper-card/paper-card.html">
+
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 
 <!--
@@ -14,8 +18,13 @@
         display: block;
       }
 
-      .label {
-        margin-left: 8px;
+      paper-card {
+        @apply --nuxeo-card;
+      }
+
+      paper-card[selected] {
+        border: 2px solid var(--default-primary-color);
+        border-radius: 3px;
       }
 
       iron-image {
@@ -25,18 +34,30 @@
         background-color: rgba(0,0,0,0.05);
       }
 
-      paper-card[selected] {
-        border: 2px solid var(--default-primary-color);
-        border-radius: 3px;
+      .details {
+        @apply --layout-horizontal;
+        @apply --layout-justified;
+        @apply --layout-center;
       }
 
+      .label {
+        margin-left: 8px;
+      }
+
+      paper-button {
+        @apply --nx-button-primary;
+      }
+
+      paper-button[disabled] {
+        @apply --nx-button-disabled;
+      }
     </style>
 
     <paper-card selected$="[[_selected(name)]]">
       <iron-image src="[[_image(name)]]" sizing="contain"></iron-image>
-      <div class="layout horizontal center justified">
+      <div class="details">
         <div class="label">[[_label(name)]]</div>
-        <paper-button on-tap="_apply" class="primary" noink disabled$="[[_selected(name)]]">
+        <paper-button on-tap="_apply" noink disabled$="[[_selected(name)]]">
           [[_button(name)]]
         </paper-button>
       </div>
@@ -44,41 +65,37 @@
 
   </template>
   <script>
-    (function() {
-      'use strict';
+    Polymer({
+      is: 'mostly-theme',
+      behaviors: [Mostly.I18nBehavior],
+      properties: {
+        name: String,
+        title: String,
+        preview: String
+      },
 
-      Polymer({
-        is: 'mostly-theme',
-        behaviors: [Mostly.I18nBehavior],
-        properties: {
-          name: String,
-          title: String,
-          preview: String
-        },
+      _image: function(name) {
+        return (this.preview) ? this.preview : 'bower_components/mostly-elements/themes/' + name + '/preview.jpg';
+      },
 
-        _image: function(name) {
-          return (this.preview) ? this.preview : 'bower_components/mostly-elements/themes/' + name + '/preview.jpg';
-        },
+      _label: function(name) {
+        return (this.title) ? this.title : this.i18n('themes.' + name);
+      },
 
-        _label: function(name) {
-          return (this.title) ? this.title : this.i18n('themes.' + name);
-        },
+      _button: function(name) {
+        return this.i18n('themes.' + (this._selected(name) ? 'current' : 'apply'));
+      },
 
-        _button: function(name) {
-          return this.i18n('themes.' + (this._selected(name) ? 'current' : 'apply'));
-        },
+      _selected: function(name) {
+        var theme = localStorage.getItem('theme');
+        return (theme) ? theme === name : name === 'default';
+      },
 
-        _selected: function(name) {
-          var theme = localStorage.getItem('theme');
-          return (theme) ? theme === name : name === 'default';
-        },
+      _apply: function() {
+        localStorage.setItem('theme', this.name);
+        this.fire('theme-changed', {theme: this.name});
+      }
 
-        _apply: function() {
-          localStorage.setItem('theme', this.name);
-          this.fire('theme-changed', {theme: this.name});
-        }
-
-      });
-    })();
+    });
   </script>
 </dom-module>
