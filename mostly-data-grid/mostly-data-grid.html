@@ -136,7 +136,7 @@ An element to display page provider results as a grid with infinite scrolling.
       <div class="header">
 
         <template is="dom-if" if="[[displaySort]]">
-          <nuxeo-sort-select label="[[sortLabel]]" options="[[sortOptions]]" selected="{{sortSelected}}"></nuxeo-sort-select>
+          <mostly-sort-select label="[[sortLabel]]" options="[[sortOptions]]" selected="{{sortSelected}}"></mostly-sort-select>
         </template>
 
         <template is="dom-if" if="[[displayQuickFilters]]">
@@ -166,7 +166,7 @@ An element to display page provider results as a grid with infinite scrolling.
       </iron-list>
 
       <template is="dom-if" if="[[displayNavigation]]">
-        <nuxeo-aggregation-navigation buckets="[[buckets]]" on-scroll-to="_onScrollTo"></nuxeo-aggregation-navigation>
+        <mostly-aggregation-navigation buckets="[[buckets]]" on-scroll-to="_onScrollTo"></mostly-aggregation-navigation>
       </template>
 
     </div>

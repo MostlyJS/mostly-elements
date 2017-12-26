@@ -58,7 +58,7 @@
 
       paper-header-panel, iron-pages paper-header-panel {
         --paper-header-panel-body: {
-          background: var(--nuxeo-page-background);
+          background: var(--mostly-page-background);
         };
         height: 100%;
       }
@@ -70,33 +70,33 @@
         --paper-drawer-panel-scrim: {
           z-index: 2;
         };
-        top: var(--nuxeo-app-top);
-        height: calc(100% - var(--nuxeo-app-top));
+        top: var(--mostly-app-top);
+        height: calc(100% - var(--mostly-app-top));
       }
 
       /* logo */
       #logo {
         position: fixed;
-        width: var(--nuxeo-sidebar-width);
+        width: var(--mostly-sidebar-width);
         height: 53px;
-        top: var(--nuxeo-app-top);
+        top: var(--mostly-app-top);
         left: 0;
         z-index: 102;
         box-sizing: border-box;
         outline: none;
-        background-color: var(--nuxeo-sidebar-background);
+        background-color: var(--mostly-sidebar-background);
       }
 
       #logo img {
-        width: var(--nuxeo-sidebar-width);
+        width: var(--mostly-sidebar-width);
         height: 53px;
       }
 
       /* menu */
       #menu {
-        @apply --nuxeo-sidebar;
+        @apply --mostly-sidebar;
         position: fixed;
-        width: var(--nuxeo-sidebar-width);
+        width: var(--mostly-sidebar-width);
         height: calc(100% - 54px);
         z-index: 100;
         padding: 53px 0;
@@ -105,7 +105,7 @@
 
       #logo:hover img {
         background: rgba(0, 0, 0, 0.2);
-        color: var(--nuxeo-sidebar-menu-hover);
+        color: var(--mostly-sidebar-menu-hover);
       }
 
       #logo:hover img {
@@ -141,16 +141,16 @@
 
       #drawer iron-pages {
         @apply --layout-vertical;
-        color: var(--nuxeo-drawer-text);
+        color: var(--mostly-drawer-text);
         width: 294px;
         height: 100vh;
-        margin-left: var(--nuxeo-sidebar-width);
-        background-color: var(--nuxeo-drawer-background);
+        margin-left: var(--mostly-sidebar-width);
+        background-color: var(--mostly-drawer-background);
       }
 
       #drawer mostly-menu-item:hover,
       #drawer .list-item:hover {
-        @apply(--nuxeo-block-hover);
+        @apply(--mostly-block-hover);
       }
 
       #drawer .list-item.selected,
@@ -159,13 +159,13 @@
       #drawer mostly-menu-item:focus,
       #drawer .list-item.selected:focus,
       #drawer mostly-menu-item.iron-selected:focus {
-        @apply --nuxeo-block-selected;
+        @apply --mostly-block-selected;
       }
 
-      #drawer nuxeo-menu-item {
-        @apply --nuxeo-sidebar-item-theme;
-        --nuxeo-menu-item-link {
-          @apply --nuxeo-sidebar-item-link;
+      #drawer mostly-menu-item {
+        @apply --mostly-sidebar-item-theme;
+        --mostly-menu-item-link {
+          @apply --mostly-sidebar-item-link;
         }
       }
 
@@ -180,7 +180,7 @@
         top: 5px;
         left: 6px;
         z-index: 99;
-        background-color: var(--nuxeo-drawer-background);
+        background-color: var(--mostly-drawer-background);
       }
 
       mostly-document-create-button.admin {

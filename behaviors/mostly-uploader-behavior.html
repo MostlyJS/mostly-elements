@@ -116,7 +116,7 @@
         file.error = false;
         file.complete = false;
         this.push('files', file);
-        var blob = new Nuxeo.Blob({ content: file });
+        var blob = new Mostly.Blob({ content: file });
         this._uploadStarted(i, file);
         this.uploader.upload(blob)
           .then(function(result) {

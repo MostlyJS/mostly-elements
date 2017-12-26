@@ -30,12 +30,12 @@
       }
 
       paper-input {
-        width: var(--nuxeo-suggester-width, 60%);
+        width: var(--mostly-suggester-width, 60%);
 
         --paper-input-container-input: {
-          color: var(--nuxeo-quicksearch-text);
+          color: var(--mostly-quicksearch-text);
           font-size: 1rem;
-          font-family: var(--nuxeo-app-font);
+          font-family: var(--mostly-app-font);
         };
 
         --paper-input-container-underline: {
@@ -47,9 +47,9 @@
         };
 
         --paper-input-container-label: {
-          color: var(--nuxeo-text-default);
+          color: var(--mostly-text-default);
           font-size: 1rem;
-          font-family: var(--nuxeo-app-font);
+          font-family: var(--mostly-app-font);
           line-height: unset;
           padding-left: 5px;
         };
@@ -70,18 +70,18 @@
         position: fixed;
         z-index: 100;
         top: 0;
-        color: var(--nuxeo-app-header);
-        @apply --nuxeo-suggester-button
+        color: var(--mostly-app-header);
+        @apply --mostly-suggester-button
       }
 
       #searchButton:hover {
-        background-color: var(--nuxeo-button-primary);
-        color: var(--nuxeo-button-primary-text);
+        background-color: var(--mostly-button-primary);
+        color: var(--mostly-button-primary-text);
       }
 
       #searchButton.toggled {
-        color: var(--nuxeo-button-primary-text);
-        background-color: var(--nuxeo-button-primary);
+        color: var(--mostly-button-primary-text);
+        background-color: var(--mostly-button-primary);
         z-index: 1001;
       }
 
@@ -98,8 +98,8 @@
 
       #searchBar {
         height: 53px;
-        background-color: var(--nuxeo-quicksearch-background);
-        color: var(--nuxeo-quicksearch-text);
+        background-color: var(--mostly-quicksearch-background);
+        color: var(--mostly-quicksearch-text);
         @apply --layout-horizontal;
         @apply --layout-center;
         @apply --layout-center-justified;
@@ -112,7 +112,7 @@
       }
 
       #results {
-        width: var(--nuxeo-suggester-width, 65%);
+        width: var(--mostly-suggester-width, 65%);
         margin: .5em 0 3em;
         height: calc(100% - 130px);
         padding: 0 2em;
@@ -124,7 +124,7 @@
       .item {
         display: block;
         padding: 1em;
-        background-color: var(--nuxeo-quicksearch-background);
+        background-color: var(--mostly-quicksearch-background);
         @apply --layout-horizontal;
         @apply --layout-center;
       }
@@ -134,7 +134,7 @@
       }
 
       .item + .item {
-        border-top: 1px solid var(--nuxeo-border);
+        border-top: 1px solid var(--mostly-border);
       }
 
       .item iron-icon {
@@ -143,8 +143,8 @@
 
       a.item:hover,
       a.iron-selected {
-        color: var(--nuxeo-text-default);
-        @apply --nuxeo-block-selected;
+        color: var(--mostly-text-default);
+        @apply --mostly-block-selected;
       }
 
       a .itemName {
@@ -159,7 +159,7 @@
       }
 
       a:hover .itemName {
-        color: var(--nuxeo-primary-color);
+        color: var(--mostly-primary-color);
       }
 
       .fade {
@@ -179,14 +179,14 @@
         margin-right: 10px;
       }
 
-      nuxeo-document-highlights {
+      mostly-result-highlights {
         font-size: .85rem;
       }
 
       @media (max-width: 1024px) {
         #searchButton {
           box-shadow: -3px 0 10px 0 rgba(0,0,0,0.1);
-          background-color: var(--nuxeo-app-header-background);
+          background-color: var(--mostly-app-header-background);
           width: 52px;
           z-index: 100;
         }

@@ -744,7 +744,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         return Array.isArray(value) ? value.map(fn.bind(this)) : fn.call(this, value);
       },
 
-      // Implements abstract Nuxeo.Select2 methods
+      // Implements abstract Mostly.Select2 methods
       _query: function(query) {
         var params = this.params || {};
         params.searchTerm = query.term;

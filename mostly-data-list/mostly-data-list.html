@@ -100,7 +100,7 @@ Example:
         height: calc(100%);
       }
 
-      nuxeo-aggregation-navigation {
+      mostly-aggregation-navigation {
         position: absolute;
         top: 82px;
         bottom: 0;
@@ -115,7 +115,7 @@ Example:
       <div class="header">
 
         <template is="dom-if" if="[[displaySort]]">
-          <nuxeo-sort-select label="[[sortLabel]]" options="[[sortOptions]]" selected="{{sortSelected}}"></nuxeo-sort-select>
+          <mostly-sort-select label="[[sortLabel]]" options="[[sortOptions]]" selected="{{sortSelected}}"></mostly-sort-select>
         </template>
 
         <template is="dom-if" if="[[displayQuickFilters]]">

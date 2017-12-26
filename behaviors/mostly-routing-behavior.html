@@ -38,14 +38,14 @@
     },
 
     _updateRouter: function() {
-      this.router = this.router || Nuxeo.RoutingBehavior.__router;
+      this.router = this.router || Mostly.RoutingBehavior.__router;
     },
 
     // Caches the router
     _routerChanged: function(router) {
-      if (!Nuxeo.RoutingBehavior.__router) {
-        Nuxeo.RoutingBehavior.__router = router;
-        document.dispatchEvent(new Event('nuxeo-router-changed'));
+      if (!Mostly.RoutingBehavior.__router) {
+        Mostly.RoutingBehavior.__router = router;
+        document.dispatchEvent(new Event('mostly-router-changed'));
       }
     },
 

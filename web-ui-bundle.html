@@ -7,7 +7,7 @@
 </mostly-slot-content>
 <mostly-slot-content name="adminAuditPage" slot="ADMINISTRATION_PAGES">
   <template>
-    <nuxeo-audit name="audit" id="audit"></nuxeo-audit>
+    <mostly-audit name="audit" id="audit"></mostly-audit>
   </template>
 </mostly-slot-content>
 
@@ -18,7 +18,7 @@
 </mostly-slot-content>
 <mostly-slot-content name="adminCloudServicesPage" slot="ADMINISTRATION_PAGES">
   <template>
-    <nuxeo-cloud-services name="cloud-services" id="cloud-services"></nuxeo-cloud-services>
+    <mostly-cloud-services name="cloud-services" id="cloud-services"></mostly-cloud-services>
   </template>
 </mostly-slot-content>
 
@@ -36,8 +36,8 @@
       <div class="header"></div>
       <div class="content">
         <paper-card>
-          <nuxeo-error id="error" code="[[error.code]]" url="[[error.url]]" message="[[error.message]]">
-          </nuxeo-error>
+          <mostly-error id="error" code="[[error.code]]" url="[[error.url]]" message="[[error.message]]">
+          </mostly-error>
         </paper-card>
       </div>
     </mostly-page>
