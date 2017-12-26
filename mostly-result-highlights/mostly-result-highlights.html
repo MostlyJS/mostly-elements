@@ -1,0 +1,107 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+
+<!--
+`mostly-result-highlights`
+@group Mostly UI
+@element mostly-result-highlights
+-->
+<dom-module id="mostly-result-highlights">
+  <template>
+
+    <style>
+      .category {
+        opacity: .7;
+        text-transform: uppercase;
+        font-size: .75rem;
+        padding-right: .5rem;
+      }
+
+      .segment em {
+        color: var(--mostly-result-highlight, #0066CC);
+        font-weight: bold;
+        font-style: normal;
+        border-bottom: 1px solid var(--mostly-result-highlight, #0066CC);
+      }
+
+      .segment + .segment::before {
+        display: inline-block;
+        content: '...';
+      }
+    </style>
+
+    <div class="highlights" id="highlights">
+      <template is="dom-repeat" items="[[highlights]]" as="highlight">
+        <div class="highlight">
+          <span class="category">[[_highlightFieldLabel(highlight)]]</span>
+          <span class="segments">
+            <template is="dom-repeat" items="[[highlight.segments]]" as="segment">
+              <span class="segment">
+                <template is="dom-repeat" items="[[_segmentOc(segment)]]" as="segmentOc">
+                    [[_preSegment(segmentOc)]]
+                    <em>
+                      [[_segment(segmentOc)]]
+                    </em>
+                    [[_postSegment(segmentOc)]]
+                </template>
+              </span>
+            </template>
+          </span>
+        <div>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-result-highlights',
+      behaviors: [Mostly.I18nBehavior],
+      properties: {
+        highlights: {
+          type: Array
+        }
+      },
+
+      _highlightFieldLabel: function(highlight) {
+        return this.i18n('searchResults.highlight.field.' + highlight.field);
+      },
+
+      _preSegment: function(segment) {
+        var soEmIdx = segment.indexOf('<em>');
+        if (soEmIdx > -1) {
+          return segment.substring(0, soEmIdx);
+        } else {
+          return segment;
+        }
+      },
+
+      _segment: function(segment) {
+        var soEmIdx = segment.indexOf('<em>');
+        var eoEmIdx = segment.indexOf('</em>');
+        if (soEmIdx > -1 && eoEmIdx > -1) {
+          return segment.substring(soEmIdx + 4, eoEmIdx);
+        } else {
+          return '';
+        }
+      },
+
+      _segmentOc: function(segment) {
+        var segmentOc = [];
+        segment.split('<em>').forEach(function(item, idx) {
+          segmentOc.push(idx > 0 ? '<em>' + item: item);
+        });
+        return segmentOc;
+      },
+
+      _postSegment: function(segment) {
+        var eoEmIdx = segment.indexOf('</em>');
+        if (eoEmIdx > -1) {
+          return segment.substring(eoEmIdx + 5, segment.length);
+        } else {
+          return '';
+        }
+      }
+    });
+  </script>
+</dom-module>
