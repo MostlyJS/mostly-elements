@@ -178,12 +178,18 @@
         // Forward model changes as properties
         _updateModel: function(change) {
           if (change.path === 'model') {
-            Object.keys(change.value).forEach(function(prop) {
+            Object.keys(change.value).forEach((prop) => {
               this._forwardHostProp(prop, change.value[prop]);
-            }.bind(this));
+            });
           } else {
             this._forwardHostProp(change.path.slice('model.'.length + 1), change.value);
           }
+        },
+
+        _updateSharedModel: function() {
+          Object.keys(sharedModel).forEach((prop) => {
+            this._forwardHostProp(prop, sharedModel[prop]);
+          });
         },
 
         // Implements extension point from Templatizer mixin

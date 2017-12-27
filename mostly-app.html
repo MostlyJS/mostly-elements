@@ -32,12 +32,12 @@
 <link rel="import" href="../playing-user-elements/widgets/playing-user-tag.html">
 
 <!-- i18n -->
-<link rel="import" href="../i18n/i18n.html">
+<link rel="import" href="i18n/i18n.html">
 
 <!-- themes -->
-<link rel="import" href="../themes/base.html">
-<link rel="import" href="../themes/loader.html">
-<!--link rel="import" href="../themes/default/theme.html"-->
+<link rel="import" href="themes/base.html">
+<link rel="import" href="themes/loader.html">
+<!--link rel="import" href="themes/default/theme.html"-->
 
 <!-- routing -->
 <link rel="import" href="routing.html">
@@ -189,7 +189,7 @@
 
     </style>
 
-    <mostly-connection id="nxcon" user="{{currentUser}}" url="{{url}}"></mostly-connection>
+    <mostly-connection id="nxcon" user="{{currentUser}}" url="/api"></mostly-connection>
 
     <playing-document id="doc" doc-id="[[docId]]" doc-path="[[docPath]]"
             document="{{currentDocument}}"

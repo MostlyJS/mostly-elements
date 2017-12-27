@@ -75,11 +75,12 @@ Note: Elements that depend on a connectionId use `nx` as default.
         if (this.client) {
           // if this instance does not have any properties set properties from the client
           if (!this.url && !this.username && !this.password) {
-            this.set('url', this.client._baseURL);
+            this.set('url', this.client.baseURL);
             this.username = this.client._username;
             this.password = this.client._password;
           }
           // if properties match the existing client use it
+          /*
           if (this.client.defaults.baseURL === this.url &&
             this.client._username === this.username &&
             this.client._password === this.password) {
@@ -89,28 +90,29 @@ Note: Elements that depend on a connectionId use `nx` as default.
             // otherwise override the client with the new properties
             // e.g. username switched, password changed
             this.client = null;
-          }
-        } else {
-          var options = {
-            baseURL: this.url,
-            timeout: 1000
-          };
-          this.client = axios.create(options);
-
-          // batch upload helper
-          this.client.batchUpload = (opts = {}) => {
-            let options = Object.assign({ client: this.client }, opts);
-            return new BatchUpload(options);
-          };
-
-          // operation helper
-          this.client.operation = (opts = {}) => {
-            let options = Object.assign({ client: this.client }, opts);
-            return new Operation(options);
-          };
-          
-          axClients[id] = this.client;
+          }*/
+          return this.client._promise.then(this._handleConnected.bind(this));
         }
+
+        var options = {
+          baseURL: this.url,
+          timeout: 1000
+        };
+        this.client = axios.create(options);
+
+        // batch upload helper
+        this.client.batchUpload = (opts = {}) => {
+          let options = Object.assign({ client: this.client }, opts);
+          return new BatchUpload(options);
+        };
+
+        // operation helper
+        this.client.operation = (opts = {}) => {
+          let options = Object.assign({ client: this.client }, opts);
+          return new Operation(options);
+        };
+        
+        axClients[id] = this.client;
         
         // share the login promise between all instances (one per client)
         this.client._promise = this.client.post('authentication', {
