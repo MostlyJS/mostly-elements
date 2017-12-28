@@ -262,6 +262,12 @@
 
           <mostly-slot slot="PAGES" model="[[actionContext]]"></mostly-slot>
 
+          <playing-search-page name="search"
+                  id="searchResults"
+                  heading="searchResults.results"
+                  search-form="[[searchForm]]"
+                  show-saved-search-actions></playing-search-page>
+
           <mostly-admin name="admin"
                   user="[[currentUser]]"
                   selected="[[selectedAdminTab]]"
