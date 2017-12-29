@@ -261,6 +261,10 @@
         <iron-pages id="pages" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
 
           <mostly-slot slot="PAGES" model="[[actionContext]]"></mostly-slot>
+          
+          <mostly-home name="home" tasks="[[tasks]]"></mostly-home>
+
+          <playing-browser name="browse" id="browser" document="[[currentDocument]]" selected-tab="{{docAction}}" clipboard="[[clipboard]]"></playing-browser>
 
           <playing-search-page name="search"
                   id="searchResults"
@@ -894,7 +898,7 @@
           }
           // check if page is already registered (vulcanized)
           console.log('page changed => ', page, el.tagName);
-          if (!(el instanceof Polymer.Element)) {
+          if (!(el instanceof HTMLElement)) {
             this.loading = true;
             var tag = el.tagName.toLowerCase();
             this.importHref(this.resolveUrl(tag + '.html'), this._pageLoaded, () => {
