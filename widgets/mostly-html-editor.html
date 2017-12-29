@@ -38,7 +38,8 @@
 
         value: {
           type: String,
-          notify: true
+          notify: true,
+          observer: '_valueChanged'
         },
 
         placeholder: {
@@ -105,8 +106,16 @@
         this.element.on('actionPerformed', this._updateValue.bind(this));
       },
 
-      _updateValue : function() {
+      _updateValue: function() {
+        this._internalChange = true;
         this.value = this.element.getData();
+        this._internalChange = false;
+      },
+
+      _valueChanged: function() {
+        if (this.element && !this._internalChange) {
+          this.element.setData(this.value);
+        }
       }
 
     });

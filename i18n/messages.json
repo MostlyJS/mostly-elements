@@ -438,6 +438,7 @@
   "bulkDownload.preparing": "Preparing Zip export.",
   "bulkDownload.tooltip": "Download All as Zip",
   "downloadButton.tooltip": "Download",
+  "dropdownAggregation.noResults": "No available results",
   "driveDesktopPackages.install": "Package to Install",
   "driveDesktopPackages.platform": "Platform",
   "driveDesktopPackages.ubuntu.name": "Read documentation about the Linux client.",
