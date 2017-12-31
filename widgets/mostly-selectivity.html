@@ -751,7 +751,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         this.$.op.params = params;
 
         this.$.op.execute().then(function(response) {
-          var results = Array.isArray(response.entries) ? response.entries : response;
+          var results = Array.isArray(response.data) ? response.data : response;
           if (this.queryResultsFilter) {
             results = results.filter(this.queryResultsFilter);
           }

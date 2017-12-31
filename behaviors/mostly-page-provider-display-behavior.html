@@ -498,8 +498,8 @@
         }
         this.nxProvider.offset = 0;
         return this.nxProvider.fetch().then(function (response) {
-          for (var i = 0; i < response.entries.length; i++) {
-            this.push('items', response.entries[i]);
+          for (var i = 0; i < response.data.length; i++) {
+            this.push('items', response.data[i]);
           }
         }.bind(this));
       }
@@ -558,8 +558,8 @@
           // fill items range based on response
           var entryIndex = 0;
           for (var i = firstIndex; i <= lastIndex; i++) {
-            if (entryIndex < response.entries.length) {
-              this.set('items.' + i, response.entries[entryIndex++]);
+            if (entryIndex < response.data.length) {
+              this.set('items.' + i, response.data[entryIndex++]);
             }
           }
 
