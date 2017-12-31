@@ -128,7 +128,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
             console.log('authentication failed: ', resp);
             throw 'authentication failed';
           }
-          return this.client.get('users/me');
+          return this.client.get('users/me', { params: { $select: 'groups'}});
         }).then(resp => {
           if (resp.data && resp.data.data) {
             console.log('current user: ', resp.data.data);
