@@ -42,7 +42,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
         connectionId: {type: String, value: 'nx'},
 
         /* The base URL of the Mostly gateway server. */
-        url: {type: String, value: '', notify: true},
+        url: {type: String, value: ''},
 
         /* The username. */
         username: {type: String, value: null},
@@ -131,7 +131,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
           return this.client.get('users/me', { params: { $select: 'groups,*'}});
         }).then(resp => {
           if (resp.data && resp.data.data) {
-            console.log('current user: ', resp.data.data);
+            console.log('auth user: ', resp.data.data);
             return resp.data.data;
           } else {
             console.log('user not exists: ', resp);
@@ -174,7 +174,6 @@ Note: Elements that depend on a connectionId use `nx` as default.
       get active() {
         return this.client && this.client._activeRequests > 0;
       },
-
 
       _handleConnected: function(user) {
         if (this.client) {

@@ -54,6 +54,10 @@
         }
       },
 
+      ready: function() {
+        console.log("mostly-menu-item", this.label, this.link);
+      },
+
       _href: function() {
         if (this.link) {
           return this.link;

@@ -581,8 +581,8 @@
               Object.keys(response.aggregations).map(function(key) {
                 var aggregation = response.aggregations[key];
                 if (aggregation.field === providerField && aggregation.buckets.length >= buckets.length &&
-                  aggregation.properties && aggregation.properties.order) {
-                  var order = aggregation.properties.order.split(' ');
+                  aggregation.order) {
+                  var order = aggregation.order.split(' ');
                   if (order.length > 0 && order[0] === 'key') {
                     buckets = aggregation.buckets;
                   }

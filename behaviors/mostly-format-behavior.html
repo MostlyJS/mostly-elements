@@ -51,8 +51,8 @@
      */
     formatVersion: function(doc) {
       if (doc && doc.properties
-          && doc.properties['uid:major_version'] !== undefined && doc.properties['uid:minor_version'] !== undefined) {
-        return doc.properties['uid:major_version'] + '.' + doc.properties['uid:minor_version'];
+          && doc['majorVersion'] !== undefined && doc['minorVersion'] !== undefined) {
+        return doc['majorVersion'] + '.' + doc['minorVersion'];
       } else {
         return '';
       }
@@ -62,12 +62,12 @@
      * Returns the label for the given directory entry.
      */
     formatDirectory: function(value) {
-      if (value && value['entity-type'] && value['entity-type'] === 'directoryEntry') {
-        if (value.properties && value.properties.label) {
-          return value.properties.label;
+      if (value && value['type'] && value['type'] === 'directory') {
+        if (value && value.label) {
+          return value.label;
         } else {
           var label = 'label_' + this._languageCode();
-          return value.properties[label] || value.properties['label_en']
+          return value[label] || value['label_en']
         }
       } else {
         return value;
