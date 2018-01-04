@@ -131,11 +131,12 @@ An element for displaying page provider results in a justified grid with infinit
 
     <div id="grid">
       <template is="dom-repeat" items="[[items]]" as="item">
-        <div class="item" tabindex="0" on-tap="_tap" selected$="[[_isSelected(item, selectedItems.*)]]"
-             style$="height: [[rowHeight]]px; margin: [[margin]]px; background-image:url([[_url(item)]]);">
-          <img class="image" src="[[_url(item)]]" />
+        <div class="item" tabindex="0" on-tap="_tap"
+                selected$="[[_isSelected(item, selectedItems.*)]]"
+                style$="height: [[rowHeight]]px; margin: [[margin]]px; background-image:url([[_url(item)]]);">
+          <img class="image" src="[[_thumbnail(item)]]" />
           <paper-icon-button noink icon="icons:check" selection-mode$="[[selectionMode]]"
-                             on-tap="_check"></paper-icon-button>
+                  on-tap="_check"></paper-icon-button>
           <div class="overlay">[[item.title]]</div>
         </div>
       </template>
@@ -273,9 +274,15 @@ An element for displaying page provider results in a justified grid with infinit
         return this.selectedItems.indexOf(item) > -1;
       },
 
-      _url: function(doc) {
-        return doc && doc.contextParameters && doc.contextParameters.thumbnail && doc.contextParameters.thumbnail.url
-          ? doc.contextParameters.thumbnail.url : '';
+      _thumbnail: function(doc) {
+        if (doc && doc.id) {
+          if (doc.metadata && doc.metadata.thumbnail && doc.metadata.thumbnail.url) {
+            return doc.metadata.thumbnail.url;
+          }
+          if (doc.thumbnail && doc.thumbnail.url) {
+            return doc.thumbnail.url;
+          }
+        }
       }
 
     });
