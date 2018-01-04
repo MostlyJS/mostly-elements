@@ -136,7 +136,9 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
   <script>
     Polymer({
       is: 'mostly-results',
+
       behaviors: [Mostly.RoutingBehavior, Mostly.FormatBehavior],
+
       properties: {
         // the page provider to display results for
         nxProvider: Object,
