@@ -503,16 +503,16 @@ Example:
 
       _columnsChanged: function(columns, oldColumns) {
         if (oldColumns) {
-          oldColumns.forEach(function(column) {
+          oldColumns.forEach((column) => {
             this.unlisten(column, 'filter-value-changed');
-          }.bind(this));
+          });
         }
 
         if (columns) {
-          columns.forEach(function(column) {
+          columns.forEach((column) => {
             column.table = this;
             this.listen(column, 'filter-value-changed', '_onColumnFilterChanged');
-          }.bind(this));
+          });
         }
       },
 
@@ -647,12 +647,12 @@ Example:
         if (this._isFocusable(Polymer.dom(e).localTarget)) {
           return;
         } else {
-          var fireEvent = function(eventName, item, defaultAction) {
+          var fireEvent = (eventName, item, defaultAction) => {
             var e = this.fire(eventName, {item: item}, {cancelable: true});
             if (!e.defaultPrevented) {
               defaultAction.call(this, item);
             }
-          }.bind(this);
+          };
 
           if (this.rowDetail && this.detailsEnabled) {
             if (this._isExpanded(e.model.item, this._expandedItems)) {
@@ -680,10 +680,10 @@ Example:
       set settings(settings) {
         if (settings) {
           if (this.columns && settings.columns) {
-            this.columns.forEach(function(column, idx) {
+            this.columns.forEach((column, idx) => {
                 this.set('columns.' + idx + '.hidden',
-                    settings.columns[column.field ? column.field : "col-" + idx].hidden);
-            }, this);
+                  settings.columns[column.field ? column.field : "col-" + idx].hidden);
+            });
           }
         }
       },

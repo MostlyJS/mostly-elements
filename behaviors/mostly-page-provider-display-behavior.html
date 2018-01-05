@@ -463,7 +463,7 @@
       } else {
         this.set('items', []);
       }
-      Polymer.dom.flush();
+      Polymer.dom.flush(); // make sure all queues changes completed
       this.size = this.items.length;
       this.$.list.notifyResize();
     },

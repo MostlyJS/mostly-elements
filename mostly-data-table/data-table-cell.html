@@ -27,6 +27,7 @@
   <script>
     Polymer({
       is: 'mostly-data-table-cell',
+
       behaviors: [saulis.DataTableTemplatizerBehavior],
 
       properties: {
@@ -38,7 +39,6 @@
         order: Number,
         template: Object,
         width: String,
-
         beforeBind: {
           type: Object,
           value: function() {
