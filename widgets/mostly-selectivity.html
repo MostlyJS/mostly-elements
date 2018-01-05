@@ -312,7 +312,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
 
     </style>
 
-    <mostly-operation id="op" op="[[operation]]"></mostly-operation>
+    <mostly-operation id="op" path="[[path]]" op="[[operation]]" method="get"></mostly-operation>
 
     <label class="label" hidden$="[[!label]]" required$="[[required]]">[[label]]</label>
 
@@ -495,6 +495,11 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         },
 
         /**
+         * Path to call for suggestions.
+         */
+        path: String,
+
+        /**
          * Operation to call for suggestions.
          */
         operation: String,
@@ -504,6 +509,22 @@ An element wrapping selectivity.js and relying on an operation for suggestions
          */
         params: {
           type: Object
+        },
+
+        /**
+         * Search field to send
+         */
+        searchField: {
+          type: String,
+          value: 'term'
+        },
+
+        /**
+         * Display field
+         */
+        displayField: {
+          type: String,
+          value: 'displayLabel'
         },
 
         /**
@@ -527,62 +548,62 @@ An element wrapping selectivity.js and relying on an operation for suggestions
           backspaceHighlightsBeforeDelete: true,
 
           // initialize selection and create entries
-          initSelection: function(value, callback) {
+          initSelection: (value, callback) => {
             if (!value) return;
 
-            var prep = function(item) {
+            var prep = (item) => {
               var id = this.idFunction(item);
               return {
                 id: id,
                 text: id,
                 item: item
               };
-            }.bind(this);
+            };
 
-            this.initSelection(value, function(selection) {
+            this.initSelection(value, (selection) => {
               callback(this.multiple ? selection.map(prep) : prep(selection));
-            }.bind(this));
-          }.bind(this),
+            });
+          },
 
           // override templates since formatter should already escape text
           templates: {
-            resultItem: function(options) {
+            resultItem: (options) => {
               return (
-                  '<div class="selectivity-result-item' +
-                  (options.disabled ? ' disabled' : '') +
-                  '" data-item-id="' + this.escapeHTML(options.id) + '">' +
-                  this.resultFormatter(options.item)
-                  + '</div>');
-            }.bind(this),
+                '<div class="selectivity-result-item' +
+                (options.disabled ? ' disabled' : '') +
+                '" data-item-id="' + this.escapeHTML(options.id) + '">' +
+                this.resultFormatter(options.item)
+                + '</div>');
+            },
 
-            singleSelectedItem: function(options) {
+            singleSelectedItem: (options) => {
               return (
-                  '<span class="selectivity-single-selected-item" ' +
-                  'data-item-id="' + this.escapeHTML(options.id) + '">' +
-                  (options.removable
-                      ? '<a class="selectivity-single-selected-item-remove">' +
-                        '<i class="selectivity-remove"></i>' +
-                        '</a>'
-                      : '') +
-                  this.selectionFormatter(options.item || options) +
-                  '</span>'
+                '<span class="selectivity-single-selected-item" ' +
+                'data-item-id="' + this.escapeHTML(options.id) + '">' +
+                (options.removable
+                    ? '<a class="selectivity-single-selected-item-remove">' +
+                      '<i class="selectivity-remove"></i>' +
+                      '</a>'
+                    : '') +
+                this.selectionFormatter(options.item || options) +
+                '</span>'
               );
-            }.bind(this),
+            },
 
-            multipleSelectedItem: function(options) {
+            multipleSelectedItem: (options) => {
               var extraClass = options.highlighted ? ' highlighted' : '';
               return (
-                  '<span class="selectivity-multiple-selected-item' +
-                  extraClass +
-                  '" data-item-id="' + this.escapeHTML(options.id) + '">' +
-                  (options.removable
-                      ? '<a class="selectivity-multiple-selected-item-remove">' +
-                        '<i class="selectivity-remove"></i>' +
-                        '</a>'
-                      : '') +
-                  this.selectionFormatter(options.item || options) +
-                  '</span>');
-            }.bind(this),
+                '<span class="selectivity-multiple-selected-item' +
+                extraClass +
+                '" data-item-id="' + this.escapeHTML(options.id) + '">' +
+                (options.removable
+                    ? '<a class="selectivity-multiple-selected-item-remove">' +
+                      '<i class="selectivity-remove"></i>' +
+                      '</a>'
+                    : '') +
+                this.selectionFormatter(options.item || options) +
+                '</span>');
+            },
           }
         };
 
@@ -599,23 +620,23 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         if (this.data) {
           options.data = this.data;
         } else {
-          options.query = function(query) {
+          options.query = (query) => {
             if (query.term.length < this.minChars) {
               query.error("Please enter " + this.minChars + " or more character");
               return;
             }
             // debounce requests
-            this.debounce('_selectivityQuery', function() {
+            this.debounce('_selectivityQuery', () => {
               this._query(query);
-            }.bind(this), 300);
-          }.bind(this);
+            }, 300);
+          };
         }
 
         // createTokenItem is not supported in single inputs in selectivity
         if (this.multiple && this.tagging) {
-          options.createTokenItem = function(term) {
+          options.createTokenItem = (term) => {
             return this._wrap(this.newEntryFormatter(term));
-          }.bind(this);
+          };
         }
 
         this.$.input.addEventListener('selectivity-change', this._updateSelection.bind(this));
@@ -623,9 +644,9 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         this._selectivity = new InputType(options);
 
         if (this.value) {
-          this.async(function() {
+          this.async(() => {
             this._valueChanged(this.value);
-          }.bind(this), 100);
+          }, 100);
         }
 
         // scope styles
@@ -654,7 +675,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
             }
           }
         } else {
-          return { id: entry, displayLabel: entry };
+          return { id: entry, [this.displayField]: entry };
         }
       },
 
@@ -717,15 +738,15 @@ An element wrapping selectivity.js and relying on an operation for suggestions
       },
 
       _newEntryFormatter: function(term) {
-        return { id: term, displayLabel: term };
+        return { id: term, [this.displayField]: term };
       },
 
       _selectionFormatter: function(item) {
-        return this.escapeHTML(item.displayLabel || item.title);
+        return this.escapeHTML(item[this.displayField] || item.title);
       },
 
       _resultFormatter: function(item) {
-        return this.escapeHTML(item.displayLabel || item.title);
+        return this.escapeHTML(item[this.displayField] || item.title);
       },
 
       _wrap: function(value) {
@@ -733,7 +754,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
           var id = this.idFunction(item);
           var entry = {
             id: id,
-            text: item.displayLabel || item.text || id || '',
+            text: item[this.displayField] || item.text || id || '',
             item: item
           };
           if (item.children) {
@@ -747,11 +768,13 @@ An element wrapping selectivity.js and relying on an operation for suggestions
       // Implements abstract Mostly.Select2 methods
       _query: function(query) {
         var params = this.params || {};
-        params.searchTerm = query.term;
+        if (query.term) {
+          params[this.searchField + '[$like]'] = query.term;
+        }
         this.$.op.params = params;
 
-        this.$.op.execute().then(function(response) {
-          var results = Array.isArray(response.data) ? response.data : response;
+        this.$.op.execute().then((response) => {
+          var results = [].concat(response.data);
           if (this.queryResultsFilter) {
             results = results.filter(this.queryResultsFilter);
           }
@@ -767,7 +790,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
           query.callback({
             results: this._wrap(results)
           });
-        }.bind(this));
+        });
       },
 
       escapeHTML: function(markup) {
