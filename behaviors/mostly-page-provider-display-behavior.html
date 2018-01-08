@@ -214,7 +214,7 @@
         if (e.detail.shiftKey && typeof this._lastSelectedIndex === 'number') {
 
           // prevent selecting an item not loaded yet
-          if (!this.items[index] || !this.items[index].uid) {
+          if (!this.items[index] || !this.items[index].id) {
             this.deselectIndex(index);
           }
 
@@ -224,14 +224,14 @@
 
           // check if all items in the range are loaded
           var valid = this.items.slice(start, end).every(function(item) {
-            return item && item.uid;
+            return item && item.id;
           }.bind(this));
 
           // select items in range
           if (valid) {
             for (var i = start; i < end; i++) {
               var item = this.items[i];
-              if (item && item.uid) {
+              if (item && item.id) {
                 this.selectItem(item);
               }
             }
@@ -257,9 +257,7 @@
 
     selectItems: function(items) {
       if (this.selectionEnabled && items && items.length > 0) {
-        items.forEach(function(item) {
-          this.selectItem(item);
-        }.bind(this.$.list))
+        items.forEach(item => this.selectItem(item));
         this._updateFlags();
       }
     },
@@ -276,11 +274,6 @@
         this.$.list.deselectIndex(index);
         this._updateFlags();
       }
-    },
-
-    _isSelected: function(item) {
-      var selected = this.$.list.selectedItems.indexOf(item) > -1;
-      return selected;
     },
 
     /*
@@ -356,9 +349,8 @@
         if (JSON.stringify(this._ppSort) !== JSON.stringify(tmpSort)) {
           this._ppSort = tmpSort;
           this.nxProvider.sort = this._ppSort;
-          this._resetResults();
           if (!this.nxProvider.auto) {
-            this.nxProvider.fetch();
+            this.fetch();
           }
         }
       }
@@ -390,7 +382,6 @@
         if (this.nxProvider.params[e.detail.filterBy] && e.detail.value.length === 0) {
           delete this.nxProvider.params[e.detail.filterBy];
           this.fetch();
-          this.nxProvider.fetch();
         } else {
           if (e.detail.value.length > 0) {
             if (e.detail.filterBy === 'title' || e.detail.filterBy === 'ecm_fulltext') {
@@ -399,7 +390,6 @@
               this.nxProvider.params[e.detail.filterBy] = e.detail.value;
             }
             this.fetch();
-            this.nxProvider.fetch();
           }
         }
       }
@@ -429,14 +419,16 @@
 
     _updateFlags: function() {
       if (!this.loading) {
-        this.size = this.items && this.items.length > 0 ? this.items.length : 0;
+        this.size = this.items && this.items.length > 0? this.items.length : 0;
         var selectedItems = this.$.list.selectedItems;
         this._isSelectAllIndeterminate = selectedItems
           && selectedItems.length > 0
           && selectedItems.length < this.size;
-        this._isSelectAllChecked = selectedItems && selectedItems.length > 0 && selectedItems.length === this.size;
+        this._isSelectAllChecked = selectedItems
+          && selectedItems.length > 0
+          && selectedItems.length === this.size;
         this._isEmpty = this.size === 0;
-        this._computedEmptyLabel = (this.filters && this.filters.length > 0) ?
+        this._computedEmptyLabel = (this.filters && this.filters.length > 0)?
           this.emptyLabelWhenFiltered : this.emptyLabel;
       }
     },

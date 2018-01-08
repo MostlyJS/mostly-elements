@@ -151,7 +151,7 @@ Example:
         -webkit-transition: opacity 200ms;
       }
 
-      #list .items {
+      #list .item {
         background: var(--mostly-table-items-background, #ffffff);
       }
 
@@ -230,13 +230,13 @@ Example:
         <div class="emptyResult">[[_computedEmptyLabel]]</div>
       </template>
 
-      <iron-list id="list" as="item" items="[[items]]"
+      <iron-list id="list" items="[[items]]" as="item"
               selected-items="{{selectedItems}}"
               selected-item="{{selectedItem}}"
               on-scroll="_scroll">
         <template>
           <div class="item">
-            <mostly-data-table-row on-tap="_onRowClick"
+            <mostly-data-table-row on-click="_onRowClick"
                     before-bind="[[beforeRowBind]]"
                     even$="[[!_isEven(index)]]"
                     expanded="[[_isExpanded(item, _expandedItems, _expandedItems.*)]]"
@@ -244,7 +244,7 @@ Example:
                     item="[[item]]"
                     tabindex="-1"
                     selected="[[_isSelected(item, selectedItems, selectedItems.*)]]">
-              <mostly-data-table-checkbox hidden$="[[!selectionEnabled]]" tabindex="0" checked="[[selected]]" on-tap="_onCheckBoxTap"></mostly-data-table-checkbox>
+              <mostly-data-table-checkbox hidden$="[[!selectionEnabled]]" tabindex="0" checked$="[[selected]]" on-tap="_onCheckBoxTap"></mostly-data-table-checkbox>
               <template is="dom-repeat" items="[[columns]]" as="column" index-as="colIndex">
                 <mostly-data-table-cell template="[[column.template]]"
                         table="[[_this]]"
@@ -269,14 +269,14 @@ Example:
                         table="[[_this]]"
                         template="[[rowDetail]]"></mostly-data-table-row-detail>
               </template>
-                <mostly-data-table-row-actions index="[[index]]"
-                        editable="[[editable]]"
-                        orderable="[[orderable]]"
-                        template="[[rowForm]]"
-                        item="[[item]]"
-                        size="[[items.length]]"
-                        table="[[_this]]">
-                </mostly-data-table-row-actions>
+              <mostly-data-table-row-actions index="[[index]]"
+                      editable="[[editable]]"
+                      orderable="[[orderable]]"
+                      template="[[rowForm]]"
+                      item="[[item]]"
+                      size="[[items.length]]"
+                      table="[[_this]]">
+              </mostly-data-table-row-actions>
             </mostly-data-table-row>
           </div>
         </template>
