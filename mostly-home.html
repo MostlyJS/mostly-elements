@@ -17,7 +17,6 @@
       mostly-card {
         min-width: 25em;
         width: 49%;
-        height: 420px;
       }
 
       @media (max-width: 1024px) {
@@ -102,7 +101,9 @@
           <!-- recently viewed -->
           <mostly-card>
             <h3><iron-icon icon="mostly:recent" name="Recently Viewed"></iron-icon>[[i18n('app.recentlyViewed')]]</h3>
-            <playing-document-storage id="recentStorage" name="playing-recent-documents" documents="{{recentDocuments}}"></playing-document-storage>
+            <playing-document-storage id="recentStorage"
+                    name="playing-recent-documents"
+                    documents="{{recentDocuments}}"></playing-document-storage>
             <mostly-data-table id="latestViewedDocs"
               items="[[recentDocuments]]"
               empty-label="[[i18n('recentDocuments.empty')]]"
@@ -189,11 +190,11 @@
       _refresh: function() {
         this.$.latestEditedDocs.fetch();
         this.$.recentStorage.reload();
-        this._fetchFavorite().then(function(favorite) {
+        this._fetchFavorite().then((favorite) => {
           this.$.favoritesProvider.params = [favorite.id];
           this.$.favoritesProvider.page = 1;
           this.$.favoriteDocs.fetch();
-        }.bind(this));
+        });
       },
 
       _navigate: function(e) {
