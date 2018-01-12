@@ -111,37 +111,57 @@ Note: Elements that depend on a connectionId use `nx` as default.
           let options = Object.assign({ client: this.client }, opts);
           return new Operation(options);
         };
-        
-        axClients[id] = this.client;
-        
+
+        var authUser = () => {
+          return this.client.post('authentication', {
+            strategy: 'local',
+            username: this.username,
+            password: this.password
+          }).then(resp => {
+            //console.log('authentication', resp);
+            if (resp.data && resp.data.data && resp.data.data.accessToken) {
+              // save accessToken
+              localStorage.setItem('accessToken', resp.data.data.accessToken);
+              this.client.defaults.headers.common['Authorization'] = resp.data.data.accessToken;
+            } else {
+              console.log('authentication failed: ', resp);
+              throw 'authentication failed';
+            };
+          });
+        };
+        var getUser = () => {
+          return this.client.get('users/me', {
+            params: { $select: 'groups,*'}
+          }).then(resp => {
+            if (resp.data && resp.data.data) {
+              console.log('auth user: ', resp.data.data);
+              return resp.data.data;
+            } else {
+              console.log('user not exists: ', resp);
+              throw 'user not exists';
+            }
+          });
+        };
+
         // share the login promise between all instances (one per client)
-        this.client._promise = this.client.post('authentication', {
-          strategy: 'local',
-          username: this.username,
-          password: this.password
-        }).then(resp => {
-          //console.log('authentication', resp);
-          if (resp.data && resp.data.data && resp.data.data.accessToken) {
-            // save accessToken
-            this.client.defaults.headers.common['Authorization'] = resp.data.data.accessToken;
+        if (localStorage.getItem('accessToken')) {
+          this.client.defaults.headers.common['Authorization'] = localStorage.getItem('accessToken');
+          this.client._promise = getUser().catch(error => {
+            console.log('Mostly connection refused: ' + error);
+            throw error;
+          });
+        } else {
+          if (this.username && this.password) {
+            this.client._promise = authUser().then(getUser).catch(error => {
+              console.log('Mostly connection refused: ' + error);
+              throw error;
+            });
           } else {
-            console.log('authentication failed: ', resp);
-            throw 'authentication failed';
+            return;
           }
-          return this.client.get('users/me', { params: { $select: 'groups,*'}});
-        }).then(resp => {
-          if (resp.data && resp.data.data) {
-            console.log('auth user: ', resp.data.data);
-            return resp.data.data;
-          } else {
-            console.log('user not exists: ', resp);
-            throw 'user not exists';
-          }
-        })
-        .catch(error => {
-          console.log('Mostly connection refused: ' + error);
-          throw error;
-        });
+        }
+
+        axClients[id] = this.client;
 
         // add a response status interceptor
         this.client.interceptors.response.use(function (response) {

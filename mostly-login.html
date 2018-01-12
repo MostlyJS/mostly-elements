@@ -77,6 +77,9 @@
       }
 
     </style>
+
+    <mostly-connection id="nx" url="/api"></mostly-connection>
+
     <iron-a11y-keys keys="enter" on-keys-pressed="_logIn"></iron-a11y-keys>
     <div id="header" class="header">
       <h1>Playing Admin</h1>
@@ -114,7 +117,15 @@
       }
 
       _logIn() {
-        this.dispatch('login');
+        this.$.nx.username = this.username;
+        this.$.nx.password = this.password;
+        this.$.nx.connect().then((user) => {
+          if (user) {
+            var app = document.querySelector('playing-app');
+            app.authenticated = true;
+          }
+        });
+        //this.dispatch('login');
       }
     }
     customElements.define(MostlyLogin.is, MostlyLogin);

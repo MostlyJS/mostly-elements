@@ -2,7 +2,9 @@
 <script>
   window.addEventListener('WebComponentsReady', function() {
 
-    var app = document.querySelector('mostly-app');
+    // TODO: get mostly-app in shadow dom
+    var app = document.querySelector('mostly-app')
+      || document.querySelector('playing-app').root.querySelector('mostly-app');
 
     // strip final /
     page.base(app.baseUrl.replace(/\/$/, ''));
@@ -112,8 +114,8 @@
       useHashbang: true,
       
       browse: function(path) {
-        return '/browse' +  (path ? path.replace(/\%/g, encodeURIComponent('%'))
-                                        .replace(/\?/g, encodeURIComponent('?')) : '');
+        return '/browse' +  (path? path.replace(/\%/g, encodeURIComponent('%'))
+                                       .replace(/\?/g, encodeURIComponent('?')) : '');
       },
 
       document: function(id) {
