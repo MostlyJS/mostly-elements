@@ -38,9 +38,9 @@
 <link rel="import" href="themes/loader.html">
 <!--link rel="import" href="themes/default/theme.html"-->
 
-<!-- routing -->
+<!-- routing
 <link rel="import" href="routing.html">
-
+-->
 <!-- search -->
 <link rel="import" href="../playing-search-elements/playing-search-page.html">
 
@@ -459,6 +459,8 @@
       observers: ['_computeSharedActionContext(currentUser)'],
 
       ready: function() {
+        this.importHref(this.resolveUrl('routing.html'));
+
         this.$.drawerPanel.closeDrawer();
 
         window.addEventListener('unhandledrejection', e => {
