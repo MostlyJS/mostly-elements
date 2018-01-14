@@ -1,5 +1,7 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="widgets/mostly-input.html">
+<link rel="import" href="widgets/mostly-password.html">
 
 <dom-module id="mostly-login">
   <template>
@@ -85,8 +87,8 @@
       <h1>Playing Admin</h1>
     </div>
     <div class="login" theme="dark">
-      <paper-input value={{username}} label="Username" name="username"></paper-input>
-      <paper-input value="{{password}}" label="Password" name="password"></paper-input>
+      <mostly-input value={{username}} label="Username" name="username"></mostly-input>
+      <mostly-password value="{{password}}" label="Password" name="password"></mostly-password>
       <span class="error-message">[[errorMessage]]</span>
       <paper-button id="login-button" on-tap="_logIn">Login</paper-button>
     </div>
