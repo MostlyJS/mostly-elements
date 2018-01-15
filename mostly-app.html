@@ -408,7 +408,9 @@
 
         actionContext: {
           type: Object,
-          computed: '_actionContext(currentDocument, currentUser, processes, currentProcess, processCount, clipboard, clipboardDocCount)'
+          computed: '_actionContext(currentDocument, currentUser, ' +
+            'processes, currentProcess, processCount, ' +
+            'clipboard, clipboardDocCount, userWorkspace)'
         },
 
         clipboard: {
@@ -626,7 +628,7 @@
       },
 
       _actionContext: function() {
-        console.log('app::actionContext currentUser', this.currentUser);
+        console.log('app::actionContext userWorkspace', this.userWorkspace);
         return {
           document: this.currentDocument,
           user: this.currentUser,
@@ -637,7 +639,7 @@
           clipboard: this.clipboard,
           searchForm: this.searchForm,
           actionContext: this.actionContext,
-          //userWorkspace: this.userWorkspace
+          userWorkspace: this.userWorkspace
         };
       },
 
@@ -775,7 +777,7 @@
       _observeCurrentUser: function() {
         if (this.currentUser) {
           this.$.userWorkspace.execute().then((response) => {
-            this.userWorkspace = response.path;
+            this.userWorkspace = response.data && response.data.path;
           });
           this._fetchProcesses();
         }
