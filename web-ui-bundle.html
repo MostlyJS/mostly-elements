@@ -44,20 +44,6 @@
   </template>
 </mostly-slot-content>
 
-<mostly-slot-content name="personalWorkspaceDrawerItem" slot="DRAWER_ITEMS" order="80">
-  <template>
-    <mostly-menu-icon name="personalWorkspace" icon="mostly:user-space" label="app.personalSpace"></mostly-menu-icon>
-  </template>
-</mostly-slot-content>
-
-<mostly-slot-content name="personalWorkspaceDrawerPage" slot="DRAWER_PAGES">
-  <template>
-    <playing-document-tree name="personalWorkspace" label="app.personalSpace"
-            current-document="[[document]]"
-            root-doc-path="[[userWorkspace]]"></playing-document-tree>
-  </template>
-</mostly-slot-content>
-
 <!-- THEMES -->
 
 <mostly-slot-content name="defaultTheme" slot="THEMES" order="10">
