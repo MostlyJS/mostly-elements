@@ -195,7 +195,7 @@
             enrichers="permissions, breadcrumb, preview, favorites, thumbnail, renditions, pendingTasks, collections, audit, subtypes, tags"
             schemas="parent.**,creator,books,*"></playing-document>
 
-    <mostly-operation id="userWorkspace" path="workspaces" method="get"></mostly-operation>
+    <mostly-operation id="userWorkspace" path="workspaces/me" method="get"></mostly-operation>
 
     <mostly-resource id="processes" path="processes-stats"></mostly-resource>
     <mostly-resource id="process" path="processes-stats/[[currentProcessId]]"></mostly-resource>
@@ -525,8 +525,11 @@
               if (recent) {
                 recent.add(doc);
               }
-              this.currentParent = this.hasFacet(doc, 'Folderish') ? doc :
-                doc.metadata.breadcrumbs.slice(-1)[0];
+              if (this.hasFacet(doc, 'Folderish')) {
+                this.currentParent = doc;
+              } else if (doc.metadata && doc.metadata.breadcrumbs) {
+                this.currentParent = doc.metadata.breadcrumbs.slice(-1)[0];
+              }
               this.set('currentDocument', doc);
               this.loading = false;
               this.show(page);
@@ -628,7 +631,7 @@
       },
 
       _actionContext: function() {
-        console.log('app::actionContext userWorkspace', this.userWorkspace);
+        console.log('app::actionContext document', this.currentDocument && this.currentDocument.path);
         return {
           document: this.currentDocument,
           user: this.currentUser,
