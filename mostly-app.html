@@ -212,6 +212,10 @@
         <!-- menu -->
         <paper-listbox id="menu" selected="{{selectedTab}}" attr-for-selected="name" selected-class="selected" on-iron-activate="_toggleDrawer">
           <mostly-slot slot="DRAWER_ITEMS" model="[[actionContext]]"></mostly-slot>
+
+          <mostly-menu-icon name="play"
+                  icon="mostly:play"
+                  label="app.play"></mostly-menu-icon>
           <mostly-menu-icon name="administration"
                   icon="mostly:admin"
                   label="app.administration"
@@ -233,6 +237,13 @@
                   on-iron-items-changed="_updateSearch">
 
             <mostly-slot slot="DRAWER_PAGES" model="[[actionContext]]"></mostly-slot>
+            
+            <div name="play">
+              <div class="header">[[i18n('app.play')]]</div>
+              <iron-selector selected="{{selectedPlayTab}}" attr-for-selected="name">
+                <mostly-slot slot="PLAY_MENU" model="[[actionContext]]"></mostly-slot>
+              </iron-selector>
+            </div>
 
             <template is="dom-if" if="[[_hasAdministrationPermissions(currentUser)]]">
               <div name="administration">
