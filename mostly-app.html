@@ -282,13 +282,20 @@
                   search-form="[[searchForm]]"
                   show-saved-search-actions></playing-search-page>
 
+          <playing-play-page name="play"
+                  selected="[[selectedPlayTab]]"
+                  entity="[[entity]]"
+                  on-error="_onError"></playing-play-page>
+
           <mostly-admin name="admin"
                   user="[[currentUser]]"
                   selected="[[selectedAdminTab]]"
                   entity="[[entity]]"
                   on-error="_onError"></mostly-admin>
 
-          <playing-profile name="profile" selected="[[selectedProfileTab]]" user="[[currentUser]]"></playing-profile>
+          <playing-profile name="profile"
+                  selected="[[selectedProfileTab]]"
+                  user="[[currentUser]]"></playing-profile>
 
           <mostly-themes name="themes" selected="[[selectedProfileTab]]"></mostly-themes>
 
@@ -354,6 +361,7 @@
 
         selectedTab: String,
         selectedAdminTab: String,
+        selectedPlayTab: String,
 
         currentDocument: {
           type: Object,

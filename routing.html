@@ -69,6 +69,14 @@
       app.show('admin');
     });
 
+    page('/play/:tab?', function(data) {
+      if (data.params.tab) {
+        app.selectedPlayTab = data.params.tab;
+      }
+      app.entity = {};
+      app.show('play');
+    });
+
     page('/user/:id', function(data) {
       page.redirect('/admin/user-group-management/user/' + data.params.id);
     });
@@ -148,6 +156,10 @@
 
       administration: function(tab) {
         return '/admin/' + tab;
+      },
+
+      play: function(tab) {
+        return '/play/' + tab;
       },
 
       user: function(name) {
