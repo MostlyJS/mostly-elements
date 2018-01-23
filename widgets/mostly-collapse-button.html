@@ -1,0 +1,90 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-collapse/iron-collapse.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+<!--
+
+`mostly-collapse-button`
+An iron-collapse with a trigger section and optional expand/collapse icons.
+
+@group Mostly UI
+@element collapse-button
+-->
+<dom-module id="mostly-collapse-button">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      #trigger {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+      }
+    </style>
+
+    <div id="trigger" on-tap="toggle">
+      <slot name="collapse-trigger"></slot>
+      <iron-icon icon="[[_toggle(opened, collapseIcon, expandIcon)]]" hidden$="[[noIcons]]"></iron-icon>
+    </div>
+    <iron-collapse id="collapse" horizontal="[[horizontal]]" no-animation="[[noAnimation]]" opened="[[opened]]">
+      <slot name="collapse-content"></slot>
+    </iron-collapse>
+  </template>
+
+  <script>
+    Polymer ({
+      is: 'mostly-collapse-button',
+      properties: {
+        /**
+          * @deprecated
+          * Corresponds to the iron-collapse's horizontal property.
+          */
+        horizontal: {
+          type: Boolean,
+          value: false
+        },
+        /**
+          * Corresponds to the iron-collapse's noAnimation property.
+          */
+        noAnimation: {
+          type: Boolean,
+          value: false
+        },
+        /**
+          * Whether currently expanded.
+          */
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        /**
+          * The icon when collapsed.
+          */
+        expandIcon: {
+          type: String,
+          value: 'mostly:expand-more'
+        },
+        /**
+          * The icon when expanded.
+          */
+        collapseIcon: {
+          type: String,
+          value: 'mostly:expand-less'
+        },
+        /**
+          * Whether to hide the expand/collapse icon.
+          */
+        noIcons: {
+          type: Boolean,
+          value: false
+        },
+      },
+
+      open: function() { this.opened = true; },
+      close: function() { this.opened = false; },
+      toggle: function() { this.opened = !this.opened; },
+      _toggle: function(cond, t, f) { return cond ? t : f; }
+    });
+  </script>
+</dom-module>
