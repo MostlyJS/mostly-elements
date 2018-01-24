@@ -623,6 +623,13 @@
             title.push(this.i18n('app.title.' + this.page));
             break;
 
+          case 'play':
+            if (this.selectedPlayTab) {
+              title.push(this.i18n('app.title.play.' + this.selectedPlayTab));
+            }
+            title.push(this.i18n('app.title.' + this.page));
+            break;
+
           default:
             title.push(this.i18n('app.title.' + this.page));
         }
