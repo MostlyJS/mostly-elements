@@ -823,7 +823,7 @@
   "play.metric.point.constraints.maximum": "Maximum",
   "play.metric.set.constraints.items": "Maximum Items",
   "play.metric.set.constraints.items.empty": "Add at least one item.",
-  "play.metric.set.constraints.items.image": "Image",
+  "play.metric.set.constraints.items.image": "Icon",
   "play.metric.set.constraints.items.maximum": "Maximum Count",
   "play.metric.set.constraints.items.hidden": "Hidden when not earned",
   "play.metric.set.constraints.maxItems": "Maximum Items",
