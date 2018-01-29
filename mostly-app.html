@@ -485,9 +485,20 @@
         this.$.drawerPanel.closeDrawer();
 
         window.addEventListener('unhandledrejection', e => {
-          if (e.reason && e.reason.status === 404) {
+          var reason = (e.reason && e.reason.response) || e.reason;
+          if (reason) {
+            if (reason.status === 401) {
+              // remove accessToken and login
+              localStorage.removeItem('accessToken');
+              var app = document.querySelector('playing-app');
+              app.authenticated = false;
+            }
+            if (reason.status === 404) {
+              console.error('not found 404', e.reason.data);
+              this.showError(404, e.reason.message, this._errorUrl());
+            }
+          } else {
             console.error('unhandledrejection', e);
-            this.showError(404, e.reason.message, this._errorUrl());
           }
         });
 
@@ -508,7 +519,7 @@
         if (this.docPath && this.docPath.length > 0) {
           this.navigateTo('browse', this.docPath ? this.docPath : '');
         } else {
-          page('/');
+          page(this.baseUrl);
         }
       },
 

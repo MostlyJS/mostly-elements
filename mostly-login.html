@@ -82,6 +82,8 @@
 
     <mostly-connection id="nx" url="/api"></mostly-connection>
 
+    <paper-toast id="error"></paper-toast>
+
     <iron-a11y-keys keys="enter" on-keys-pressed="_logIn"></iron-a11y-keys>
     <div id="header" class="header">
       <h1>Playing Admin</h1>
@@ -126,6 +128,11 @@
             var app = document.querySelector('playing-app');
             app.authenticated = true;
           }
+        }).catch(error => {
+          this.$.nx.clear();
+          var message = (error.response && error.response.data && error.response.data.message) || error.message || error;
+          this.$.error.text = message;
+          this.$.error.open();
         });
         //this.dispatch('login');
       }

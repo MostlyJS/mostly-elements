@@ -6,6 +6,11 @@
     var app = document.querySelector('mostly-app')
       || document.querySelector('playing-app').root.querySelector('mostly-app');
 
+    if (!app) {
+      console.error('routing setup failed: cannot get mostly-app in current page');
+      return;
+    }
+
     // strip final /
     page.base(app.baseUrl.replace(/\/$/, ''));
 
