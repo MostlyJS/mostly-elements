@@ -2,10 +2,11 @@
 
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="fonts/aegis/lyfe-icons.html">
 
 <dom-module id="mostly-styles">
   <template>
-    <style include="iron-positioning">
+    <style include="iron-positioning lyfe-icons">
       /* headings */
       h1, h2, h3, h4, h5, h6 {
         font-weight: 400;
@@ -106,327 +107,327 @@
 
 <custom-style>
 
-<style include="mostly-styles">
+  <style include="mostly-styles">
 
-  html {
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-    font-size: 13px;
-    line-height: 20px;
-  }
-
-  html, body {
-    margin: 0;
-    min-height: 100%;
-    color: var(--mostly-text-default);
-    font-family: var(--mostly-app-font);
-    font-weight: 400;
-  }
-
-  /* scrollbars */
-  body ::-webkit-scrollbar-track {
-    width: 3px;
-    height: 3px;
-  }
-  body ::-webkit-scrollbar {
-    background-color: rgba(0, 0, 0, 0.03);
-    width: 3px;
-    height: 3px;
-  }
-  body ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 2px;
-  }
-
-  /* External styles */
-  body .ae-toolbar-styles {
-    z-index: 105;
-  }
-
-  html {
-
-    --mostly-drawer-header-height: 53px;
-    --mostly-sidebar-width: 52px;
-
-    --mostly-app-top: 0px;
-    --mostly-app-header-box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, 0 3px 5px rgba(0,0,0,0.1);
-
-    --mostly-link: {
-      color: var(--mostly-link-color);
-      text-decoration: none;
-    };
-
-    --mostly-link-hover: {
-      color: var(--mostly-link-hover-color);
-      cursor: pointer;
-    };
-
-    --mostly-sidebar: {
-      background-color: var(--mostly-sidebar-background);
-    };
-
-    --mostly-sidebar-item-theme: {
-      border-bottom: 1px solid var(--mostly-border);
-      color: var(--mostly-drawer-text);
-      display: block;
-      margin: 0;
-      white-space: nowrap;
-    };
-
-    --mostly-sidebar-item-link: {
-      color: var(--mostly-drawer-text);
-      display: block;
-      padding: 1.3em;
-    };
-
-    --mostly-action: {
-      border: 1px solid transparent;
-      border-radius: 5em;
-    };
-
-    --mostly-action-hover: {
-       border: 1px solid var(--mostly-primary-color);
-       color: var(--mostly-text-default);
-    };
-
-    --mostly-block-hover: {
-      background-color: var(--mostly-container-hover);
-    };
-
-    --mostly-block-selected: {
-      background-color: var(--mostly-box);
-      outline: 0;
-      box-shadow: 5px 0 0 0 var(--mostly-primary-color) inset;
-    };
-
-    --mostly-card: {
-      display: block;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.04) !important;
-      font-family: var(--mostly-app-font);
-      border-radius: 0;
-      background-color: var(--mostly-box) !important;
-    };
-
-    --mostly-label: {
-      display: block;
-      opacity: .6;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-weight: 400 !important;
-      letter-spacing: 0.005em !important;
-    };
-
-    --mostly-tag: {
-      display: inline-block;
-      background-color: var(--mostly-tag-background);
-      padding: .2rem .5rem;
-      color: var(--mostly-tag-text);
-      font-size: .8rem;
-      letter-spacing: 0.02em;
-      line-height: 1rem;
-      margin-bottom: .3em;
-      border-radius: 2em;
-      text-decoration: none;
-      vertical-align: baseline;
-    };
-
-    --mostly-user: {
-      border-radius: 2.5em;
-      text-transform: capitalize;
-    };
-
-    --mostly-dialog: {
-      min-width: 480px;
-    };
-
-    --mostly-selectivity-label: {
-      @apply --mostly-label;
-    };
-
-    --nx-actions: {
-      display: flex;
-      margin: 1em 0;
-    };
-
-    --nx-actions-button: {
-      flex: 1;
-    };
-
-    --nx-button-hover: {
-      color: var(--mostly-link-hover-color);
-    };
-
-    --nx-button-primary: {
-      color: var(--mostly-button-primary-text);
-      font-weight: 700;
-      background-color: var(--mostly-button-primary);
-    };
-
-    --nx-button-primary-hover: {
-      color: var(--mostly-button-primary-text);
-      background-color: var(--mostly-button-primary-focus);
-    };
-
-    --nx-button-disabled: {
-      color: var(--mostly-button-disabled-text);
-      font-weight: normal;
-      background-color: var(--mostly-button-disabled);
-    };
-
-    --buttons-bar: {
-      background-color: var(--mostly-dialog-buttons-bar);
-      padding: .7em 1.8em;
-    };
-
-    --iron-data-table: {
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-tooltip: {
-      font-size: 1rem;
-      font-family: var(--mostly-app-font);
-      background-color: var(--mostly-sidebar-background);
-    };
-
-    --paper-card: {
-      display: block;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.04) !important;
-      font-family: var(--mostly-app-font);
-      border-radius: 0;
-      background-color: var(--mostly-box) !important;
-    };
-
-    --paper-card-header-text: {
-      font-size: 1rem;
-      font-weight: 700;
-      margin: 0 0 1em;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      color: var(--mostly-text-default);
-    };
-
-    --paper-radio-button: {
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-font-common-base: {
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-tabs: {
-      border-bottom: 1px solid var(--mostly-border);
-    };
-
-    --paper-icon-item: {
-      color: var(--mostly-text-default);
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-tab: {
-      color: var(--mostly-text-default);
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-item: {
-      color: var(--mostly-text-default);
-      font-family: var(--mostly-app-font);
-      font-size: 1rem;
-    };
-
-    --paper-input: {
-      color: var(--mostly-text-default);
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-input-container: {
-      color: var(--mostly-text-default);
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-input-container-label: {
-      font-family: var(--mostly-app-font);
-      font-size: 1.35rem;
-    };
-
-    --paper-input-container-input: {
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-input-container-label-focus: {
-      color: var(--mostly-text-default);
-    };
-
-    --paper-dialog: {
-      color: var(--mostly-text-default);
-      background: var(--mostly-box);
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-checkbox-label: {
-      font-family: var(--mostly-app-font);
-    };
-
-    --paper-button: {
-      font-family: var(--mostly-app-font);
-      font-size: .8rem;
-      color: var(--mostly-link-color);
-      background-color: var(--mostly-button);
-      border: 1px solid var(--mostly-border);
-      border-radius: .1em;
-      padding: .8em 2em;
-      margin: 0;
-    };
-
-    --paper-button-ink-color: {
-      color: var(--mostly-link-color);
-    };
-
-    --paper-button-flat-keyboard-focus: {
-      background-color: var(--mostly-button-primary-focus);
-      color: var(--mostly-button-primary-text);
-      border-color: transparent;
-    };
-
-    --paper-button-raised-keyboard-focus: {
-      background-color: var(--mostly-button-primary-focus);
-      color: var(--mostly-button-primary-text);
-      border-color: transparent;
-    };
-
-    --paper-transition-easing: {
-      -webkit-transition: none;
-      transition: none;
-    };
-
-    /* Suggester (Quick search) */
-    --mostly-suggester-button: {
-      top: var(--mostly-app-top);
-      right: 0;
-      width: 60px;
-      height: 53px;
-      padding: 16px;
-    };
-
-    --mostly-suggester-bar: {
-      position: relative;
-      top: var(--mostly-app-top);
-    };
-  }
-
-  @media (max-width: 1024px) {
     html {
-      font-size: 14px;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      font-size: 13px;
+      line-height: 20px;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--mostly-text-default);
+      font-family: var(--mostly-app-font);
+      font-weight: 400;
+    }
+
+    /* scrollbars */
+    body ::-webkit-scrollbar-track {
+      width: 3px;
+      height: 3px;
+    }
+    body ::-webkit-scrollbar {
+      background-color: rgba(0, 0, 0, 0.03);
+      width: 3px;
+      height: 3px;
+    }
+    body ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.15);
+      border-radius: 2px;
+    }
+
+    /* External styles */
+    body .ae-toolbar-styles {
+      z-index: 105;
+    }
+
+    html {
+
+      --mostly-drawer-header-height: 53px;
+      --mostly-sidebar-width: 52px;
+
+      --mostly-app-top: 0px;
+      --mostly-app-header-box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, 0 3px 5px rgba(0,0,0,0.1);
+
+      --mostly-link: {
+        color: var(--mostly-link-color);
+        text-decoration: none;
+      };
+
+      --mostly-link-hover: {
+        color: var(--mostly-link-hover-color);
+        cursor: pointer;
+      };
+
+      --mostly-sidebar: {
+        background-color: var(--mostly-sidebar-background);
+      };
+
+      --mostly-sidebar-item-theme: {
+        border-bottom: 1px solid var(--mostly-border);
+        color: var(--mostly-drawer-text);
+        display: block;
+        margin: 0;
+        white-space: nowrap;
+      };
+
+      --mostly-sidebar-item-link: {
+        color: var(--mostly-drawer-text);
+        display: block;
+        padding: 1.3em;
+      };
+
+      --mostly-action: {
+        border: 1px solid transparent;
+        border-radius: 5em;
+      };
+
+      --mostly-action-hover: {
+         border: 1px solid var(--mostly-primary-color);
+         color: var(--mostly-text-default);
+      };
+
+      --mostly-block-hover: {
+        background-color: var(--mostly-container-hover);
+      };
+
+      --mostly-block-selected: {
+        background-color: var(--mostly-box);
+        outline: 0;
+        box-shadow: 5px 0 0 0 var(--mostly-primary-color) inset;
+      };
+
+      --mostly-card: {
+        display: block;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 3px 5px rgba(0,0,0,0.04) !important;
+        font-family: var(--mostly-app-font);
+        border-radius: 0;
+        background-color: var(--mostly-box) !important;
+      };
+
+      --mostly-label: {
+        display: block;
+        opacity: .6;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 400 !important;
+        letter-spacing: 0.005em !important;
+      };
+
+      --mostly-tag: {
+        display: inline-block;
+        background-color: var(--mostly-tag-background);
+        padding: .2rem .5rem;
+        color: var(--mostly-tag-text);
+        font-size: .8rem;
+        letter-spacing: 0.02em;
+        line-height: 1rem;
+        margin-bottom: .3em;
+        border-radius: 2em;
+        text-decoration: none;
+        vertical-align: baseline;
+      };
+
+      --mostly-user: {
+        border-radius: 2.5em;
+        text-transform: capitalize;
+      };
 
       --mostly-dialog: {
-        min-width: 0;
-        width: 90%;
+        min-width: 480px;
+      };
+
+      --mostly-selectivity-label: {
+        @apply --mostly-label;
+      };
+
+      --nx-actions: {
+        display: flex;
+        margin: 1em 0;
+      };
+
+      --nx-actions-button: {
+        flex: 1;
+      };
+
+      --nx-button-hover: {
+        color: var(--mostly-link-hover-color);
+      };
+
+      --nx-button-primary: {
+        color: var(--mostly-button-primary-text);
+        font-weight: 700;
+        background-color: var(--mostly-button-primary);
+      };
+
+      --nx-button-primary-hover: {
+        color: var(--mostly-button-primary-text);
+        background-color: var(--mostly-button-primary-focus);
+      };
+
+      --nx-button-disabled: {
+        color: var(--mostly-button-disabled-text);
+        font-weight: normal;
+        background-color: var(--mostly-button-disabled);
+      };
+
+      --buttons-bar: {
+        background-color: var(--mostly-dialog-buttons-bar);
+        padding: .7em 1.8em;
+      };
+
+      --iron-data-table: {
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-tooltip: {
+        font-size: 1rem;
+        font-family: var(--mostly-app-font);
+        background-color: var(--mostly-sidebar-background);
+      };
+
+      --paper-card: {
+        display: block;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 3px 5px rgba(0,0,0,0.04) !important;
+        font-family: var(--mostly-app-font);
+        border-radius: 0;
+        background-color: var(--mostly-box) !important;
+      };
+
+      --paper-card-header-text: {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 0 1em;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: var(--mostly-text-default);
+      };
+
+      --paper-radio-button: {
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-font-common-base: {
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-tabs: {
+        border-bottom: 1px solid var(--mostly-border);
+      };
+
+      --paper-icon-item: {
+        color: var(--mostly-text-default);
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-tab: {
+        color: var(--mostly-text-default);
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-item: {
+        color: var(--mostly-text-default);
+        font-family: var(--mostly-app-font);
+        font-size: 1rem;
+      };
+
+      --paper-input: {
+        color: var(--mostly-text-default);
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-input-container: {
+        color: var(--mostly-text-default);
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-input-container-label: {
+        font-family: var(--mostly-app-font);
+        font-size: 1.35rem;
+      };
+
+      --paper-input-container-input: {
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-input-container-label-focus: {
+        color: var(--mostly-text-default);
+      };
+
+      --paper-dialog: {
+        color: var(--mostly-text-default);
+        background: var(--mostly-box);
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-checkbox-label: {
+        font-family: var(--mostly-app-font);
+      };
+
+      --paper-button: {
+        font-family: var(--mostly-app-font);
+        font-size: .8rem;
+        color: var(--mostly-link-color);
+        background-color: var(--mostly-button);
+        border: 1px solid var(--mostly-border);
+        border-radius: .1em;
+        padding: .8em 2em;
+        margin: 0;
+      };
+
+      --paper-button-ink-color: {
+        color: var(--mostly-link-color);
+      };
+
+      --paper-button-flat-keyboard-focus: {
+        background-color: var(--mostly-button-primary-focus);
+        color: var(--mostly-button-primary-text);
+        border-color: transparent;
+      };
+
+      --paper-button-raised-keyboard-focus: {
+        background-color: var(--mostly-button-primary-focus);
+        color: var(--mostly-button-primary-text);
+        border-color: transparent;
+      };
+
+      --paper-transition-easing: {
+        -webkit-transition: none;
+        transition: none;
+      };
+
+      /* Suggester (Quick search) */
+      --mostly-suggester-button: {
+        top: var(--mostly-app-top);
+        right: 0;
+        width: 60px;
+        height: 53px;
+        padding: 16px;
+      };
+
+      --mostly-suggester-bar: {
+        position: relative;
+        top: var(--mostly-app-top);
+      };
+    }
+
+    @media (max-width: 1024px) {
+      html {
+        font-size: 14px;
+
+        --mostly-dialog: {
+          min-width: 0;
+          width: 90%;
+        }
       }
     }
-  }
-</style>
+  </style>
 </custom-style>
