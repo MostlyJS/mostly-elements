@@ -1,12 +1,13 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="fonts/aegis/lyfe-icons.html">
 
 <dom-module id="mostly-styles">
   <template>
-    <style include="iron-positioning lyfe-icons">
+    <style include="iron-positioning iron-flex iron-flex-alignment iron-flex-factors lyfe-icons">
       /* headings */
       h1, h2, h3, h4, h5, h6 {
         font-weight: 400;
@@ -100,6 +101,50 @@
         text-transform: uppercase;
         text-overflow: ellipsis;
         color: var(--mostly-drawer-header);
+      }
+
+      .table {
+        border: 1px solid var(--mostly-border, #eee);
+      }
+
+      .table-header {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        background-color: var(--mostly-table-header-background, #fafafa);
+        color: var(--mostly-text-default, rgba(0, 0, 0, 0.54));
+        font-weight: 400;
+        min-height: 48px;
+        padding: 0 0 0 12px;
+        border-bottom: 2px solid var(--mostly-border, #eee);
+        box-shadow: 0 -1px 0 rgba(0,0,0,0.2) inset;
+      }
+
+      .table-row {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        padding: 12px 0 12px 12px;
+        border-bottom: 1px solid var(--mostly-border, #eee);
+        cursor: pointer;
+      }
+
+      .table-row:hover {
+        background: var(--mostly-container-hover, #fafafa);
+      }
+
+      .table-row:last-of-type {
+        border-bottom: none;
+      }
+
+      .table-actions {
+        width: 3em;
+      }
+
+      .empty-result {
+        opacity: .5;
+        display: block;
+        font-weight: 300;
+        padding: 1.5em .7em;
+        text-align: center;
       }
     </style>
   </template>
