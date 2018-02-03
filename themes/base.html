@@ -119,6 +119,11 @@
         box-shadow: 0 -1px 0 rgba(0,0,0,0.2) inset;
       }
 
+      .table-header > div {
+        background-color: var(--mostly-table-header-background,#f8f9fb);
+        font-weight: bold;
+      }
+
       .table-row {
         @apply --layout-horizontal;
         @apply --layout-center;
@@ -134,9 +139,19 @@
       .table-row:last-of-type {
         border-bottom: none;
       }
+      .form-row {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        padding: 5px 0 5px 5px;
+      }
 
-      .table-actions {
-        width: 3em;
+      .form-row > div {
+        padding-right: 8px;
+      }
+
+      .table-actions,
+      .form-actions {
+        width: 50px;
       }
 
       .empty-result {
