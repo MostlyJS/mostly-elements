@@ -165,12 +165,16 @@ Note: Elements that depend on a connectionId use `nx` as default.
 
         // add a response status interceptor
         this.client.interceptors.response.use(function (response) {
-          if (response.data && response.data.status !== 0) {
-            console.error(`request ${response.config.method} ${response.request.responseURL} failed:`, response.data.status, response.data.message);
-            return Promise.reject({
-              status: response.data.status,
-              message: response.data.message
-            });
+          if (response.data) {
+            if (response.data.status === undefined || response.data.status === null) {
+              console.warn(`Invalid status in response ${response.config.method} ${response.request.responseURL}:`, response.data);
+            } else if (response.data.status !== 0) {
+              console.error(`Error when request ${response.config.method} ${response.request.responseURL}:`, response.data.status, response.data.message);
+              return Promise.reject({
+                status: response.data.status,
+                message: response.data.message
+              });
+            }
           }
           return response;
         }, Promise.reject);
