@@ -64,7 +64,8 @@ An element for dialogs
         }
       },
 
-      _opened: function() {
+      _opened: function(e) {
+        // workaround for https://github.com/PolymerElements/paper-dialog/issues/7
         var isIOS = /iPhone|iPad|iPod/.test(window.navigator.userAgent);
         if (this.reparent && e.target.withBackdrop || isIOS) {
           e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
