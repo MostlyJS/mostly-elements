@@ -57,7 +57,7 @@
     "promise-queue": "azproduction/promise-queue#^2.2.3",
     "randomcolor": "0.4.1",
     "select2": "3.5.2",
-    "video.js": "5.20.1",
+    "video.js": "^5.20.4",
     "Sortable": "^1.6.0"
   },
   "devDependencies": {

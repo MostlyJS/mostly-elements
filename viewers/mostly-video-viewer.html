@@ -33,18 +33,22 @@ Example:
       }
 
       #container {
-        position: relative;
-        text-align: center;
+        display: block;
+        width: 100%;
+        height: 100%;
+        @apply --layout-vertical;
+      }
+
+      #video {
+        background: var(--primary-background-color);
         height: 100%;
         width: 100%;
+        outline: none;
+        @apply --layout-flex;
       }
 
       #storyboard {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 8px;
+        display: block;
         background: var(--primary-background-color);
         @apply --layout-horizontal;
         @apply --layout-center-justified;
@@ -56,7 +60,7 @@ Example:
       }
 
       .thumbnail {
-        padding: 4px;
+        padding: 4px 4px 2px 0;
         cursor: pointer;
       }
     </style>
@@ -120,10 +124,10 @@ Example:
       },
 
       ready: function() {
-        // Capture tap event to prevent clashing with videojs tap/click events
-        this.addEventListener('tap', function(event) {
+        // Capture click event to prevent clashing with videojs tap/click events
+        this.addEventListener('click', function(event) {
           event.stopPropagation();
-        }, true);
+        });
       },
 
       play: function() {
