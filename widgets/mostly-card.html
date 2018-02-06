@@ -1,21 +1,22 @@
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-collapse/iron-collapse.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../iron-icon/iron-icon.html">
 <link rel="import" href="../../iron-icons/hardware-icons.html">
-<link rel="import" href="../../iron-collapse/iron-collapse.html">
 
 <!--
 An element for a generic card
 
 Example:
 
-    <mostly-card heading="title">content</mostly-card>
+    <mostly-card icon="icons:home" heading="title" collapsible opened>content</mostly-card>
 
 ### Styling
 
 The following custom properties and mixins are available for styling:
 
 Custom property         | Description | Default
------------------------|------------------|----------
+------------------------|-------------|----------
 `--mostly-card`         | Mixin applied to the card | `{}`
 
 @group Mostly UI
@@ -25,16 +26,21 @@ Custom property         | Description | Default
   <template>
     <style>
       :host {
+        display: block;
         -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
         -moz-box-sizing: border-box;    /* Firefox, other Gecko */
         box-sizing: border-box;         /* Opera/IE 8+ */
+        background-color: white;
+        padding: 16px;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.04);
+        @apply --mostly-card;
       }
 
-      :host([collapsible]) #card {
+      :host([collapsible]) {
         padding-bottom: 1px;
       }
 
-      :host([opened]) #card {
+      :host([opened]) {
         padding-bottom: 16px;
       }
 
@@ -43,18 +49,25 @@ Custom property         | Description | Default
         @apply --mostly-link-hover;
       }
 
-      #card {
-        display: block;
-        background-color: white;
-        padding: 16px;
-        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.04);
-        @apply --mostly-card;
+      [hidden] {
+        display: none !important;
       }
 
-      h3 {
-        @apply --layout-center;
+      .header {
         @apply --layout-horizontal;
+        @apply --layout-center;
         margin: 0 0 1em;
+      }
+
+      .header .icon {
+        display: inline-block;
+        margin-right: 8px;
+        --iron-icon-width: 16px;
+        --iron-icon-height: 16px;
+      }
+
+      .header .heading {
+        @apply --layout-flex;
         font-size: 1rem;
         font-weight: 700;
         letter-spacing: .04em;
@@ -62,28 +75,24 @@ Custom property         | Description | Default
       }
     </style>
 
-    <div id="card">
-      <template is="dom-if" if="[[collapsible]]">
-        <h3 on-tap="_toggle">
-          <iron-icon icon="[[_icon(opened)]]" toggle></iron-icon>
-          <span>[[heading]]</span>
-        </h3>
-        <iron-collapse opened="{{opened}}">
-          <div>
-            <slot></slot>
-          </div>
-        </iron-collapse>
-      </template>
+    <template is="dom-if" if="[[_hasHeading(icon, heading, collapsible)]]">
+      <h3 class="header" on-tap="_toggle">
+        <iron-icon class="icon" icon="[[icon]]" hidden$="[[!icon]]"></iron-icon>
+        <span class="heading">[[heading]]</span>
+        <iron-icon icon="[[_toggleIcon(opened)]]" toggle hidden$="[[!collapsible]]"></iron-icon>
+      </h3>
+    </template>
 
-      <template is="dom-if" if="[[!collapsible]]">
-        <template is="dom-if" if="[[heading]]">
-          <h3>[[heading]]</h3>
-        </template>
-        <div>
-          <slot></slot>
-        </div>
-      </template>
-    </div>
+    <template is="dom-if" if="[[collapsible]]">
+      <iron-collapse opened="[[_opened(opened, collapsible)]]">
+        <slot></slot>
+      </iron-collapse>
+    </template>
+
+    <template is="dom-if" if="[[!collapsible]]">
+      <slot></slot>
+    </template>
+
   </template>
   <script>
     Polymer({
@@ -91,16 +100,28 @@ Custom property         | Description | Default
       properties: {
 
         /**
+         * Heading icon
+         */
+        icon: {
+          type: String,
+          value: null
+        },
+
+        /**
          * Heading of the card
          */
-        heading: String,
+        heading: {
+          type: String,
+          value: null
+        },
 
         /**
          * If the card is collapsible
          */
         collapsible: {
           type: Boolean,
-          value: false
+          value: false,
+          reflectToAttribute: true
         },
 
         /**
@@ -113,11 +134,21 @@ Custom property         | Description | Default
         }
       },
 
-      _toggle: function() {
-        this.opened = !this.opened;
+      _hasHeading: function(icon, heading, collapsible) {
+        return icon || heading || collapsible;
       },
 
-      _icon: function(opened) {
+      _opened: function(opened, collapsible) {
+        return !collapsible || opened;
+      },
+
+      _toggle: function() {
+        if (this.collapsible) {
+          this.opened = !this.opened;
+        }
+      },
+
+      _toggleIcon: function(opened) {
         return 'hardware:keyboard-arrow-' + (opened ? 'up' : 'down');
       }
     });
