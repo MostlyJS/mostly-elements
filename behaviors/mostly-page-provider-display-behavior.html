@@ -420,7 +420,7 @@
     _updateFlags: function() {
       if (!this.loading) {
         this.size = this.items && this.items.length > 0? this.items.length : 0;
-        this._isSelectAllIndeterminate = selectedItems
+        this._isSelectAllIndeterminate = this.selectedItems
           && this.selectedItems.length > 0
           && this.selectedItems.length < this.size;
         this._isSelectAllChecked = this.selectedItems
