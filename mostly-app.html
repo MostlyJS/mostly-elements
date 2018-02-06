@@ -140,7 +140,7 @@
         width: 100%;
       }
 
-      #drawer:hover .toggle {
+      #drawer .toggle {
         position: absolute;
         right: -16px;
         top: 0;
@@ -150,12 +150,17 @@
       }
 
       #drawer .toggle iron-icon {
+        visibility: hidden;
         color: var(--mostly-drawer-background);
         background-color: var(--mostly-drawer-text);
         width: 16px;
         height: 48px;
         top: calc(50% - 24px);
         opacity: 0.6;
+      }
+
+      #drawer:hover .toggle iron-icon, #drawer .toggle:hover iron-icon {
+        visibility: visible;
       }
 
       #drawer iron-pages {
