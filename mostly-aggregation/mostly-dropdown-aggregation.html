@@ -25,14 +25,21 @@ An element to interact with page provider aggregations as suggestions.
         display: block;
         width: 100%;
       }
+
+      [hidden] {
+        display: none;
+      }
     </style>
 
     <mostly-selectivity data="[[_computedData]]"
             min-chars="[[minChars]]"
             multiple="[[multiple]]"
             placeholder="[[placeholder]]"
+            hidden$="[[_isEmpty]]"
             value="{{value}}">
     </mostly-selectivity>
+
+    <label hidden$="[[!_isEmpty]]">[[i18n('dropdownAggregation.noResults')]]</label>
 
   </template>
   <script>
