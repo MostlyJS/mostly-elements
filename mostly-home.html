@@ -25,16 +25,6 @@
         }
       }
 
-      h3 {
-        @apply --layout-horizontal;
-        @apply --layout-center;
-      }
-
-      h3 iron-icon {
-        width: 1.3em;
-        margin-right: 0.4em;
-      }
-
       mostly-data-table, mostly-processes-list {
         height: 350px !important;
       }
@@ -55,8 +45,7 @@
         <section name="dashboard" class="dashboard">
 
           <!-- microservice processes -->
-          <mostly-card>
-            <h3><iron-icon icon="mostly:edit" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
+          <mostly-card icon="mostly:edit" heading="[[i18n('home.processes')]]">
             <mostly-page-provider auto
               id="statsProcesses"
               page-size="20"
@@ -93,14 +82,12 @@
           </mostly-card>
            
           <!-- processes -->
-          <mostly-card>
-            <h3><iron-icon icon="mostly:tasks" name="Processes"></iron-icon>[[i18n('home.processes')]]</h3>
+          <mostly-card icon="mostly:tasks" heading="[[i18n('home.processes')]]">
             <mostly-processes-list id="processLists" processes="[[processes]]"></mostly-processes-list>
           </mostly-card>
            
           <!-- recently viewed -->
-          <mostly-card>
-            <h3><iron-icon icon="mostly:recent" name="Recently Viewed"></iron-icon>[[i18n('app.recentlyViewed')]]</h3>
+          <mostly-card icon="mostly:recent" heading="[[i18n('app.recentlyViewed')]]">
             <playing-document-storage id="recentStorage"
                     name="playing-recent-documents"
                     documents="{{recentDocuments}}"></playing-document-storage>
@@ -129,8 +116,7 @@
           </mostly-card>
           
           <!-- favorites
-          <mostly-card>
-            <h3><iron-icon icon="mostly:favorites" name="Favorites"></iron-icon>[[i18n('home.favorites')]]</h3>
+          <mostly-card icon="mostly:favorites" heading="[[i18n('home.favorites')]]">
             <mostly-operation id="fetchFavOp" op="Favorite.Fetch" response="favorite"></mostly-operation>
             <mostly-page-provider id="favoritesProvider"
                provider="default_content_collection"

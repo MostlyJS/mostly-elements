@@ -1,9 +1,9 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-image/iron-image.html">
 <link rel="import" href="../../paper-button/paper-button.html">
-<link rel="import" href="../../paper-card/paper-card.html">
 
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
+<link rel="import" href="../widgets/mostly-card.html">
 
 <!--
 `mostly-theme`
@@ -18,11 +18,7 @@
         display: block;
       }
 
-      paper-card {
-        @apply --mostly-card;
-      }
-
-      paper-card[selected] {
+      mostly-card[selected] {
         border: 2px solid var(--default-primary-color);
         border-radius: 3px;
       }
@@ -53,7 +49,7 @@
       }
     </style>
 
-    <paper-card selected$="[[_selected(name)]]">
+    <mostly-card selected$="[[_selected(name)]]">
       <iron-image src="[[_image(name)]]" sizing="contain"></iron-image>
       <div class="details">
         <div class="label">[[_label(name)]]</div>
@@ -61,7 +57,7 @@
           [[_button(name)]]
         </paper-button>
       </div>
-    </paper-card>
+    </mostly-card>
 
   </template>
   <script>
