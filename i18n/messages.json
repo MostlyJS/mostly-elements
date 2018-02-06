@@ -314,6 +314,7 @@
   "documentAclTable.until": "Until",
   "documentAclTable.untilMiddle": "until",
   "documentAclTable.userGroup": "User / Group",
+  "documentAttachments.empty": "There are no attachments",
   "documentAttachments.heading": "Attachments",
   "documentAttachments.upload.uploaded": "Attachment(s) uploaded",
   "documentContentView.datatable.header.creator": "Creator",
