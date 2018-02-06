@@ -58,6 +58,7 @@ An element for generic input in forms
             maxlength$="[[maxlength]]"
             min$="[[min]]"
             max$="[[max]]"
+            step$="[[step]]"
             pattern$="[[pattern]]"
             validator$="[[validator]]"
             invalid$="[[invalid]]"
@@ -149,6 +150,11 @@ An element for generic input in forms
          * The maximum (numeric or date-time) input value.
          */
         max: String,
+
+        /**
+         * The increment value.
+         */
+        step: Number,
 
         /**
          * The minimum length of the input value.
