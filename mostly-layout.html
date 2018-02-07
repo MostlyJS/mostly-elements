@@ -109,27 +109,25 @@ Example:
         var file = href.split('/').pop(),
             name = file.split('.')[0];
 
-        this.importHref(href,
-          function() {
-            var element = document.createElement(name);
+        this.importHref(href, function() {
+          var element = document.createElement(name);
 
-            if (this.$.container.hasChildNodes()) {
-              this.$.container.replaceChild(element, this.$.container.firstChild);
-            } else {
-              this.$.container.appendChild(element);
-            }
+          if (this.$.container.hasChildNodes()) {
+            this.$.container.replaceChild(element, this.$.container.firstChild);
+          } else {
+            this.$.container.appendChild(element);
+          }
 
-            this._setElement(element);
-            this._update();
-            this.notifyResize();
-          },
+          this._setElement(element);
+          this._update();
+          this.notifyResize();
+        }, function(e) {
           // error handling
-          function() {
-            this._setElement(undefined);
-            this.$.error.hidden = false;
-            this.$.container.hidden = true;
-            this.notifyResize()
-          });
+          this._setElement(undefined);
+          this.$.error.hidden = false;
+          this.$.container.hidden = true;
+          this.notifyResize()
+        });
       },
 
       // setup data binding
