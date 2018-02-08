@@ -23,7 +23,6 @@ Use `icon-checked` (or `icon-src-checked`) to change the icon while switching
 
     <mostly-toggle-icon icon="favorite-border" icon-checked="favorite"></mostly-toggle-icon>
 
-
 ### Styling
 
 You can style the paper-icon-buttons like usual by adding (custom) properties or mixins to the following mixins:
@@ -97,6 +96,7 @@ Custom colors and backgrounds do animate if they change in checked state by usin
       id="unchecked"
       icon="{{icon}}"
       src="{{iconSrc}}"
+      title="{{title}}"
       disabled$="{{disabled}}">
     </paper-icon-button>
 
@@ -104,6 +104,7 @@ Custom colors and backgrounds do animate if they change in checked state by usin
       id="checked"
       icon="{{_computeIconChecked(icon, iconChecked, iconActive)}}"
       src="{{_computeIconSrcChecked(iconSrc, iconSrcChecked, iconSrcActive)}}"
+      title="{{title}}"
       disabled$="{{disabled}}">
     </paper-icon-button>
 
@@ -155,6 +156,13 @@ Custom colors and backgrounds do animate if they change in checked state by usin
        * The name of the icon to use. The name should be of the form: `iconset_name:icon_name` (omit the iconset name when using the default set). See [iron-icon](https://elements.polymer-project.org/elements/iron-icon).
        */
       icon: {
+        type: String,
+      },
+
+      /**
+       * The title of the icon to use.
+       */
+      title: {
         type: String,
       },
 
