@@ -1,3 +1,4 @@
+
 <!--
 `mostly-resource` allows managing REST on a Mostly service.
 
@@ -58,6 +59,9 @@ element.
 
       /* The response from the server. */
       response: {type: Object, value: null, notify: true},
+
+      /* The response.data from the server. */
+      responseData: {type: Object, value: null, notify: true},
 
       /* The `entity-type` of the resource. */
       type: {type: String, value: ''},
@@ -199,6 +203,7 @@ element.
       return this._request(config).then(response => {
         this.fire('response', { response: response.data });
         this.response = response.data; // notify
+        this.responseData = this.response.data || this.response; // notify
         this.success = true;
         this._setActiveRequests(this.activeRequests - 1);
         return this.response;
