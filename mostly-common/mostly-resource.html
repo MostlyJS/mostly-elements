@@ -19,6 +19,8 @@ element.
 -->
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="mostly-connection.html">
+<script src="../../JavaScript-MD5/js/md5.min.js"></script>
+
 <dom-module id="mostly-resource">
   <template>
     <style>
@@ -44,6 +46,9 @@ element.
 
       /* If true, automatically execute the operation when either `path` or `params` changes. */
       auto: {type: Boolean, value: false},
+
+      /* If true, the response will be cached until next request without cache */
+      cached: {type: Boolean, value: false},
 
       /* The HTTP method to use ('GET', 'POST', 'PUT', or 'DELETE'). Default is 'GET' */
       method: { type: String, value: 'get'},
@@ -200,7 +205,19 @@ element.
         url: this.path,
         params: params
       }, options);
-      return this._request(config).then(response => {
+      var request = null;
+      var key = this._genKey();
+      if (this.method === 'get' && this.cached && localStorage.getItem(key)) {
+        request = Promise.resolve(JSON.parse(localStorage.getItem(key)));
+      } else {
+        request = this._request(config);
+      }
+      return request.then(response => {
+        if (this.cached) {
+          localStorage.setItem(key, JSON.stringify(response));
+        } else {
+          localStorage.removeItem(key);
+        }
         this.fire('response', { response: response.data });
         this.response = response.data; // notify
         this.responseData = this.response.data || this.response; // notify
@@ -224,6 +241,20 @@ element.
         }
         throw this.error;
       });
+    },
+
+    _genKey: function() {
+      return md5(
+        this.connectionId
+          + this.path
+          + this.method
+          + this.contentType
+          + JSON.stringify(this.params || {})
+          + JSON.stringify(this.headers || {})
+          + JSON.stringify(this.schemas || {})
+          + JSON.stringify(this.enrichers || {})
+          + JSON.stringify(this.enrichersEntity || {})
+      ) + '-' + this.path;
     },
 
     _isLoading: function() {

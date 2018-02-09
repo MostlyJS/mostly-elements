@@ -58,7 +58,8 @@
     "randomcolor": "0.4.1",
     "select2": "3.5.2",
     "video.js": "^5.20.4",
-    "Sortable": "^1.6.0"
+    "Sortable": "^1.6.0",
+    "JavaScript-MD5": "^2.10.0"
   },
   "devDependencies": {
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
