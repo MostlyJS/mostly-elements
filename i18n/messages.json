@@ -909,6 +909,7 @@
   "play.rule.advanced": "Advanced Settings",
   "play.rule.command.reward.add": "Add Reward",
   "play.rule.command.rule.create": "Create a Rule",
+  "play.rule.command.rule.create.guide": "You haven't defined any rules yet.",
   "play.rule.command.rule.add": "Add Rule",
   "play.rule.condition.operator.eq": "equal to",
   "play.rule.condition.operator.gt": "greater than",
