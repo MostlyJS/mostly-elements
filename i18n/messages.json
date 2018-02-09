@@ -908,6 +908,7 @@
   "play.rule.achievement.rules.item.placeholder": "Select a Item",
   "play.rule.advanced": "Advanced Settings",
   "play.rule.command.reward.add": "Add Reward",
+  "play.rule.command.rule.create": "Create a Rule",
   "play.rule.command.rule.add": "Add Rule",
   "play.rule.condition.operator.eq": "equal to",
   "play.rule.condition.operator.gt": "greater than",
