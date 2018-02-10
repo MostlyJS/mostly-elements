@@ -17,6 +17,10 @@
       }
     },
 
+    isEqual: function(s1, s2) {
+      return s1 === s2;
+    },
+
     findById(entries, id) {
       return this.fp.find(m => m.id === id, entries);
     }
