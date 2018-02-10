@@ -1,0 +1,25 @@
+<script src="../../ramda/dist/ramda.min.js"></script>
+
+<script>
+  var Mostly = Mostly || {};
+
+  /**
+   * `Mostly.FuncBehavior` provides a set of helpers for functional programming.
+   *
+   * @polymerBehavior
+   */
+  Mostly.FuncBehavior = {
+
+    properties: {
+      fp: {
+        type: Object,
+        value: R
+      }
+    },
+
+    findById(entries, id) {
+      return this.fp.find(m => m.id === id, entries);
+    }
+
+  };
+</script>

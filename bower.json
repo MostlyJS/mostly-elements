@@ -23,6 +23,7 @@
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^2.0.0",
     "iron-scroll-threshold": "PolymerElements/iron-scroll-threshold#^2.0.0",
     "iron-validator-behavior": "PolymerElements/iron-validator-behavior#^2.0.0",
+    "JavaScript-MD5": "^2.10.0",
     "jsonic": "^0.3.0",
     "marked-element": "PolymerElements/marked-element#^2.0.0",
     "moment": "2.10.6",
@@ -55,11 +56,11 @@
     "paper-tooltip": "PolymerElements/paper-tooltip#^2.0.0",
     "paper-typeahead": "nuxeo/paper-typeahead#0.6",
     "promise-queue": "azproduction/promise-queue#^2.2.3",
+    "ramda": "^0.25.0",
     "randomcolor": "0.4.1",
     "select2": "3.5.2",
-    "video.js": "^5.20.4",
     "Sortable": "^1.6.0",
-    "JavaScript-MD5": "^2.10.0"
+    "video.js": "^5.20.4"
   },
   "devDependencies": {
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
