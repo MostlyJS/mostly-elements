@@ -23,6 +23,11 @@
       }
     },
 
+    p18n(prefix, key) {
+      var params = [prefix + '.' + key].concat(Array.prototype.slice.call(arguments, 2));
+      return this.i18n.apply(null, params);
+    },
+
     created: function() {
       this.localeLoadedHandler = this.refreshI18n.bind(this);
       document.addEventListener('i18n-locale-loaded', this.localeLoadedHandler);

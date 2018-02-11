@@ -5,8 +5,7 @@ window.mostly.I18n = window.mostly.I18n || {};
  * Translates the given key.
  * Also accepts a default value and multiple arguments which will be replaced on the value.
  */
-window.mostly.I18n.translate = function (key, prefix) {
-  if (prefix) key = prefix + key;
+window.mostly.I18n.translate = function (key) {
   var language = window.mostly.I18n.language || 'en';
   var value = (window.mostly.I18n[language] && window.mostly.I18n[language][key]) || key;
   var params = Array.prototype.slice.call(arguments, 1);
