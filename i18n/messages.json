@@ -908,6 +908,7 @@
   "play.rule.command.rule.create.guide": "You haven't defined any rules yet.",
   "play.rule.command.rule.add": "Add Rule",
   "play.rule.condition.desc.action": "The player has triggered the action",
+  "play.rule.condition.desc.action.value": "times",
   "play.rule.condition.desc.and": "Match all of the following rules",
   "play.rule.condition.desc.formula": "The player should satisfy the equation",
   "play.rule.condition.desc.metric.true": "The player should have the metric",
