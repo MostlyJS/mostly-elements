@@ -21,8 +21,15 @@
       return s1 === s2;
     },
 
-    findById(entries, id) {
-      return this.fp.find(m => m.id === id, entries);
+    findById(entries, id, field) {
+      if (entries) {
+        var entry = R.find(m => m.id === id, entries);
+        if (field) {
+          return fp.path(field, field);
+        } else {
+          return entry;
+        }
+      }
     }
 
   };
