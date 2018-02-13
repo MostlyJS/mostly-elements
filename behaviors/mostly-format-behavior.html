@@ -92,6 +92,18 @@
 
     _languageCode: function (){
       return ((window.mostly.I18n.language) ? window.mostly.I18n.language.split('-')[0] : 'en');
+    },
+
+    ordinal: function(i) {
+      var sufixes = ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"];
+      switch (i % 100) {
+        case 11:
+        case 12:
+        case 13:
+            return i + "th";
+        default:
+            return i + sufixes[i % 10];
+      }
     }
 
   }];
