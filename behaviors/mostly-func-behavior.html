@@ -17,8 +17,16 @@
       }
     },
 
-    isEqual: function(s1, s2) {
-      return s1 === s2;
+    isEmpty: R.either(R.isNil, R.isEmpty),
+    isEqual: R.equals,
+    isValid: R.complement(R.either(R.isNil, R.isEmpty)),
+    
+    allValid() {
+      return R.all(this.isValid, arguments);
+    },
+
+    getIndex(array, index) {
+      return array[index];
     },
 
     findById(entries, id, field) {
