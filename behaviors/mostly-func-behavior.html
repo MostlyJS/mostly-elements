@@ -38,6 +38,11 @@
           return entry;
         }
       }
+    },
+
+    equalById(entries, id, field, value) {
+      var entry = this.findById(entries, id, field);
+      return entry === value;
     }
 
   };
