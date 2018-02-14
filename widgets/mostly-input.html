@@ -15,7 +15,7 @@ An element for generic input in forms
       :host {
         display: block;
         position: relative;
-        padding-bottom: 8px;
+        padding-bottom: 5px;
       }
 
       :host([hidden]) {
@@ -64,6 +64,8 @@ An element for generic input in forms
             validator$="[[validator]]"
             invalid$="[[invalid]]"
             no-label-float>
+      <slot name="prefix" slot="prefix"></slot>
+      <slot name="suffix" slot="suffix"></slot>
     </paper-input>
 
   </template>

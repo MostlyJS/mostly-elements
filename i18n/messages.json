@@ -1000,6 +1000,7 @@
   "play.rule.rewards.rules.item": "Reward Item",
   "play.rule.rewards.rules.item.placeholder": "Select an Item",
   "play.rule.rewards.rules.placeholder": "Select a type of rule",
+  "play.rule.reward.chance": "Chance to be awarded",
   "play.rule.reward.verb.add": "Add",
   "play.rule.reward.verb.remove": "Remove",
   "play.rule.reward.verb.set": "Set",
