@@ -47,8 +47,8 @@ element.
       /* If true, automatically execute the operation when either `path` or `params` changes. */
       auto: {type: Boolean, value: false},
 
-      /* If true, the response will be cached until next request without cache */
-      cached: {type: Boolean, value: false},
+      /* If positive, the response will be cached for provided seconds */
+      cached: {type: Number, value: false},
 
       /* The HTTP method to use ('GET', 'POST', 'PUT', or 'DELETE'). Default is 'GET' */
       method: { type: String, value: 'get'},
@@ -207,16 +207,22 @@ element.
       }, options);
       var request = null;
       var key = this._genKey();
-      if (this.method === 'get' && this.cached && localStorage.getItem(key)) {
-        request = Promise.resolve(JSON.parse(localStorage.getItem(key)));
-      } else {
-        request = this._request(config);
+      if (this.method === 'get' && this.cached > 0 && localStorage.getItem(key)) {
+        var response = JSON.parse(localStorage.getItem(key));
+        if (response.headers && response.headers.date) {
+          var diff = moment().diff(new Date(response.headers.date), 'seconds');
+          //console.info('>> cached resource', key, diff, this.cached);
+          if (diff < this.cached) {
+            request = Promise.resolve(response);
+          } else {
+            localStorage.removeItem(key);
+          }
+        }
       }
+      request = request || this._request(config);
       return request.then(response => {
-        if (this.cached) {
+        if (this.method === 'get' && this.cached > 0) {
           localStorage.setItem(key, JSON.stringify(response));
-        } else {
-          localStorage.removeItem(key);
         }
         this.fire('response', { response: response.data });
         this.response = response.data; // notify
