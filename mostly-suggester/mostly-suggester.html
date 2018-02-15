@@ -6,7 +6,6 @@
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../paper-input/paper-input.html">
 
-
 <link rel="import" href="../behaviors/mostly-routing-behavior.html">
 <link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="../mostly-common/mostly-connection.html">
@@ -333,17 +332,17 @@
         return this.urlFor(item.type, item.id).replace('/#!', '');
       },
 
-      _upPressed: function() {
+      _upPressed: function(e) {
         e.detail.keyboardEvent.preventDefault();
         this.$.selector.selectPrevious();
       },
 
-      _downPressed: function() {
+      _downPressed: function(e) {
         e.detail.keyboardEvent.preventDefault();
         this.$.selector.selectNext();
       },
 
-      _enterPressed: function() {
+      _enterPressed: function(e) {
         if (this.$.selector.items.length > 0) {
           e.detail.keyboardEvent.preventDefault();
           this.$.selector.items[this.$.selector.selected].click();
