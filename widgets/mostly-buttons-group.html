@@ -1,0 +1,164 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<link rel="import" href="../../iron-selector/iron-multi-selectable.html">
+<link rel="import" href="../../paper-styles/color.html">
+<link rel="import" href="../../paper-material/paper-material-shared-styles.html">
+<link rel="import" href="../../paper-behaviors/paper-button-behavior.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+
+<!--
+Material design: [Buttons](https://www.google.com/design/spec/components/buttons.html)
+
+A button group with `paper-button` style. It also implement the
+`iron-multi-selectable` behavior which permit to select a choice bu taping on a
+button.
+
+Example:
+
+    <mostly-buttons-group>
+      <paper-button>Choice 1</paper-button>
+      <paper-button>Choice 2</paper-button>
+      <paper-button>Choice 3</paper-button>
+    </mostly-buttons-group>
+
+### Styling
+
+The following custom properties and mixins are also available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--mostly-buttons-group-ink-color` | Background color of the ripple | `Based on the button's color`
+`--mostly-buttons-group` | Mixin applied to the buttons group | `{}`
+`--mostly-buttons-group-disabled` | Mixin applied to the disabled buttons group. Note that you can also use the `mostly-buttons-group[disabled]` selector | `{}`
+`--mostly-buttons-group-flat-keyboard-focus` | Mixin applied to a flat button after it's been focused using the keyboard | `{}`
+`--mostly-buttons-group-raised-keyboard-focus` | Mixin applied to a raised button after it's been focused using the keyboard | `{}`
+`--mostly-buttons-group-selected-background` | Background color of the selected button | `--google-grey-300`
+`--mostly-buttons-group-selected` | Mixin applied to the selected button | {}
+-->
+
+<dom-module id="mostly-buttons-group">
+  <template>
+    <style include="paper-material-shared-styles">
+      :host {
+        @apply --layout-horizontal;
+        overflow: hidden;
+        @apply --layout-inline;
+        position: relative;
+        box-sizing: border-box;
+        min-width: 5.14em;
+        margin: 0 0.29em;
+        background: transparent;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+        font: inherit;
+        text-transform: uppercase;
+        outline-width: 0;
+        border-radius: 3px;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        z-index: 0;
+
+        @apply --paper-font-common-base;
+        @apply --mostly-buttons-group;
+      }
+
+      :host([hidden]) {
+        display: none !important;
+      }
+
+      :host([raised].keyboard-focus) {
+        font-weight: bold;
+        @apply --mostly-buttons-group-raised-keyboard-focus;
+      }
+
+      :host(:not([raised]).keyboard-focus) {
+        font-weight: bold;
+        @apply --mostly-buttons-group-flat-keyboard-focus;
+      }
+
+      :host([disabled]) {
+        background: #eaeaea;
+        color: #a8a8a8;
+        cursor: auto;
+        pointer-events: none;
+
+        @apply --mostly-buttons-group-disabled;
+      }
+
+      :host([animated]) {
+        @apply --shadow-transition;
+      }
+
+      paper-ripple {
+        color: var(--mostly-buttons-group-ink-color);
+      }
+
+      ::slotted(paper-button) {
+        background-color: #fff;
+        color: #6d7684;
+        border-radius: 1em;
+        padding: .3em .9em .3em;
+        margin: 0 .2em .2em 0;
+        font-size: 1rem;
+        text-transform: none;
+      }
+      ::slotted(paper-button.iron-selected) {
+        background-color: #00adff;
+        color: white;
+        @apply --mostly-buttons-group-selected;
+      }
+    </style>
+
+    <slot></slot>
+  </template>
+  <script>
+    Polymer({
+      is: 'mostly-buttons-group',
+
+      behaviors: [
+        Polymer.IronMultiSelectableBehavior,
+        Polymer.PaperButtonBehavior
+      ],
+
+      properties: {
+        /**
+         * If true, the button should be styled with a shadow.
+         *
+         * @type boolean
+         * @default false
+         */
+        raised: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false,
+          observer: '_calculateElevation'
+        },
+
+        noink: {
+          type: Boolean,
+          value: true
+        }
+      },
+
+      _calculateElevation: function() {
+        if (!this.raised) {
+          this._setElevation(0);
+        } else {
+          Polymer.PaperButtonBehaviorImpl._calculateElevation.apply(this);
+        }
+      }
+
+      /**
+      Fired when the animation finishes.
+      This is useful if you want to wait until
+      the ripple animation finishes to perform some action.
+
+      @event transitionend
+      Event param: {{node: Object}} detail Contains the animated node.
+      */
+    });
+  </script>
+</dom-module>
