@@ -857,7 +857,7 @@
   "play.leaderboard.guide": "A leaderboard is a list which rank players based upon their scores.",
   "play.leaderboard.guide.search": "You can use leaderboards to drive competitive behaviours within a game. All leaderboards update in real time!",
   "play.leaderboard.heading": "Leaderboards",
-  "play.leaderboard.metric": "Base Metric",
+  "play.leaderboard.metric": "Based Metric",
   "play.leaderboard.metric.placeholder": "Select a Metric",
   "play.leaderboard.new": "New",
   "play.leaderboard.new.another": "Create Another",
