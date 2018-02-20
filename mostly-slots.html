@@ -151,7 +151,7 @@
           var parent = Polymer.dom(Polymer.dom(this).parentNode);
           // keep track of stamped instances
           this._instances = [];
-          _getRegistry(this.slot).nodes.forEach(function(node) {
+          _getRegistry(this.slot).nodes.forEach((node) => {
             var template = node.template;
             if (!node.disabled && template) {
               delete template.__templatizeOwner;
@@ -166,7 +166,7 @@
               this._instances.push(el);
               parent.insertBefore(el.root, this);
             }
-          }.bind(this));
+          });
           this.set('empty', this._instances.length === 0);
         },
 
@@ -285,15 +285,15 @@
         },
 
         _register: function() {
-          this.slot.split(',').forEach(function(slot) {
+          this.slot.split(',').forEach((slot) => {
             _registerContent(this, slot);
-          }.bind(this));
+          });
         },
 
         _unregister: function(slots) {
-          slots.split(',').forEach(function(slot) {
+          slots.split(',').forEach((slot) => {
             _unregisterContent(this, slot);
-          }.bind(this))
+          })
         }
       });
     })();
