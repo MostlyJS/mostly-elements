@@ -82,6 +82,12 @@
       app.show('play');
     });
 
+    page('/play/:tab/:type/:id', function(data) {
+      app.selectedPlayTab = data.params.tab;
+      app.entity = { type: data.params.type, id: data.params.id };
+      app.show('play');
+    });
+
     page('/user/:id', function(data) {
       page.redirect('/admin/user-group-management/user/' + data.params.id);
     });
