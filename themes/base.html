@@ -131,7 +131,12 @@
         cursor: pointer;
       }
 
-      .table-row:hover {
+      .table-row.start {
+        @apply --layout-start;
+      }
+
+      .table-row:hover,
+      .form-row.border:hover {
         background: var(--mostly-container-hover, #fafafa);
       }
 
@@ -142,11 +147,24 @@
       .form-row {
         @apply --layout-horizontal;
         @apply --layout-center;
-        padding: 5px 0 5px 5px;
+        padding: 5px 0 5px 2px;
+      }
+
+      .form-row.border {
+        @apply --layout-start;
+        border-bottom: 1px solid var(--mostly-border, #eee);
       }
 
       .form-row > div {
         padding-right: 8px;
+      }
+
+      .form-buttons {
+        color: var(--mostly-button-primary, #00adff);
+      }
+
+      .form-buttons paper-button iron-icon {
+        margin-right: .5rem;
       }
 
       .table-header > .center,
