@@ -951,6 +951,8 @@
   "play.mission.activity.type.sequential": "Sequential Activities",
   "play.mission.activity.type.parallel": "Parallel Activities",
   "play.mission.activity.type.exclusive": "Exclusive Activities",
+  "play.mission.activity.rewardsets": "Requirements & Rewards",
+  "play.mission.activity.activities": "Requirements & Activities",
   "play.mission.creation": "Creation Requirements",
   "play.mission.creation.placeholder": "Who can create this type of mission?",
   "play.mission.delete.confirm": "Do you really want to delete this mission?",

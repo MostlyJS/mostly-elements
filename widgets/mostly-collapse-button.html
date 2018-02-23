@@ -36,49 +36,54 @@ An iron-collapse with a trigger section and optional expand/collapse icons.
       is: 'mostly-collapse-button',
       properties: {
         /**
-          * @deprecated
-          * Corresponds to the iron-collapse's horizontal property.
-          */
+         * @deprecated
+         * Corresponds to the iron-collapse's horizontal property.
+         */
         horizontal: {
           type: Boolean,
           value: false
         },
+
         /**
-          * Corresponds to the iron-collapse's noAnimation property.
-          */
+         * Corresponds to the iron-collapse's noAnimation property.
+         */
         noAnimation: {
           type: Boolean,
           value: false
         },
+
         /**
-          * Whether currently expanded.
-          */
+         * Whether currently expanded.
+         */
         opened: {
           type: Boolean,
           value: false,
           notify: true
         },
+
         /**
-          * The icon when collapsed.
-          */
+         * The icon when collapsed.
+         */
         expandIcon: {
           type: String,
           value: 'mostly:expand-more'
         },
+
         /**
-          * The icon when expanded.
-          */
+         * The icon when expanded.
+         */
         collapseIcon: {
           type: String,
           value: 'mostly:expand-less'
         },
+
         /**
-          * Whether to hide the expand/collapse icon.
-          */
+         * Whether to hide the expand/collapse icon.
+         */
         noIcons: {
           type: Boolean,
           value: false
-        },
+        }
       },
 
       open: function() { this.opened = true; },
