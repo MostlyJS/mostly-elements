@@ -19,8 +19,9 @@
 
     isEmpty: R.either(R.isNil, R.isEmpty),
     isEqual: R.equals,
+    isNotEqual: R.both(R.complement(R.isNil), R.complement(R.equals)),
     isValid: R.complement(R.either(R.isNil, R.isEmpty)),
-    
+
     allValid() {
       return R.all(this.isValid, arguments);
     },
