@@ -136,6 +136,12 @@ Example:
         if (this.element && this.model) {
           for (var prop in this.model) {
             this.element[prop] = this.model[prop];
+            // TODO two-way binding?
+            // this.element._addPropertyEffect(prop, Polymer.Base.PROPERTY_EFFECT_TYPES.NOTIFY, {
+            //   fn: () => {
+            //     console.log(arguments);
+            //   }
+            // });
           }
         }
       }
