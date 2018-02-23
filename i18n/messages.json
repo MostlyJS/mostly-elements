@@ -943,7 +943,7 @@
   "play.mission.activity.lane.placeholder": "Select a Lane",
   "play.mission.activity.loop": "Loop Count",
   "play.mission.activity.name": "Name",
-  "play.mission.activity.rate": "Timed",
+  "play.mission.activity.rate": "Rate Limiting",
   "play.mission.activity.requires": "Requirements",
   "play.mission.activity.rewards": "Rewards",
   "play.mission.activity.retry": "Retry?",
