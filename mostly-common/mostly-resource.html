@@ -96,7 +96,7 @@ element.
        */
       autoDelay: {
         type: Number,
-        value: 300
+        value: 150
       },
 
       /**
@@ -194,9 +194,43 @@ element.
 
     _autoGet: function () {
       if (this.auto && this.path) {
+        // debounce to collapse manual/auto request
         this.debounce('_autoGet', () => {
-          this.get();
+          var delay = 0;
+          if (this.method === 'get' && this.cached > 0) {
+            var key = this._genKey();
+            var status = this._getCacheStatus(key);
+            //console.log('mostly-resource autoGet', key, status);
+            if (status === 'preparing') { // delay if cache is preparing
+              delay = this.autoDelay * 2;
+            }
+          }
+          if (delay > 0) {
+            this.async(() => this.get(), delay);
+          } else {
+            this.get();
+          }
         }, this.autoDelay);
+      }
+    },
+
+    _getCacheStatus: function(key) {
+      var cachedItem = localStorage.getItem(key);
+      if (!cachedItem) {
+        return 'none';
+      } else if (cachedItem === 'false') {
+        return 'preparing';
+      } else {
+        var response = JSON.parse(cachedItem);
+        if (response.headers && response.headers.date) {
+          var diff = moment().diff(new Date(response.headers.date), 'seconds');
+          if (diff < this.cached) {
+            return 'valid';
+          } else {
+            return 'outdated';
+          }
+        }
+        return 'invalid';
       }
     },
 
@@ -207,16 +241,13 @@ element.
       }, options);
       var request = null;
       var key = this._genKey();
-      if (this.method === 'get' && this.cached > 0 && localStorage.getItem(key)) {
-        var response = JSON.parse(localStorage.getItem(key));
-        if (response.headers && response.headers.date) {
-          var diff = moment().diff(new Date(response.headers.date), 'seconds');
-          //console.info('>> cached resource', key, diff, this.cached);
-          if (diff < this.cached) {
-            request = Promise.resolve(response);
-          } else {
-            localStorage.removeItem(key);
-          }
+      if (this.method === 'get' && this.cached > 0) {
+        var status = this._getCacheStatus(key);
+        if (status === 'valid') {
+          var response = JSON.parse(localStorage.getItem(key));
+          request = Promise.resolve(response);
+        } else {
+          localStorage.setItem(key, false); // mark as preparing the cache
         }
       }
       request = request || this._request(config);
