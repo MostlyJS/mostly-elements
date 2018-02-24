@@ -19,6 +19,7 @@
 
     isEmpty: R.either(R.isNil, R.isEmpty),
     isEqual: R.equals,
+    isNil: R.isNil,
     isNotEqual: R.both(R.complement(R.isNil), R.complement(R.equals)),
     isValid: R.complement(R.either(R.isNil, R.isEmpty)),
 
