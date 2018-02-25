@@ -47,6 +47,8 @@ An element for generic textarea input in forms
             name="[[name]]"
             value="{{value}}"
             required$="[[required]]"
+            minlength$="[[minlength]]"
+            maxlength$="[[maxlength]]"
             disabled$="[[disabled]]"
             readonly$="[[readonly]]"
             error-message="[[errorMessage]]"
@@ -115,7 +117,17 @@ An element for generic textarea input in forms
           type: Boolean,
           value: false,
           reflectToAttribute: true
-        }
+        },
+
+        /**
+         * The minimum length of the input value.
+         */
+        minlength: Number,
+
+        /**
+         * The maximum length of the input value.
+         */
+        maxlength: Number
       },
 
       /* Override method from Polymer.IronValidatableBehavior. */
