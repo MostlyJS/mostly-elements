@@ -31,9 +31,9 @@
       return array[index];
     },
 
-    findById(entries, id, field) {
+    findByProp(entries, prop, value, field) {
       if (entries) {
-        var entry = R.find(m => m.id === id, entries);
+        var entry = R.find(R.propEq(prop, value), entries);
         if (field) {
           return R.path(field.split('.'), entry);
         } else {
@@ -42,9 +42,17 @@
       }
     },
 
+    findById(entries, id, field) {
+      return this.findByProp(entries, 'id', id, field);
+    },
+
+    equalByProp(entries, prop, value, field, target) {
+      var entry = this.findByProp(entries, prop, value, field);
+      return entry === target;
+    },
+
     equalById(entries, id, field, value) {
-      var entry = this.findById(entries, id, field);
-      return entry === value;
+      return this.equalByProp(entries, 'id', id, field, value);
     }
 
   };
