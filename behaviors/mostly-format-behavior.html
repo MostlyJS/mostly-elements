@@ -11,6 +11,13 @@
   Mostly.FormatBehavior = [Mostly.I18nBehavior, {
 
     /**
+     * Format array of string
+     */
+    formatArray: function(array) {
+      return (array || []).join(', ')
+    },
+
+    /**
      * Formats a size given in bytes in MB, KB, or bytes.
      */
     formatSize: function(size) {
