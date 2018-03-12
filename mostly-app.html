@@ -218,7 +218,7 @@
     <playing-document id="doc" doc-id="[[docId]]" doc-path="[[docPath]]"
             document="{{currentDocument}}"
             enrichers="permissions,breadcrumbs,preview,favorites,thumbnail,renditions,pendingTasks,collections,audit,subtypes,tags"
-            schemas="parent.**,creator,books,*"></playing-document>
+            schemas="creator,books,*"></playing-document>
 
     <mostly-operation id="userWorkspace" path="workspaces/me" method="get"></mostly-operation>
 
@@ -589,7 +589,7 @@
               } else if (doc.metadata && doc.metadata.breadcrumbs) {
                 this.currentParent = doc.metadata.breadcrumbs.slice(-1)[0];
               }
-              this.set('currentDocument', doc);
+              this.set('currentDocument', doc); // trigger
               this.loading = false;
               this.show(page);
             }
