@@ -131,7 +131,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
         };
         var getUser = () => {
           return this.client.get('users/me', {
-            params: { $select: 'groups,*'}
+            params: { $select: 'groups.group,*'}
           }).then(resp => {
             if (resp.data && resp.data.data) {
               console.log('auth user: ', resp.data.data);
