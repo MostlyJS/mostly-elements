@@ -1,7 +1,7 @@
 {
   "name": "mostly-elements",
   "description": "Admin web components for Mostly microservices ",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.10.0",
