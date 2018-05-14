@@ -220,7 +220,7 @@
             enrichers="permissions,breadcrumbs,preview,favorites,thumbnail,renditions,pendingTasks,collections,audit,subtypes,tags"
             schemas="creator,books,*"></playing-document>
 
-    <mostly-operation id="userWorkspace" path="workspaces/me" method="get"></mostly-operation>
+    <mostly-operation id="userWorkspace" path="workspaces" input="me" method="get"></mostly-operation>
 
     <mostly-resource id="processes" path="processes-stats"></mostly-resource>
     <mostly-resource id="process" path="processes-stats/[[currentProcessId]]"></mostly-resource>
