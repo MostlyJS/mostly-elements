@@ -171,13 +171,19 @@
         },
 
         _updateContent: function() {
+          this._clearContent();
+          this._render();
+          /* TODO debounce nuxeo-slot content update, some page load too slow?
           this.__renderDebouncer = Polymer.Debouncer.debounce(
-            this.__renderDebouncer, Polymer.Async.microTask, () => {
+            this.__renderDebouncer,
+            Polymer.Async.microTask, //Polymer.Async.timeOut.after(2000),
+            () => {
               this._clearContent();
               this._render();
             });
           // enqueuing is needed for testing, as it allows content to be stamped on flush
           Polymer.enqueueDebouncer(this.__renderDebouncer);
+          */
         },
 
         // Forward model changes as properties
