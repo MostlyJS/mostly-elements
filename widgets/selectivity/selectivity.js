@@ -5613,9 +5613,20 @@ assign(Selectivity.prototype, {
     setValue: function(newValue, options) {
         options = options || {};
 
-        newValue = this.validateValue(newValue);
+        var getId = (item) => {
+          if (item && typeof item !== 'string') {
+            if (!this.options.idFunction) {
+              throw new Error("missing id function");
+            }
+           return this.options.idFunction(item);
+         } else {
+           return item;
+         }
+        };
+        var ids = Array.isArray(newValue) ? newValue.map(getId) : getId(newValue);
+        ids = this.validateValue(ids);
 
-        this._value = newValue;
+        this._value = ids;
 
         if (this._value && this.options.initSelection) {
             this.options.initSelection(
@@ -5631,7 +5642,7 @@ assign(Selectivity.prototype, {
                 }.bind(this)
             );
         } else {
-            this._data = this.getDataForValue(newValue);
+            this._data = this.getDataForValue(ids);
 
             if (options.triggerChange !== false) {
                 this.triggerChange();
