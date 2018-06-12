@@ -109,7 +109,7 @@ Example:
         var file = href.split('/').pop(),
             name = file.split('.')[0];
 
-        this.importHref(href, function() {
+        this.importHref(href, () => {
           var element = document.createElement(name);
 
           if (this.$.container.hasChildNodes()) {
@@ -121,7 +121,7 @@ Example:
           this._setElement(element);
           this._update();
           this.notifyResize();
-        }, function(e) {
+        }, (e) => {
           // error handling
           this._setElement(undefined);
           this.$.error.hidden = false;

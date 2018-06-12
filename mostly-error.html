@@ -13,7 +13,7 @@ Example:
 <dom-module id="mostly-error">
   <template>
     <style>
-      #container {
+      :host {
         padding: 24px;
         background: rgba(0, 0, 0, 0.025);
         border-radius: 4px;
@@ -56,13 +56,14 @@ Example:
         font-weight: 500;
       }
     </style>
-    <div id="container">
-      <div class="code" hidden$="[[!code]]">[[code]]</div>
-      <div class="description" hidden$="[[!code]]">[[_label(code)]]</div>
-      <div class="url" hidden$="[[!url]]">[[url]]</div>
-      <div class="message" hidden$="[[!message]]">[[message]]</div>
-    </div>
+
+    <div class="code" hidden$="[[!code]]">[[code]]</div>
+    <div class="description" hidden$="[[!code]]">[[_label(code)]]</div>
+    <div class="url" hidden$="[[!url]]">[[url]]</div>
+    <div class="message" hidden$="[[!message]]">[[message]]</div>
+
   </template>
+
   <script>
     Polymer({
       is: 'mostly-error',
