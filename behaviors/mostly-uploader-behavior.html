@@ -120,6 +120,10 @@
       return false;
     };
 
+
+    var _registry = { 'default': DefaultUploadProvider };
+    var _defaultProvider = 'default';
+
     /**
      * @polymerBehavior Mostly.UploaderBehavior
      */
@@ -166,7 +170,44 @@
         batchAppend: {
           type: Boolean,
           value: false
+        },
+
+        provider: {
+          type: String,
+          value: function() {
+            return _defaultProvider;
+          }
         }
+      },
+
+      observers: [ '_initProvider(provider, connection, accept, batchAppend)'],
+
+      _initProvider: function() {
+        if (this.provider) {
+          this._providerInstance = new _registry[this.provider](this.connection, this.accept, this.batchAppend);
+        }
+      },
+
+      _reloadDefaultProvider: function() {
+        this.set('provider', _defaultProvider);
+      },
+
+      created: function() {
+        this.defaultProviderChangedHandler = this._reloadDefaultProvider.bind(this);
+        document.addEventListener('defaultUploadProviderChanged', this.defaultProviderChangedHandler);
+      },
+
+      registerProvider: function(name, provider) {
+        _registry[name] = provider;
+      },
+      
+      getProviders: function() {
+        return _registry;
+      },
+
+      setDefaultProvider: function(provider) {
+        _defaultProvider = provider;
+        document.dispatchEvent(new Event('defaultUploadProviderChanged'));
       },
 
       setupDropZone: function(el) {
@@ -181,79 +222,60 @@
           console.warn('Can only upload ' + this.accept +' files.');
           return;
         }
+
         if (!this.connection) {
           throw 'Missing connection';
         }
-        if (!this.batchAppend || !this.uploader) {
+
+        if (!this.batchAppend) {
           this.files = [];
-          this._newBatch().then(this._uploadeFiles.bind(this, files));
-        } else {
-          this._uploadeFiles(files);
         }
 
+        this._providerInstance.upload(files, (event) => {
+          switch(event.type) {
+            case 'uploadStarted':
+              this._uploadStarted(event.file)
+              break;
+            case 'uploadProgress':
+              this._uploadProgressUpdated(event.fileIdx, event.progress);
+              break;
+            case 'uploadCompleted':
+              this._uploadFinished(event.fileIdx);
+              break;
+            case 'batchFinished':
+              this._batchFinished(event.batchId);
+              break;
+          }
+        });
       },
 
       batchExecute: function(operationId, params, headers) {
-        return this.connection.operation(operationId).then(function(operation) {
-          var options = {};
-          if (headers) {
-            options['headers'] = headers;
-          }
-          if (params.context) {
-            operation = operation.context(params.context);
-          }
-          return operation.input(this.uploader)
-            .params(params)
-            .execute(options)
-            .then(function(data) {
-              this.fire('response', {response: data});
-              this.response = data;
-              return this.response;
-            }.bind(this))
-            .catch(function(error) {
-              this.fire('error', error);
-              console.log('Batch Execute operation failed: ' + error);
-              throw error;
-            }.bind(this));
-        }.bind(this));
+        return this._providerInstance.batchExecute(operationId, params, headers)
+          .then((data) => {
+            this.fire('response', { response: data });
+            this.response = data;
+            return this.response;
+          })
+          .catch((error) => {
+            this.fire('error', error);
+            console.log('Batch Execute operation failed: ' + error);
+            throw error;
+          });
+        });
       },
 
       cancelBatch: function() {
-        if (this.uploader) {
-          if (this.uploader._batchId) {
-            this.uploader.cancel();
-          }
-          this.uploader = null;
-          this.batchId = null;
-        }
+        return this._providerInstance.cancelBatch();
       },
 
-      _uploadeFiles: function(files) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          file.progress = 0;
-          file.error = false;
-          file.complete = false;
-          this.push('files', file);
-          var blob = new Mostly.Blob({ content: file });
-          this._uploadStarted(i, file);
-          this.uploader.upload(blob)
-            .then(function(result) {
-              this._uploadFinished(result.blob.fileIdx);
-            }.bind(this));
-        }
-        this.uploader.done().then(function(result) {
-          this._batchFinished(result.batch._batchId);
-        }.bind(this));
-      },
-
-      _newBatch: function() {
-        return this.connection.batchUpload().then(function(uploader) {
-          this.uploader = uploader;
-        }.bind(this));
+      hasProgress: function() {
+        return this._providerInstance.hasProgress();
       },
 
       accepts: function(files) {
+        if (!this._providerInstance) {
+          return false;
+        }
         if (files.length) {
           for (var i = 0; i < files.length; i++) {
             if (!this._accepts(files[i])) {
@@ -267,13 +289,7 @@
       },
 
       _accepts: function(file) {
-        var mimeType = ((file.type !== '') ? file.type.match(/^[^\/]*\//)[0] : null);
-        var fileType = file.name.match(/\.[^\.]*$/)[0];
-        if (this.accept && !(this.accept.indexOf(mimeType) > -1 || this.accept.indexOf(fileType) > -1)) {
-          return false;
-        } else {
-          return true;
-        }
+        return this._providerInstance ? this._providerInstance.accepts(file) : false;
       },
 
       _updateFile: function(index, values) {
@@ -288,7 +304,11 @@
         this.fire('batchFinished', {batchId: batchId});
       },
 
-      _uploadStarted: function(fileIndex, file) {
+      _uploadStarted: function(file) {
+        file.progress = 0;
+        file.error = false;
+        file.complete = false;
+        this.push('files', file);
         this.uploading = true;
       },
 
