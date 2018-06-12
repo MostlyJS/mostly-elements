@@ -42,24 +42,25 @@
      * when progress is updated, when a file upload ends, and when an upload batch is complete
      **/
     DefaultUploadProvider.prototype.upload = function(files, callback) {
-      this._ensureBatch().then(() => {
-        if (files.length) {
-          for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            var blob = new Mostly.Blob({ content: file });
-            //this._uploadStarted(i, file);
-            if (typeof callback === 'function') {
-              callback({ type: 'uploadStarted', file: file });
+      if (files) {
+        this._ensureBatch().then(() => {
+          if (files.length) {
+            for (var i = 0; i < files.length; i++) {
+              var file = files[i];
+              var blob = new Mostly.Blob({ content: file });
+              if (typeof callback === 'function') {
+                callback({ type: 'uploadStarted', file: file });
+              }
+              this.uploader.upload(blob).then((result) => {
+                callback({ type: 'uploadCompleted', fileIdx: result.blob.fileIdx });
+              });
             }
-            this.uploader.upload(blob).then((result) => {
-              callback({ type: 'uploadCompleted', fileIdx: result.blob.fileIdx });
+            this.uploader.done().then((result) => {
+              callback({ type: 'batchFinished', batchId: result.batch._batchId });
             });
           }
-          this.uploader.done().then((result) => {
-            callback({ type: 'batchFinished', batchId: result.batch._batchId });
-          });
-        }
-      });
+        });
+      }
     };
 
     /**
@@ -174,6 +175,13 @@
 
         provider: {
           type: String,
+          notify: true,
+          reflectToAttribute: true,
+          observer: '_reloadProvider'
+        },
+
+        _provider: {
+          type: String,
           value: function() {
             return _defaultProvider;
           }
@@ -183,17 +191,21 @@
       observers: [ '_initProvider(provider, connection, accept, batchAppend)'],
 
       _initProvider: function() {
-        if (this.provider) {
-          this._providerInstance = new _registry[this.provider](this.connection, this.accept, this.batchAppend);
+        if (this._provider) {
+          this._instance = new _registry[this._provider](this.connection, this.accept, this.batchAppend);
         }
       },
 
-      _reloadDefaultProvider: function() {
-        this.set('provider', _defaultProvider);
+      _reloadProvider: function() {
+        if (this.provider && this.provider != this._provider) {
+          this.set('_provider', this.provider);
+        } else if (!this.provider) {
+          this.set('_provider', _defaultProvider);
+        }
       },
 
       created: function() {
-        this.defaultProviderChangedHandler = this._reloadDefaultProvider.bind(this);
+        this.defaultProviderChangedHandler = this._reloadProvider.bind(this);
         document.addEventListener('defaultUploadProviderChanged', this.defaultProviderChangedHandler);
       },
 
@@ -205,7 +217,11 @@
         return _registry;
       },
 
-      setDefaultProvider: function(provider) {
+      get defaultProvider() {
+        return _defaultProvider;
+      },
+
+      set defaultProvider(provider) {
         _defaultProvider = provider;
         document.dispatchEvent(new Event('defaultUploadProviderChanged'));
       },
@@ -231,7 +247,7 @@
           this.files = [];
         }
 
-        this._providerInstance.upload(files, (event) => {
+        this._instance.upload(files, (event) => {
           switch(event.type) {
             case 'uploadStarted':
               this._uploadStarted(event.file)
@@ -250,7 +266,7 @@
       },
 
       batchExecute: function(operationId, params, headers) {
-        return this._providerInstance.batchExecute(operationId, params, headers)
+        return this._instance.batchExecute(operationId, params, headers)
           .then((data) => {
             this.fire('response', { response: data });
             this.response = data;
@@ -261,19 +277,18 @@
             console.log('Batch Execute operation failed: ' + error);
             throw error;
           });
-        });
       },
 
       cancelBatch: function() {
-        return this._providerInstance.cancelBatch();
+        return this._instance.cancelBatch();
       },
 
       hasProgress: function() {
-        return this._providerInstance.hasProgress();
+        return this._instance.hasProgress();
       },
 
       accepts: function(files) {
-        if (!this._providerInstance) {
+        if (!this._instance) {
           return false;
         }
         if (files.length) {
@@ -289,7 +304,7 @@
       },
 
       _accepts: function(file) {
-        return this._providerInstance ? this._providerInstance.accepts(file) : false;
+        return this._instance ? this._instance.accepts(file) : false;
       },
 
       _updateFile: function(index, values) {
