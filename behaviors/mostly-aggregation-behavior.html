@@ -24,6 +24,16 @@
       _isEmpty: {
         type: Boolean,
         value: true
+      },
+
+      /**
+       * Function used to format the label of the aggregate entry.
+       */
+      labelFormatter: {
+        type: Function,
+        value: function() {
+          return this._computeLabel.bind(this);
+        }
       }
     },
 
@@ -67,6 +77,8 @@
           return this.labelForDirectoryEntry(entry);
         } else if (entry['type'] === 'user') {
           return this.labelForUserEntry(entry);
+        } else if (entry['type'] === 'document') { // TODO other document type
+          return entry['title'] || this.i18n('aggregation.format.document.field.unknown', 'title');
         } else {
           var i18nKey = this.i18n('label.ui.aggregate.' + item.key);
           return i18nKey === 'label.ui.aggregate.' + item.key ? item.key : i18nKey;

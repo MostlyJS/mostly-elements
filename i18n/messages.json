@@ -32,6 +32,7 @@
   "addToCollectionButton.dialog.select": "Select a Collection...",
   "addToCollectionButton.tooltip": "Add to Collection",
   "admin.usersAndGroups.heading": "Users & Groups",
+  "aggregation.format.document.field.unknown": "No {0} field in document. Define your own label formatter.",
   "analytics.after": "After",
   "analytics.before": "Before",
   "analytics.document.distribution": "Document Distribution",
