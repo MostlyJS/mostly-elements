@@ -173,6 +173,9 @@
           value: false
         },
 
+        /**
+         * Current upload provider being used. If `undefined`, the `defaultProvider` will be used.
+         */
         provider: {
           type: String,
           notify: true,
@@ -188,7 +191,7 @@
         }
       },
 
-      observers: [ '_initProvider(provider, connection, accept, batchAppend)'],
+      observers: ['_initProvider(provider, connection, accept, batchAppend)'],
 
       _initProvider: function() {
         if (this._provider) {
@@ -209,18 +212,33 @@
         document.addEventListener('defaultUploadProviderChanged', this.defaultProviderChangedHandler);
       },
 
+      /**
+       * Registers a new upload provider.
+       */
       registerProvider: function(name, provider) {
         _registry[name] = provider;
       },
-      
+
+      /**
+       * Returns all registered upload providers.
+       */
       getProviders: function() {
         return _registry;
       },
 
+      /**
+       * Gets the default upload provider.
+       */
       get defaultProvider() {
         return _defaultProvider;
       },
 
+      /**
+       * Sets the default upload provider.
+       *
+       * Every element extending this behavior will use this provider from now on except
+       * if a `provider` was explicitly set.
+       */
       set defaultProvider(provider) {
         _defaultProvider = provider;
         document.dispatchEvent(new Event('defaultUploadProviderChanged'));
@@ -250,7 +268,7 @@
         this._instance.upload(files, (event) => {
           switch(event.type) {
             case 'uploadStarted':
-              this._uploadStarted(event.file)
+              this._uploadStarted(event.file);
               break;
             case 'uploadProgress':
               this._uploadProgressUpdated(event.fileIdx, event.progress);
