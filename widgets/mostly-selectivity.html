@@ -219,7 +219,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         },
 
         data: {
-          type: Object,
+          type: Array,
           observer: '_dataChanged'
         },
 
@@ -365,7 +365,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         }
 
         if (this.data) {
-          options.data = this.data;
+          options.items = this._wrap(this.data);
         } else {
           options.query = (query) => {
             if (query.term.length < this.minChars) {
@@ -488,7 +488,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
       },
 
       _idFunction: function(item) {
-        return item.computedId || item.id;
+        return item.computedId || item.id || item;
       },
 
       _newEntryFormatter: function(term) {
@@ -496,11 +496,11 @@ An element wrapping selectivity.js and relying on an operation for suggestions
       },
 
       _selectionFormatter: function(item) {
-        return this.escapeHTML(item[this.displayField] || item.title);
+        return this.escapeHTML(item[this.displayField] || item.title || item.text || item);
       },
 
       _resultFormatter: function(item) {
-        return this.escapeHTML(item[this.displayField] || item.title);
+        return this.escapeHTML(item[this.displayField] || item.title || item.text || item);
       },
 
       _wrap: function(value) {
