@@ -9,15 +9,21 @@
    * @polymerBehavior Mostly.RoutingBehavior
    */
   Mostly.RoutingBehavior = {
+
     properties: {
       router: {
         type: Object,
-        observer: '_routerChanged'
+        observer: '_routerChanged',
+        value: function() {
+          return Nuxeo.RoutingBehavior.__router;
+        }
       },
+
       urlFor: {
         type: Function,
         computed: '_computeUrlFor(router)'
       },
+
       navigateTo: {
         type: Function,
         computed: '_computeNavigateTo(router)'
@@ -43,7 +49,7 @@
 
     // Caches the router
     _routerChanged: function(router) {
-      if (!Mostly.RoutingBehavior.__router) {
+      if (router && !Mostly.RoutingBehavior.__router) {
         Mostly.RoutingBehavior.__router = router;
         document.dispatchEvent(new Event('mostly-router-changed'));
       }
