@@ -31,7 +31,7 @@ An element to interact with page provider aggregations as suggestions.
       }
     </style>
 
-    <mostly-selectivity data="[[_computedData]]"
+    <mostly-selectivity data="[[_computedData(buckets)]]"
             min-chars="[[minChars]]"
             multiple="[[multiple]]"
             placeholder="[[placeholder]]"
@@ -63,22 +63,13 @@ An element to interact with page provider aggregations as suggestions.
           value: 0
         },
 
-        placeholder: String,
-
-        _computedData: {
-          type: Object,
-          value: []
-        }
+        placeholder: String
       },
 
-      observers: [
-        '_computeData(data)'
-      ],
-
-      _computeData: function () {
-        if (this.data && this.data.buckets) {
-          this._computedData = this.data.buckets.map((item) => {
-            var label = this.labelFormatter(item) + ' (' + item.docCount + ')';
+      _computeData: function (buckets) {
+        if (buckets) {
+          return buckets.map(item => {
+            var label = item.label + ' (' + item.docCount + ')';
             return {
               id: item.key,
               text: label,
@@ -86,7 +77,7 @@ An element to interact with page provider aggregations as suggestions.
             };
           });
         } else {
-          this._computedData = [];
+          return [];
         }
       }
     });

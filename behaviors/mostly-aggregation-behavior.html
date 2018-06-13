@@ -27,6 +27,11 @@
       },
 
       /**
+       * Sort buckets by label instead of doc count.
+       */
+      sortByLabel: Boolean,
+
+      /**
        * Function used to format the label of the aggregate entry.
        */
       labelFormatter: {
@@ -53,9 +58,15 @@
       if (data && data.buckets) {
         var buckets = data.buckets;
         var selectedBuckets = data.selection;
-        buckets.forEach(function(item) {
+        buckets.forEach((item) => {
           item.checked = selectedBuckets.indexOf(item.key) >= 0;
+          item.label = this.labelFormatter(item);
         });
+        if (this.sortByLabel) {
+          buckets.sort((a, b) => {
+            return a.label < b.label ? -1 : (a.label > b.label ? 1 : 0);
+          });
+        }
         return buckets;
       }
     },
