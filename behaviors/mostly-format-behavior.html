@@ -66,18 +66,32 @@
     },
 
     /**
-     * Returns the label for the given directory entry.
+     * Returns the label for the given vocabulary entry.
      */
-    formatDirectory: function(value) {
-      if (value && value['type'] && value['type'] === 'directory') {
+    formatVocabulary: function(value) {
+      // TODO vocabulary type
+      if (value && value['type'] && value['type'] === 'vocabulary') {
         if (value && value.label) {
-          return value.label;
+          return this._absoluteVocabulary(value, 'label', separator || '/');
         } else {
           var label = 'label_' + this._languageCode();
-          return value[label] || value['label_en']
+          return this._absoluteVocabulary(value, label || 'label_en', separator || '/');
         }
       } else {
         return value;
+      }
+    },
+
+    _absoluteVocabulary: function(entry, labelField, separator, subPath) {
+      var parent = entry.parent;
+      var tmp = entry[labelField];
+      if (subPath) {
+        tmp += separator + subPath;
+      }
+      if (parent && parent['type'] && parent['type'] === 'vocabularyEntry') {
+        return this._absoluteVocabulary(parent, labelField, separator, tmp);
+      } else {
+        return tmp;
       }
     },
 
