@@ -76,6 +76,8 @@ Example:
             type="date"
             value="{{_inputValue}}"
             disabled$="[[disabled]]"
+            min="[[min]]"
+            max="[[max]]"
             error-message="[[errorMessage]]"
             on-tap="_togglePicker"
             no-label-float>
@@ -96,6 +98,16 @@ Example:
         label: String,
 
         errorMessage: String,
+
+        /*
+         * The maximum date-time input value (e.g. `"2000-01-01"`).
+         */
+        max: String,
+
+        /*
+         * The minimum date-time input value (e.g. `"2000-01-01"`).
+         */
+        min: String,
 
         required: {
           type: Boolean,
