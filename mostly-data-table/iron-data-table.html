@@ -236,7 +236,7 @@ Example:
 
       <div id="header">
         <mostly-data-table-row header>
-          <mostly-data-table-checkbox header></mostly-data-table-checkbox>
+          <mostly-data-table-checkbox header hidden$="[[!selectionEnabled]]"></mostly-data-table-checkbox>
           <template is="dom-repeat" items="[[columns]]" as="column">
             <mostly-data-table-cell header
                     align-right="[[column.alignRight]]"
