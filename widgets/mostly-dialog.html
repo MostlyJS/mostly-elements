@@ -6,6 +6,9 @@
 <!--
 An element for dialogs
 
+If a `<template>` is passed as the dialog's content, that `<template>`
+will be stamped when dialog is opened.
+
 @group Mostly UI
 @element mostly-dialog
 -->
@@ -14,6 +17,10 @@ An element for dialogs
     <style include="paper-dialog-shared-styles">
       :host {
         @apply --mostly-dialog;
+      }
+
+      :host > ::slotted(*) {
+        margin-top: 16px;
       }
 
       :host > ::slotted(.buttons) {
@@ -31,18 +38,17 @@ An element for dialogs
   <script>
     Polymer({
       is: 'mostly-dialog',
-      properties: {
 
+      behaviors: [Polymer.PaperDialogBehavior, Polymer.NeonAnimationRunnerBehavior, Polymer.Templatizer],
+
+      properties: {
         /**
-         * Move dialog to BODY when opening it.
+         * Make sure dialog is positioned after the backdrop element.
+         * Should only be used when the dialog appears behind the backdrop because of stacking context issues.
          */
         reparent: {
           type: Boolean,
           value: false
-        },
-
-        _parent: {
-          type: Object
         }
       },
 
@@ -52,9 +58,7 @@ An element for dialogs
       ],
 
       listeners: {
-        'iron-overlay-opened': '_opened',
-        'iron-overlay-closed': '_closed',
-        'iron-overlay-canceled': '_closed'
+        'iron-overlay-opened': '_opened'
       },
 
       disconnectedCallback: function() {
@@ -70,11 +74,20 @@ An element for dialogs
         if (this.reparent && e.target.withBackdrop || isIOS) {
           e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
         }
+
+        if (!this._instance) {
+          var template = Polymer.dom(this).querySelector('mostly-dialog > template');
+          if (template) {
+            this.templatize(template);
+            this._instance = this.stamp();
+            this.appendChild(this._instance.root);
+          }
+        }
       },
 
-      _closed: function() {
-        if (this.reparent && this._parent) {
-          this._parent.appendChild(this);
+      _forwardHostPropV2: function(prop, value) {
+        if (this._instance) {
+          this._instance.forwardHostProp(prop, value);
         }
       }
     });
