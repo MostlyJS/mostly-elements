@@ -7,7 +7,9 @@
         flex-direction: column;
         opacity: 1;
         cursor: pointer;
+        border: 1px solid transparent;
         border-bottom: 1px solid var(--mostly-border, #e3e3e3);
+        padding-bottom: 1px;
         @apply --iron-data-table-row;
         @apply --layout-horizontal;
         @apply --layout-center;
@@ -16,6 +18,12 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+      }
+
+      :host([selected]) {
+        border: 1px solid var(--mostly-border, #e3e3e3);
+        padding-bottom: 1px;
+        background-color: var(--mostly-page-background, red);
       }
 
       :host([selected]) .cells {
@@ -73,17 +81,24 @@
       is: 'mostly-data-table-row',
 
       properties: {
+
         beforeBind: Object,
+
         expanded: {
           type: Boolean,
           reflectToAttribute: true
         },
+
         index: Number,
+
         item: Object,
+
         selected: {
           type: Boolean,
-          reflectToAttribute: true
+          reflectToAttribute: true,
+          value: false
         },
+
         _static: {
           type: Object,
           value: { id: 0 }
