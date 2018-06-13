@@ -1,0 +1,99 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-icon/iron-icon.html">
+<link rel="import" href="../mostly-icons.html">
+
+<!--
+An element that displays a toggleable checkmark.
+
+### Styling
+
+The following custom properties are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--mostly-checkmark-width` | Width | 18px
+`--mostly-checkmark-height` | Height | 18px
+`--mostly-checkmark-background-color` | Background color | transparent
+`--mostly-checkmark-background-color-hover` | Background color on hover | transparent
+`--mostly-checkmark-background-color-checked` | Background color on checked | --mostly-primary-color, blue
+`--mostly-checkmark-border-color` | Border color | --mostly-border, gray
+`--mostly-checkmark-border-color-hover` | Border color on hover | --mostly-border, gray
+`--mostly-checkmark-border-color-checked` | Border color on checked | --mostly-primary-color, blue
+`--mostly-checkmark-icon-color` | Icon color | transparent
+`--mostly-checkmark-icon-color-hover` | Icon color on hover | black
+`--mostly-checkmark-icon-color-checked` | Icon color on checked | white
+
+@group Mostly UI
+@element mostly-checkmark
+-->
+<dom-module id="mostly-checkmark">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        width: var(--mostly-checkmark-width, 18px);
+        height: var(--mostly-checkmark-height, 18px);
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid var(--mostly-checkmark-border-color, var(--mostly-border, gray));
+        background-color: var(--mostly-checkmark-background-color, transparent);
+        color: var(--mostly-icon-color, transparent);
+        padding: 0;
+        margin: 0;
+      }
+
+      :host([hidden]) {
+        display: none !important;
+      }
+
+      :host(:focus) {
+        outline: none;
+      }
+
+      :host(:hover) {
+        border: 2px solid var(--mostly-checkmark-border-color, var(--mostly-border, gray));
+        background-color: var(--mostly-checkmark-background-color-hover, transparent);
+        color: var(--mostly-icon-color-hover, black);
+      }
+
+      :host([checked]) {
+        border: 2px solid var(--mostly-checkmark-border-color-checked, var(--mostly-primary-color, blue));
+        background-color: var(--mostly-checkmark-background-color-checked, var(--mostly-primary-color, blue));
+        color: var(--mostly-icon-color-checked, white);
+      }
+
+      iron-icon {
+        --iron-icon-width: 100%;
+        --iron-icon-height: 100%;
+        vertical-align: top;
+      }
+    </style>
+
+    <iron-icon icon="mostly:check" on-tap="_tap"></iron-icon>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mostly-checkmark',
+      properties: {
+        checked: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false
+        },
+        disabled: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false
+        }
+      },
+
+      _tap: function() {
+        if (!this.disabled) {
+          this.checked = !this.checked;
+        }
+      }
+    });
+  </script>
+</dom-module>
