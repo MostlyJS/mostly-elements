@@ -68,14 +68,13 @@
     /**
      * Returns the label for the given vocabulary entry.
      */
-    formatVocabulary: function(value) {
-      // TODO vocabulary type
-      if (value && value['type'] && value['type'] === 'vocabulary') {
+    formatVocabulary: function(value, separator = '/') {
+      if (value && value['type']) {
         if (value && value.label) {
-          return this._absoluteVocabulary(value, 'label', separator || '/');
+          return this._absoluteVocabulary(value, 'label', separator);
         } else {
           var label = 'label_' + this._languageCode();
-          return this._absoluteVocabulary(value, label || 'label_en', separator || '/');
+          return this._absoluteVocabulary(value, label || 'label_en', separator);
         }
       } else {
         return value;
@@ -88,7 +87,7 @@
       if (subPath) {
         tmp += separator + subPath;
       }
-      if (parent && parent['type'] && parent['type'] === 'vocabularyEntry') {
+      if (parent && parent['type']) {
         return this._absoluteVocabulary(parent, labelField, separator, tmp);
       } else {
         return tmp;
