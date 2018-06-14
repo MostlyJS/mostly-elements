@@ -2983,6 +2983,7 @@ var callSuper = Selectivity.inherits(MultipleInput, Selectivity, {
      * @inherit
      */
     filterResults: function(results) {
+      results = results.map(item => {
         var result = {
           id: item.id,
           text: item.text,
@@ -2992,10 +2993,11 @@ var callSuper = Selectivity.inherits(MultipleInput, Selectivity, {
           result.children = this.filterResults(item.children);
         }
         return result;
+      });
 
-        return results.filter(function(item) {
-            return !Selectivity.findById(this._data, item.id);
-        }, this);
+      return results.filter(item => {
+          return !Selectivity.findById(this._data, item.id);
+      });
     },
 
     /**
