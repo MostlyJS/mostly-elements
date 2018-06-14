@@ -21,10 +21,10 @@
 An element to display page provider results as a grid with infinite scrolling.
 
     <mostly-page-provider id="cvProvider" auto
-                         provider="default_search"
-                         page-size="40"
-                         enrichers="thumbnail"
-                         params='{"ecm_path": ["/default-domain/workspaces"]}'>
+            provider="default_search"
+            page-size="40"
+            enrichers="thumbnail"
+            params='{"ecm_path": ["/default-domain/workspaces"]}'>
     </mostly-page-provider>
 
     <mostly-data-grid nx-provider="nxProvider" selection-enabled>
@@ -148,7 +148,10 @@ An element to display page provider results as a grid with infinite scrolling.
       <div class="header">
 
         <template is="dom-if" if="[[displaySort]]">
-          <mostly-sort-select label="[[sortLabel]]" options="[[sortOptions]]" selected="{{sortSelected}}"></mostly-sort-select>
+          <mostly-sort-select label="[[sortLabel]]"
+                  options="[[sortOptions]]"
+                  selected="{{sortSelected}}"
+                  on-sort-order-changed="fetch"></mostly-sort-select>
         </template>
 
         <template is="dom-if" if="[[displayQuickFilters]]">
@@ -171,8 +174,12 @@ An element to display page provider results as a grid with infinite scrolling.
         <div class="emptyResult">[[_computedEmptyLabel]]</div>
       </template>
 
-      <iron-list id="list" items="[[items]]" as="[[as]]" grid
-              selection-enabled selected-item="{{selectedItem}}" selected-items="{{selectedItems}}"
+      <iron-list id="list" grid
+              items="[[items]]"
+              as="[[as]]"
+              selection-enabled
+              selected-item="{{selectedItem}}"
+              selected-items="{{selectedItems}}"
               on-scroll="_scrollChanged">
         <slot></slot>
       </iron-list>
@@ -229,7 +236,8 @@ An element to display page provider results as a grid with infinite scrolling.
         },
 
         sortSelected: {
-          type: Object
+          type: Object,
+          observer: '_sortSelectedChanged'
         },
 
         sortOptions: {
@@ -238,10 +246,6 @@ An element to display page provider results as a grid with infinite scrolling.
         }
       },
 
-      observers: [
-        'fetch(sortSelected)'
-      ],
-
       fetch: function() {
         if (this._hasPageProvider()) {
           if (this.sortSelected && this.sortSelected.field && this.sortSelected.order) {
@@ -249,7 +253,16 @@ An element to display page provider results as a grid with infinite scrolling.
             sort[this.sortSelected.field] = this.sortSelected.order;
             this.nxProvider.sort = sort;
           }
-          return this._fetchRange(0, this.nxProvider.pageSize, true);
+          if (this.visible) {
+            return this._fetchRange(0, this.nxProvider.pageSize, true);
+          }
+        }
+      },
+
+      _sortSelectedChanged: function(newSort, oldSort) {
+        // do not trigger fetch results when sort options are being initialized
+        if (newSort && oldSort) {
+          this.fetch();
         }
       },
 
@@ -263,6 +276,10 @@ An element to display page provider results as a grid with infinite scrolling.
 
       draggableFilter: function(el) {
         return el.selected;
+      },
+
+      get visible() {
+        return Boolean(this.offsetWidth || this.offsetHeight);
       }
 
     });

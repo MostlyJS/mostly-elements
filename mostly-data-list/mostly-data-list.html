@@ -18,10 +18,10 @@ An element to display page provider results as a list with infinite scrolling.
 Example:
 
     <mostly-page-provider id="cvProvider" auto
-                         provider="default_search"
-                         page-size="40"
-                         enrichers="thumbnail"
-                         params='{"ecm_path": ["/default-domain/workspaces"]}'>
+            provider="default_search"
+            page-size="40"
+            enrichers="thumbnail"
+            params='{"ecm_path": ["/default-domain/workspaces"]}'>
     </mostly-page-provider>
 
     <mostly-data-list nx-provider="cvProvider" selection-enabled>
@@ -127,7 +127,10 @@ Example:
       <div class="header">
 
         <template is="dom-if" if="[[displaySort]]">
-          <mostly-sort-select label="[[sortLabel]]" options="[[sortOptions]]" selected="{{sortSelected}}"></mostly-sort-select>
+          <mostly-sort-select label="[[sortLabel]]"
+                  options="[[sortOptions]]"
+                  selected="{{sortSelected}}"
+                  on-sort-order-changed="_refresh"></mostly-sort-select>
         </template>
 
         <template is="dom-if" if="[[displayQuickFilters]]">
@@ -203,7 +206,8 @@ Example:
         },
 
         sortSelected: {
-          type: Object
+          type: Object,
+          observer: '_sortSelectedChanged'
         },
 
         sortOptions: {
@@ -211,10 +215,6 @@ Example:
           value: []
         }
       },
-
-      observers: [
-        '_refresh(nxProvider, sortSelected)'
-      ],
 
       ready: function() {
         // keyBindings don't allow registering 'down' key
@@ -274,12 +274,25 @@ Example:
           var sort = {};
           sort[this.sortSelected.field] = this.sortSelected.order;
           this.nxProvider.sort = sort;
-          this.fetch();
+          if (this.visible) {
+            this.fetch();
+          }
+        }
+      },
+
+      _sortSelectedChanged: function(newSort, oldSort) {
+        // do not trigger fetch results when sort options are being initialized
+        if (newSort && oldSort) {
+          this._refresh();
         }
       },
 
       draggableFilter: function(el) {
         return el.selected;
+      },
+
+      get visible() {
+        return Boolean(this.offsetWidth || this.offsetHeight);
       }
 
     });
