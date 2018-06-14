@@ -153,6 +153,7 @@
   "browser.edit": "Edit",
   "browser.activity": "Activities",
   "browser.permissions": "Permissions",
+  "browser.trash": "Trash",
   "browser.view": "View",
   "clipboard.copy": "Copy",
   "clipboard.empty": "Your clipboard is empty.",
