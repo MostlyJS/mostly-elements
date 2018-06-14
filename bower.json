@@ -60,7 +60,8 @@
     "randomcolor": "0.4.1",
     "select2": "3.5.2",
     "Sortable": "^1.6.0",
-    "vaadin-date-picker": "^3.0.0"
+    "vaadin-date-picker": "^3.0.0",
+    "web-animations-js": "web-animations/web-animations-js#^2.3.1"
   },
   "devDependencies": {
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
