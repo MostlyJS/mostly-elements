@@ -27,9 +27,10 @@ limitations under the License.
 <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
 
-<link rel="import" href="../widgets/mostly-dialog.html">
-<link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
 <link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
+<link rel="import" href="../behaviors/mostly-draggable-list-behavior.html">
+<link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
+<link rel="import" href="../widgets/mostly-dialog.html">
 
 <link rel="import" href="data-table-column.html">
 <link rel="import" href="data-table-column-sort.html">
@@ -104,6 +105,15 @@ Example:
         width: 100%;
         min-height: 300px;
         @apply --iron-data-table;
+      }
+
+      :host([draggable]) ::slotted(mostly-data-table-row[selected]) {
+        cursor: -webkit-grab;
+        cursor: grab;
+      }
+
+      :host .droptarget-hover ::slotted(mostly-data-table-row) {
+        border: 2px dashed var(--mostly-primary-color, blue);
       }
 
       /* scrollbars */
@@ -340,7 +350,8 @@ Example:
         Polymer.IronValidatableBehavior,
         Mostly.FuncBehavior,
         Mostly.PageProviderDisplayBehavior,
-        Mostly.I18nBehavior
+        Mostly.I18nBehavior,
+        Mostly.DraggableListBehavior
       ],
 
       listeners: {
@@ -866,6 +877,11 @@ Example:
       /* Override method from Polymer.IronValidatableBehavior. */
       _getValidity: function() {
         return this.required ? this.items && this.items.length > 0 : true;
+      },
+
+      draggableFilter: function(el) {
+        var row = el.closest('mostly-data-table-row');
+        return row && row.selected;
       }
 
     });

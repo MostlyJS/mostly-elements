@@ -11,6 +11,7 @@
 <link rel="import" href="../../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../../paper-spinner/paper-spinner-lite.html">
 
+<link rel="import" href="../behaviors/mostly-draggable-list-behavior.html">
 <link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
 <link rel="import" href="../mostly-aggregation/mostly-aggregation-navigation.html">
 <link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
@@ -133,6 +134,11 @@ An element to display page provider results as a grid with infinite scrolling.
         right: 12px;
       }
 
+      :host([draggable]) ::slotted([selected]) {
+        cursor: -webkit-grab;
+        cursor: grab;
+      }
+
     </style>
 
     <div id="container">
@@ -187,7 +193,8 @@ An element to display page provider results as a grid with infinite scrolling.
 
       behaviors: [
         Polymer.IronResizableBehavior,
-        Mostly.PageProviderDisplayBehavior
+        Mostly.PageProviderDisplayBehavior,
+        Mostly.DraggableListBehavior
       ],
 
       properties: {
@@ -252,6 +259,10 @@ An element to display page provider results as a grid with infinite scrolling.
 
       _onScrollTo: function(e) {
         this.scrollToIndex(e.detail.index)
+      },
+
+      draggableFilter: function(el) {
+        return el.selected;
       }
 
     });
