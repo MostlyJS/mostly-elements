@@ -13,54 +13,53 @@
 </dom-module>
 
 <script>
-  (function() {
-    Polymer({
-      is: 'mostly-keys',
+  Polymer({
+    is: 'mostly-keys',
 
-      properties: {
-        keys: String,
-        target: {
-          type: Object,
-          value: function() {
-            return document.body;
-          }
-        },
-        invasive: {
-          type: Boolean,
-          value: false
+    properties: {
+      keys: String,
+      target: {
+        type: Object,
+        value: function() {
+          return document.body;
         }
       },
+      invasive: {
+        type: Boolean,
+        value: false
+      }
+    },
 
-      _keysPressed: function(e) {
-        if (this.target === document.body) {
-          var element = e.detail.keyboardEvent.path[0];
-          switch (element.tagName) {
-            case 'INPUT':
-            case 'TEXTAREA':
-              if (!this.invasive) {
-                return;
-              }
-              break;
-            case 'DIV':
-              if (!this.invasive && element.isContentEditable) {
-                return;
-              }
-              if (element.id === 'input') {
-                e.preventDefault();
-                return;
-              }
-              break;
-            case 'MOSTLY-DIALOG':
-            case 'PAPER-BUTTON':
-            case 'PAPER-CHECKBOX':
-            case 'PAPER-RADIO-BUTTON':
+    _keysPressed: function(e) {
+      if (this.target === document.body) {
+        var element = e.detail.keyboardEvent.composedPath()[0];
+        switch (element.tagName) {
+          case 'INPUT':
+          case 'TEXTAREA':
+            if (!this.invasive) {
+              return;
+            }
+            break;
+          case 'DIV':
+            if (!this.invasive && element.isContentEditable) {
+              return;
+            }
+            if (element.id === 'input') {
               e.preventDefault();
               return;
-          }
+            }
+            break;
+          case 'MOSTLY-DIALOG':
+          case 'PAPER-DIALOG':
+          case 'PAPER-BUTTON':
+          case 'PAPER-CHECKBOX':
+          case 'PAPER-RADIO-BUTTON':
+            e.preventDefault();
+            return;
         }
-        this.fire('pressed', e.detail, {});
       }
+      this.fire('pressed', e.detail, {});
+    }
 
-    });
-  })();
+  });
 </script>
