@@ -5626,18 +5626,16 @@ assign(Selectivity.prototype, {
         this._value = ids;
 
         if (this._value && this.options.initSelection) {
-            this.options.initSelection(
-                newValue,
-                function(data) {
-                    if (this._value === newValue) {
-                        this._data = this.validateData(data);
+            this.options.initSelection(newValue, (data) => {
+              if (this._value === newValue) {
+                this._data = this.validateData(data);
 
-                        if (options.triggerChange !== false) {
-                            this.triggerChange();
-                        }
-                    }
-                }.bind(this)
-            );
+                if (options.triggerChange !== false) {
+                    this.triggerChange();
+                }
+                this.rerenderSelection();
+              }
+            });
         } else {
             this._data = this.getDataForValue(ids);
 
