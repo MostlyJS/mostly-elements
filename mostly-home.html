@@ -91,11 +91,12 @@
             <playing-document-storage id="recentStorage"
                     name="playing-recent-documents"
                     documents="{{recentDocuments}}"></playing-document-storage>
+            <mostly-page-provider id="recentProvider" page-size="15" schemas="id"></mostly-page-provider>
             <mostly-data-table id="latestViewedDocs"
-              items="[[recentDocuments]]"
-              empty-label="[[i18n('recentDocuments.empty')]]"
-              empty-label-when-filtered="[[i18n('recentDocuments.empty')]]"
-              on-row-clicked="_navigate">
+                    items="[[recentDocuments]]"
+                    empty-label="[[i18n('recentDocuments.empty')]]"
+                    empty-label-when-filtered="[[i18n('recentDocuments.empty')]]"
+                    on-row-clicked="_navigate">
               <mostly-data-table-column name="[[i18n('documentContentView.datatable.header.title')]]" flex="100">
                 <template>
                   <playing-document-thumbnail document="[[item]]"></playing-document-thumbnail>
@@ -149,7 +150,7 @@
               </mostly-data-table-column>
             </mostly-data-table>
           </mostly-card>
-           -->
+          -->
         </section>
       </div>
     </mostly-page>
@@ -159,11 +160,19 @@
   <script>
     Polymer({
       is: 'mostly-home',
+
       behaviors: [Mostly.I18nBehavior, Mostly.RoutingBehavior, Mostly.FormatBehavior],
+
       properties: {
         visible: {
           type: Boolean,
           observer: '_visibleChanged'
+        },
+
+        _recentDocuments: {
+          type: Array,
+          value: [],
+          observer: '_recentDocumentsChanged'
         }
       },
 
@@ -207,6 +216,26 @@
               this.favorite = resp;
               return resp;
             }.bind(this));
+        }
+      },
+
+      _recentDocumentsChanged: function(docs) {
+        if (docs && docs.length > 0) {
+          var storage = this.$.recentStorage;
+          var provider = this.$.recentProvider;
+          var ids = docs.map(doc => doc.id);
+          provider.params = {
+            id: { $in: ids },
+            destroyedAt: null
+          };
+          provider.fetch().then(result => {
+            docs.forEach(doc => {
+              if (result.entries.findIndex(entry => entry.id === doc.id) === -1) {
+                storage.remove(doc);
+              }
+            });
+            this.$.latestViewedDocs.items = docs;
+          });
         }
       }
 
