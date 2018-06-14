@@ -53,10 +53,14 @@
               }
               this.uploader.upload(blob).then((result) => {
                 callback({ type: 'uploadCompleted', fileIdx: result.blob.fileIdx });
+              }).catch(function(error) {
+                callback({ type: 'uploadInterrupted', file: file, error: error });
               });
             }
             this.uploader.done().then((result) => {
               callback({ type: 'batchFinished', batchId: result.batch._batchId });
+            }).catch(function(error) {
+              callback({ type: 'batchFailed', error: error });
             });
           }
         });
@@ -279,6 +283,12 @@
             case 'batchFinished':
               this._batchFinished(event.batchId);
               break;
+            case 'uploadInterrupted':
+              this._uploadInterrupted(event.file, event.error);
+              break;
+            case 'batchFailed':
+              this._batchFailed(event.error);
+              break;
           }
         });
       },
@@ -334,7 +344,12 @@
       _batchFinished: function(batchId) {
         this.uploading = false;
         this.batchId = batchId;
-        this.fire('batchFinished', {batchId: batchId});
+        this.fire('batchFinished', { batchId: batchId });
+      },
+
+      _batchFailed: function(error) {
+        this.uploading = false;
+        this.fire('batchFailed', { error: error });
       },
 
       _uploadStarted: function(file) {
@@ -353,12 +368,16 @@
         });
       },
 
+      _uploadInterrupted: function(file, error) {
+        this.fire('uploadInterrupted', { file: file, error: error || 'Upload Interrupted!' });
+      },
+
       _uploadProgressUpdated: function(index, file, progress) {
-        this._updateFile(index, {progress: progress}); // in percentage
+        this._updateFile(index, { progress: progress }); // in percentage
       },
 
       _uploadSpeedUpdated: function(index, file, speed) {
-        this._updateFile(index, {speed: speed}); // in KB/sec
+        this._updateFile(index, { speed: speed }); // in KB/sec
       },
 
       // DnD
