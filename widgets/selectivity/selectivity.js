@@ -5428,7 +5428,7 @@ assign(Selectivity.prototype, {
             });
         }
 
-        this.search('');
+        this.search(this.input.value);
 
         this.focus();
 
