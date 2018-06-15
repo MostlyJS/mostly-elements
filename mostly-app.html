@@ -503,7 +503,9 @@
         'navigate': '_navigate',
         'collection-loaded': '_updateCollectionMenu',
         'notify': '_notify',
-        'nx-clipboard-updated': '_clipboardUpdated'
+        'nx-clipboard-updated': '_clipboardUpdated',
+        'document-deleted': '_documentDeleted',
+        'document-untrashed': '_documentUntrashed'
       },
 
       observers: ['_computeSharedActionContext(currentUser)'],
@@ -908,6 +910,32 @@
 
       _documentUnlocked: function() {
         this._toast(this.i18n('app.document.unlocked'));
+      },
+
+      _documentDeleted: function(e) {
+        this._toast(this.i18n('app.document.deleted.' + (e.detail.error ? 'error' : 'success') ));
+
+        // navigate to parent
+        if (!e.detail.error) {
+          var metadata = e.detail.doc.metadata;
+          if (metadata) {
+            if (metadata.aboveDocument) {
+              this._navigate({ detail: { doc: metadata.aboveDocument } });
+            } else if (metadata.breadcrumbs) {
+              var breadcrumbs = metadata.breadcrumbs;
+              if (breadcrumbs.length > 1) {
+                this._navigate({ detail: { doc: breadcrumbs[breadcrumbs.length - 2] } });
+              }
+            }
+          }
+        }
+      },
+
+      _documentUntrashed: function(e) {
+        this._toast(this.i18n('app.document.untrashed.' + (e.detail.error ? 'error' : 'success') ));
+        if (e.detail.doc && !e.detail.error) {
+          this._navigate({ detail: { doc: e.detail.doc } });
+        }
       },
 
       _documentsDeletedError: function(err, documents){
