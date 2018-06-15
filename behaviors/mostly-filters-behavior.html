@@ -38,7 +38,7 @@
      * Checks if the document is trashed.
      */
     isTrashed: function(doc) {
-      return doc && (this.hasState(doc, 'deleted') || doc.isTrashed);
+      return doc && (this.hasState(doc, 'deleted') || doc.destroyedAt);
     },
 
     /**
