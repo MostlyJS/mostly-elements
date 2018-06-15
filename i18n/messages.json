@@ -296,6 +296,7 @@
   "deleteButton.tooltip": "Delete document",
   "deleteButton.tooltip.permanently": "Delete document permanently",
   "deleteDocumentsButton.confirm.moveToTrash": "Move selected document(s) to trash?",
+  "deleteDocumentsButton.confirm.deleteDocuments": "Delete selected document(s)?",
   "deleteDocumentsButton.confirm.deleteDocumentsForever": "Permanently delete selected document(s)?",
   "deleteDocumentsButton.tooltip": "Delete selected items",
   "deleteTemplateButton.dialog.confirm": "Delete Template",
