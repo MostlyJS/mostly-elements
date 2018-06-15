@@ -31,7 +31,7 @@ An element to interact with page provider aggregations as suggestions.
       }
     </style>
 
-    <mostly-selectivity data="[[_computedData(buckets)]]"
+    <mostly-selectivity data="[[_computeData(buckets)]]"
             min-chars="[[minChars]]"
             multiple="[[multiple]]"
             placeholder="[[placeholder]]"
@@ -42,7 +42,9 @@ An element to interact with page provider aggregations as suggestions.
   <script>
     Polymer({
       is: 'mostly-dropdown-aggregation',
+
       behaviors: [Mostly.I18nBehavior, Mostly.AggregationBehavior],
+
       properties: {
         value: {
           type: Array,
