@@ -505,7 +505,9 @@
         'notify': '_notify',
         'nx-clipboard-updated': '_clipboardUpdated',
         'document-deleted': '_documentDeleted',
-        'document-untrashed': '_documentUntrashed'
+        'document-untrashed': '_documentUntrashed',
+        'bulk-documents-deleted': '_documentsDeleted',
+        'bulk-documents-untrashed': '_documentsUntrashed'
       },
 
       observers: ['_computeSharedActionContext(currentUser)'],
@@ -533,11 +535,11 @@
           }
         });
 
-        window.addEventListener('playing-documents-deleted', e => {
+        window.addEventListener('bulk-documents-deleted', e => {
           this._fetchProcesses();
         });
 
-        window.addEventListener('playing-documents-deleted-error', e => {
+        window.addEventListener('bulk-documents-deleted-error', e => {
           this._documentsDeletedError(e.detail.response, e.detail.documents);
         });
 
