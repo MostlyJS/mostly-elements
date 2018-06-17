@@ -75,6 +75,12 @@
         height: calc(100% - var(--mostly-app-top));
       }
 
+      paper-header-panel {
+        --paper-header-panel-container: {
+          -webkit-overflow-scrolling: unset; /* fix for selection toolbar on iOS */
+        };
+      }
+
       /* logo */
       #logo {
         position: fixed;
