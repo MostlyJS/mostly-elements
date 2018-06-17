@@ -2,23 +2,39 @@
 
 <mostly-slot-content name="adminAuditMenuItem" slot="ADMINISTRATION_MENU" order="40">
   <template>
-    <mostly-menu-item name="audit" label="audit.heading" route="administration:audit"></mostly-menu-item>
+    <mostly-filter user="[[user]]" expression="user.isAdministrator">
+      <template>
+        <mostly-menu-item name="audit" label="audit.heading" route="administration:audit"></mostly-menu-item>
+      </template>
+    </mostly-filter>
   </template>
 </mostly-slot-content>
 <mostly-slot-content name="adminAuditPage" slot="ADMINISTRATION_PAGES">
   <template>
-    <mostly-audit name="audit" id="audit"></mostly-audit>
+    <mostly-filter user="[[user]]" expression="user.isAdministrator">
+      <template>
+        <mostly-audit name="audit" id="audit"></mostly-audit>
+      </template>
+    </mostly-filter>
   </template>
 </mostly-slot-content>
 
 <mostly-slot-content name="adminCloudServicesMenuItem" slot="ADMINISTRATION_MENU" order="50">
   <template>
-    <mostly-menu-item name="cloudServices" label="cloudServices.heading" route="administration:cloud-services"></mostly-menu-item>
+    <mostly-filter user="[[user]]" expression="user.isAdministrator">
+      <template>
+        <mostly-menu-item name="cloudServices" label="cloudServices.heading" route="administration:cloud-services"></mostly-menu-item>
+      </template>
+    </mostly-filter>
   </template>
 </mostly-slot-content>
 <mostly-slot-content name="adminCloudServicesPage" slot="ADMINISTRATION_PAGES">
   <template>
-    <mostly-cloud-services name="cloud-services" id="cloud-services"></mostly-cloud-services>
+    <mostly-filter user="[[user]]" expression="user.isAdministrator">
+      <template>
+        <mostly-cloud-services name="cloud-services" id="cloud-services"></mostly-cloud-services>
+      </template>
+    </mostly-filter>
   </template>
 </mostly-slot-content>
 
