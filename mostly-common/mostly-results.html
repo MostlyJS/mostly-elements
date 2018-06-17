@@ -94,6 +94,11 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
 
       <div class="resultActions" hidden$="[[hideContentViewActions]]">
 
+        <slot name="actions"></slot>
+
+        <mostly-slot slot="DOCUMENT_LISTING_ACTIONS" model="[[actionContext]]"></mostly-slot>
+        <mostly-slot slot="RESULTS_ACTIONS" model="[[actionContext]]"></mostly-slot>
+
         <template is="dom-repeat" items="[[_displayModes]]">
           <paper-icon-button class="displayMode"
                   icon="[[item.icon]]"
@@ -102,13 +107,6 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
                   disabled$="[[_isCurrentDisplayMode(item, displayMode)]]"
                   on-tap="_toggleDisplayMode"></paper-icon-button>
         </template>
-
-        <slot name="actions"></slot>
-
-        <!-- 0.9 compatibility -->
-        <mostly-slot slot="DOCUMENT_LISTING_ACTIONS" model="[[actionContext]]"></mostly-slot>
-
-        <mostly-slot slot="RESULTS_ACTIONS" model="[[actionContext]]"></mostly-slot>
 
       </div>
 
