@@ -774,7 +774,7 @@
       _searchFormChanged: function(newVal, oldVal) {
         console.log('app::_searchFormChanged', newVal);
       },
-
+      
       _updateCollectionMenu: function(e) {
         if (e.detail.provider) {
           this.$$('#collectionsForm').loadCollection(e.detail.collection, e.detail.provider);
@@ -952,6 +952,19 @@
           default: break;
         }
         this._toast(errorMessage);
+      },
+
+      _documentsDeleted: function(e) {
+        if (e.detail.error) {
+          this._documentsDeletedError(e.detail.error.response, e.detail.documents);
+        } else {
+          this._fetchTasks();
+          this._toast(this.i18n('app.documents.deleted.success'));
+        }
+      },
+
+      _documentsUntrashed: function(e) {
+        this._toast(this.i18n('app.documents.untrashed.' + (e.detail.error ? 'error' : 'success') ));
       },
 
       _documentFileDeleted: function() {
