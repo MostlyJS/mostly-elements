@@ -921,8 +921,8 @@
         if (!e.detail.error) {
           var metadata = e.detail.doc.metadata;
           if (metadata) {
-            if (metadata.aboveDocument) {
-              this._navigate({ detail: { doc: metadata.aboveDocument } });
+            if (e.detail.doc.parent) {
+              this._navigate({ detail: { doc: e.detail.doc.parent } });
             } else if (metadata.breadcrumbs) {
               var breadcrumbs = metadata.breadcrumbs;
               if (breadcrumbs.length > 1) {
