@@ -342,6 +342,7 @@
   "documentContentView.datatable.header.state": "State",
   "documentContentView.datatable.header.subjects": "Subjects",
   "documentContentView.datatable.header.title": "Title",
+  "documentContentView.datatable.header.type": "Type",
   "documentContentView.datatable.header.version": "Version",
   "documentContentView.drag.import": "Drop to import",
   "documentContentView.sort.label": "SORT BY",
