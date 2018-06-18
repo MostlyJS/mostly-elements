@@ -526,6 +526,10 @@
 
         this.$.drawerPanel.closeDrawer();
 
+        this.$.drawerPanel.$.drawer.addEventListener('transitionend', () => {
+          this.$.drawerPanel.notifyResize();
+        });
+
         window.addEventListener('unhandledrejection', e => {
           var reason = (e.reason && e.reason.response) || e.reason;
           if (reason) {
