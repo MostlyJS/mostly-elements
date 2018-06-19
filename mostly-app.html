@@ -960,6 +960,8 @@
       _documentDeleted: function(e) {
         this._toast(this.i18n('app.document.deleted.' + (e.detail.error ? 'error' : 'success') ));
 
+        this._removeFromClipboard([e.detail.doc]);
+
         // navigate to parent
         if (!e.detail.error) {
           var metadata = e.detail.doc.metadata;
@@ -1000,6 +1002,7 @@
         if (e.detail.error) {
           this._documentsDeletedError(e.detail.error.response, e.detail.documents);
         } else {
+          this._removeFromClipboard(e.detail.documents);
           this._fetchTasks();
           this._toast(this.i18n('app.documents.deleted.success'));
           this._refreshSearch();
@@ -1138,6 +1141,14 @@
       _clipboardUpdated: function(e) {
         this.clipboard = this.clipboard || this.$$('#clipboard');
         this.set('clipboardDocCount', e.detail.docCount);
+      },
+
+      _removeFromClipboard: function(docs) {
+        if (Array.isArray(docs)) {
+          docs.forEach((doc) => {
+            this.clipboard.remove(doc);
+          });
+        }
       }
 
     });
