@@ -10,19 +10,20 @@
 <link rel="import" href="mostly-icons.html">
 <link rel="import" href="mostly-layout.html">
 <link rel="import" href="mostly-slots.html">
-<link rel="import" href="behaviors/mostly-routing-behavior.html">
-<link rel="import" href="behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="behaviors/mostly-filters-behavior.html">
+<link rel="import" href="behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="behaviors/mostly-layout-behavior.html">
+<link rel="import" href="behaviors/mostly-routing-behavior.html">
 <link rel="import" href="mostly-common/mostly-operation.html">
 <link rel="import" href="mostly-common/mostly-page-provider.html">
 <link rel="import" href="mostly-common/mostly-resource.html">
 
-<link rel="import" href="mostly-app/mostly-progress-indicator.html">
 <link rel="import" href="mostly-app/mostly-menu-item.html">
 <link rel="import" href="mostly-app/mostly-menu-icon.html">
+<link rel="import" href="mostly-app/mostly-offline-banner.html">
 <link rel="import" href="mostly-app/mostly-page.html">
 <link rel="import" href="mostly-app/mostly-page-item.html">
+<link rel="import" href="mostly-app/mostly-progress-indicator.html">
 
 <link rel="import" href="mostly-data-table/iron-data-table.html">
 
@@ -231,6 +232,8 @@
       }
 
     </style>
+
+    <mostly-offline-banner message="[[i18n('app.offlineBanner.message')]]"></mostly-offline-banner>
 
     <mostly-connection id="nxcon" user="{{currentUser}}" url="/api"></mostly-connection>
 
