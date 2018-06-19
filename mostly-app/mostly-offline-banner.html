@@ -1,0 +1,70 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<!--
+`mostly-offline-banner`
+@group Mostly UI
+@element mostly-offline-banner
+-->
+<dom-module id="mostly-offline-banner">
+  <template>
+    <style>
+      :host {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        background: var(--mostly-offline-banner-background, #fee066);
+        box-shadow: var(--mostly-app-header-box-shadow);
+        color: var(--mostly-offline-banner-text, #3a3a54);
+        height: var(--mostly-drawer-header-height);
+        padding-left: 16px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        visibility: hidden;
+        transform: translateY(-100%);
+        -webkit-transform: translateY(-100%);
+        transition-duration: .5
+        transition-property: visibility, -webkit-transform, opacity;
+        transition-property: visibility, transform, opacity;s;
+        will-change: transform;
+      }
+
+      :host([offline]) {
+        visibility: visible;
+        transform: translateY(0);
+        -webkit-transform: translateY(0);
+      }
+    </style>
+
+    <span>[[message]]</span>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'mostly-offline-banner',
+
+    properties: {
+      offline: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+
+      message: {
+        type: String,
+        value: 'Your network is unavailable. Please check your connection.'
+      }
+    },
+
+    ready: function() {
+      window.addEventListener('online', () => {
+        this.offline = false;
+      });
+      window.addEventListener('offline', () => {
+        this.offline = true;
+      });
+    }
+  });
+</script>
