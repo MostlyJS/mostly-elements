@@ -244,6 +244,7 @@
 
     <mostly-operation id="userWorkspace" path="workspaces" input="me" method="get"></mostly-operation>
     <mostly-operation id="moveDocumentsOp" path="documents" sync-indexing></mostly-operation>
+    <mostly-operation id="addToCollectionOp" path="user-collections" op="create" method="post"></mostly-operation>
 
     <mostly-resource id="processes" path="processes-stats"></mostly-resource>
     <mostly-resource id="process" path="processes-stats/[[currentProcessId]]"></mostly-resource>
@@ -1032,6 +1033,14 @@
       },
 
       _documentsDropped: function(e) {
+        if (this.hasFacet(e.detail.targetDocument, 'Collection')) {
+          this._addDocumentsToCollection(e.detail.documents, e.detail.targetDocument);
+        } else {
+          this._moveDocumentsToContainer(e.detail.documents, e.detail.targetDocument);
+        }
+      },
+
+      _moveDocumentsToContainer: function(e) {
         this.$.moveDocumentsOp.op = 'moveDocument';
         this.$.moveDocumentsOp.input = e.detail.targetDocument.id;
         this.$.moveDocumentsOp.params = {
@@ -1040,7 +1049,21 @@
         };
         this.$.moveDocumentsOp.execute().then(() => {
           this.fire('document-updated');
-          this._toast(this.i18n('app.documents.dropped', e.detail.documents.length, e.detail.targetDocument.title));
+          this._toast(this.i18n('app.documents.moved', e.detail.documents.length, e.detail.targetDocument.title));
+        });
+      },
+
+      _addDocumentsToCollection: function(documents, target) {
+        this.$.addToCollectionOp.op = 'AddToCollection';
+        this.$.addToCollectionOp.params = {
+          subjects: documents.map(doc => doc.id),
+          collect: target.id
+        };
+        this.$.addToCollectionOp.execute().then(() => {
+          this.fire('document-updated');
+          this._toast(
+            this.i18n(documents.length === 1 ? 'app.document.addedToCollection' : 'app.documents.addedToCollection')
+          );
         });
       },
 
