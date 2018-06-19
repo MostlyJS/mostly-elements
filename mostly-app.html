@@ -243,6 +243,7 @@
             schemas="creator,books,*"></playing-document>
 
     <mostly-operation id="userWorkspace" path="workspaces" input="me" method="get"></mostly-operation>
+    <mostly-operation id="moveDocumentsOp" path="documents" sync-indexing></mostly-operation>
 
     <mostly-resource id="processes" path="processes-stats"></mostly-resource>
     <mostly-resource id="process" path="processes-stats/[[currentProcessId]]"></mostly-resource>
@@ -532,7 +533,8 @@
         'document-deleted': '_documentDeleted',
         'document-untrashed': '_documentUntrashed',
         'bulk-documents-deleted': '_documentsDeleted',
-        'bulk-documents-untrashed': '_documentsUntrashed'
+        'bulk-documents-untrashed': '_documentsUntrashed',
+        'bulk-documents-dropped': '_documentsDropped'
       },
 
       observers: ['_computeSharedActionContext(currentUser)'],
@@ -1027,6 +1029,19 @@
             this._toast(this.i18n('app.createdDocument', data.type.toLowerCase() + ' ' + data.title));
           }
         }
+      },
+
+      _documentsDropped: function(e) {
+        this.$.moveDocumentsOp.op = 'moveDocument';
+        this.$.moveDocumentsOp.input = e.detail.targetDocument.id;
+        this.$.moveDocumentsOp.params = {
+          target: e.detail.targetDocument.id,
+          documents: e.detail.documents.map(doc => doc.id)
+        };
+        this.$.moveDocumentsOp.execute().then(() => {
+          this.fire('document-updated');
+          this._toast(this.i18n('app.documents.dropped', e.detail.documents.length, e.detail.targetDocument.title));
+        });
       },
 
       _hasAdministrationPermissions: function(user) {
