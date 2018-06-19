@@ -74,6 +74,7 @@
   "app.favorites": "Favorites",
   "app.homeNotFound": "Home layout not found",
   "app.graphQLSearch": "GraphQL Search",
+  "app.offlineBanner.message": "Your network is unavailable. Please check your connection.",
   "app.personalSpace": "Personal Space",
   "app.play": "Play Design",
   "app.processes": "Microservices",
