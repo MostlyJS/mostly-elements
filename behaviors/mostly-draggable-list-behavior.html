@@ -88,7 +88,7 @@
         document.removeEventListener('mouseup', upFn);
         if (this.target) {
           this.target.classList.remove('droptarget-hover');
-          this.fire('mostly-documents-dropped', {
+          this.fire('bulk-documents-dropped', {
             targetDocument: this.modelForElement(this.target).item,
             documents: this.selectedItems
           });
