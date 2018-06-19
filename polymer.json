@@ -1,4 +1,22 @@
 {
+  "entrypoint": "index.html",
+  "shell": "mostly-app.html",
+  "fragments": [
+    "elements.html"
+  ],
+  "sources": [
+    "elements/**/*",
+    "themes/**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/*",
+    "bower_components/page/page.js",
+    "bower_components/moment/min/moment-with-locales.min.js",
+    "bower_components/jquery/dist/jquery.min.js",
+  ],
   "lint": {
     "rules": ["polymer-1"],
     "ignoreWarnings": [

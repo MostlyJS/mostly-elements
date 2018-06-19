@@ -32,6 +32,12 @@
 <link rel="import" href="../playing-content-elements/playing-document/playing-document.html">
 <link rel="import" href="../playing-content-elements/playing-document-thumbnail/playing-document-thumbnail.html">
 
+<!-- playing-browser -->
+<link rel="import" href="../playing-content-elements/playing-browser/playing-breadcrumb.html">
+
+<!-- Right panel elements -->
+<link rel="import" href="../playing-content-elements/playing-recent-documents/playing-recent-documents.html">
+
 <!-- i18n -->
 <link rel="import" href="i18n/i18n.html">
 
@@ -45,8 +51,15 @@
 -->
 <!-- search -->
 <link rel="import" href="../playing-search-elements/playing-search-page.html">
+<link rel="import" href="../playing-search-elements/search/playing-search-form.html">
+
+<!-- user group management -->
+<link rel="import" href="../playing-user-elements/playing-user-group/playing-user-group-management-page.html">
 
 <script src="../playing-content-elements/playing-document/playing-doc-types.js"></script>
+
+<!-- animations polyfill -->
+<link rel="import" href="../neon-animation/web-animations.html">
 
 <!--
 `mostly-app`
@@ -1046,15 +1059,23 @@
           if (!(el instanceof HTMLElement)) {
             this.loading = true;
             var tag = el.tagName.toLowerCase();
-            this.importHref(this.resolveUrl(tag + '.html'), this._pageLoaded, () => {
+            this.importHref(this.resolveUrl(tag + '.html'), this._loadElements, () => {
               this.showError(404, '', tag + '.html');
             }, true);
+          } else {
+            // load elements if navigating directly to pages
+            // which are not lazy loaded (e.g. searches)
+            this._loadElements();
           }
         }
       },
 
-      _pageLoaded: function() {
-        this.loading = false;
+      _loadElements: function() {
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          this.importHref(this.resolveUrl('elements.html'), function() {
+            this.loading = false;
+          });
+        });
       },
 
       _notify: function(e) {
