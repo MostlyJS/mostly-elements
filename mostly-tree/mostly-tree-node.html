@@ -172,7 +172,7 @@
 
       _renderChildNodes: function() {
         if (this.template) {
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             // clear <iron-collapse> content in case we are re-rendering
             var children = Polymer.dom(this).querySelector('#children');
             while (children.lastChild) {

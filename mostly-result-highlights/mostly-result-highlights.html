@@ -88,7 +88,7 @@
 
       _segmentOc: function(segment) {
         var segmentOc = [];
-        segment.split('<em>').forEach(function(item, idx) {
+        segment.split('<em>').forEach((item, idx) => {
           segmentOc.push(idx > 0 ? '<em>' + item: item);
         });
         return segmentOc;

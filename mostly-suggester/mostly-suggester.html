@@ -309,9 +309,9 @@
         if (this.searchTerm === '') {
           this.items = [];
         } else {
-          this.debounce('suggester-search', function() {
+          this.debounce('suggester-search', () => {
             this.$.op.execute();
-          }.bind(this), this.searchDelay);
+          }, this.searchDelay);
         }
       },
 

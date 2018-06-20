@@ -451,12 +451,12 @@ Example:
             body: query,
             url: url
           };
-          return this.$.nx.request().then(function(request) {
+          return this.$.nx.request().then(request => {
             return request
               .execute(options)
               .then(this._handleResponse.bind(this))
               .catch(this._handleError.bind(this))
-          }.bind(this));
+          });
         },
 
         _handleError: function(reason) {
@@ -520,21 +520,21 @@ Example:
           $(this.$.chart).find('svg').remove();
 
           vis = d3.select(this.$.chart).append("svg:svg")
-              .attr("width", this.width)
-              .attr("height", this.height)
-              .append("svg:g")
-              .attr("id", "container")
-              .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
+            .attr("width", this.width)
+            .attr("height", this.height)
+            .append("svg:g")
+            .attr("id", "container")
+            .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
 
           partition = d3.layout.partition()
-              .size([2 * Math.PI, radius * radius])
-              .value(function(d) { return d.size; });
+            .size([2 * Math.PI, radius * radius])
+            .value(d => d.size);
 
           arc = d3.svg.arc()
-              .startAngle(function(d) { return d.x; })
-              .endAngle(function(d) { return d.x + d.dx; })
-              .innerRadius(function(d) { return Math.sqrt(d.y); })
-              .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
+            .startAngle(d => d.x)
+            .endAngle(d => d.x + d.dx)
+            .innerRadius(d => Math.sqrt(d.y))
+            .outerRadius(d => Math.sqrt(d.y + d.dy));
 
           this._createVisualization();
 
@@ -569,28 +569,28 @@ Example:
 
           // Data join; key function combines name and depth (= position in sequence).
           var g = d3.select(Polymer.dom(this.root).querySelector('#trail'))
-              .selectAll("g")
-              .data(nodeArray, function(d) { return d.name + d.depth; });
+            .selectAll("g")
+            .data(nodeArray, function(d) { return d.name + d.depth; });
 
           // Add breadcrumb and label for entering nodes.
           var entering = g.enter().append("svg:g");
 
           entering.append("svg:polygon")
-              .attr("points", this._breadcrumbPoints)
-              .style("fill", function(d) { return d.color; });
+            .attr("points", this._breadcrumbPoints)
+            .style("fill", function(d) { return d.color; });
 
           entering.append("svg:text")
-              .attr("x", (b.w + b.t) / 2)
-              .attr("y", b.h / 2)
-              .attr("dy", "0.35em")
-              .attr("text-anchor", "middle")
-              .text(function(d) {
-                if(d.name.length > 10) {
-                  return d.name.substring(0, 9) + "...";
-                } else {
-                  return d.name;
-                }
-              });
+            .attr("x", (b.w + b.t) / 2)
+            .attr("y", b.h / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "middle")
+            .text(d => {
+              if(d.name.length > 10) {
+                return d.name.substring(0, 9) + "...";
+              } else {
+                return d.name;
+              }
+            });
 
           // Set position for entering and updating nodes.
           g.attr("transform", function(d, i) {
@@ -602,15 +602,15 @@ Example:
 
           // Now move and update the percentage at the end.
           d3.select(Polymer.dom(this.root).querySelector('#trail').querySelector('#endlabel'))
-              .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
-              .attr("y", b.h / 2)
-              .attr("dy", "0.35em")
-              .attr("text-anchor", "middle")
-              .text(percentageString);
+            .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+            .attr("y", b.h / 2)
+            .attr("dy", "0.35em")
+            .attr("text-anchor", "middle")
+            .text(percentageString);
 
           // Make the breadcrumb trail visible, if it's hidden.
           d3.select(Polymer.dom(this.root).querySelector('#trail'))
-              .style("visibility", "");
+            .style("visibility", "");
 
         },
 
@@ -622,26 +622,26 @@ Example:
           // Bounding circle underneath the sunburst, to make it easier to detect
           // when the mouse leaves the parent g.
           vis.append("svg:circle")
-              .attr("r", radius)
-              .style("opacity", 0);
+            .attr("r", radius)
+            .style("opacity", 0);
 
           // For efficiency, filter nodes to keep only those large enough to see.
           var nodes = partition.nodes(this._chartData)
-              .filter(function(d) {
+            .filter(d => {
               return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
-              });
+            });
 
           var path = vis.data([this._chartData]).selectAll("path")
-              .data(nodes)
-              .enter().append("svg:path")
-              .attr("display", function(d) { return d.depth ? null : "none"; })
-              .attr("d", arc)
-              .attr("fill-rule", "evenodd")
-              .style("fill", function(d) {
-                return d.color;
-              })
-              .style("opacity", 1)
-              .on("mouseover", this._mouseover.bind(this));
+            .data(nodes)
+            .enter().append("svg:path")
+            .attr("display", d => d.depth ? null : "none")
+            .attr("d", arc)
+            .attr("fill-rule", "evenodd")
+            .style("fill", function(d) {
+              return d.color;
+            })
+            .style("opacity", 1)
+            .on("mouseover", this._mouseover.bind(this));
 
           // Add the mouseleave handler to the bounding circle.
           d3.select(Polymer.dom(this.root).querySelector('#container')).on("mouseleave", this._mouseleave);
@@ -660,26 +660,24 @@ Example:
           }
 
           d3.select(this.$.cl)
-              .text(this._formatValue(d.value, true));
+            .text(this._formatValue(d.value, true));
           d3.select(this.$.clb)
-              .text('(' + percentageString + ')');
+            .text('(' + percentageString + ')');
 
           d3.select(this.$.ex)
-              .style("visibility", "");
+            .style("visibility", "");
 
           var sequenceArray = this._getAncestors(d);
           this._updateBreadcrumbs(sequenceArray, percentageString);
 
           // Fade all the segments.
           d3.selectAll(Polymer.dom(this.root).querySelectorAll('#chart path'))
-              .style("opacity", 0.3);
+            .style("opacity", 0.3);
 
           // Then highlight only those that are an ancestor of the current segment.
           vis.selectAll("#chart path")
-              .filter(function(node) {
-                        return (sequenceArray.indexOf(node) >= 0);
-                      })
-              .style("opacity", 1);
+            .filter(node => sequenceArray.indexOf(node) >= 0)
+            .style("opacity", 1);
         },
 
         // Restore everything to full opacity when moving off the visualization.
@@ -687,20 +685,20 @@ Example:
           return;
           // Hide the breadcrumb trail
           d3.select(Polymer.dom(this.root).querySelector('#trail'))
-              .style("visibility", "hidden");
+            .style("visibility", "hidden");
 
           // Deactivate all segments during transition.
           d3.selectAll(Polymer.dom(this.root).querySelectorAll('#chart path'))
-          .on("mouseover", null);
+            .on("mouseover", null);
 
           // Transition each segment to full opacity and then reactivate it.
           d3.selectAll(Polymer.dom(this.root).querySelectorAll('#chart path'))
-              .transition()
-              .duration(1000)
-              .style("opacity", 1)
-              .each("end", function() {
-                      d3.select(this).on("mouseover", this._mouseover.bind(this));
-                    });
+            .transition()
+            .duration(1000)
+            .style("opacity", 1)
+            .each("end", () => {
+              d3.select(this).on("mouseover", this._mouseover.bind(this));
+            });
 
           d3.select(this.$.ex)
               .style("visibility", "hidden");
@@ -710,18 +708,18 @@ Example:
           $(this.$.sequence).empty()
           // Add the svg area.
           var trail = d3.select(this.$.sequence).append("svg:svg")
-              .attr("width", '100%')
-              .attr("height", 50)
-              .attr("id", "trail");
+            .attr("width", '100%')
+            .attr("height", 50)
+            .attr("id", "trail");
           // Add the label at the end, for the percentage.
           trail.append("svg:text")
             .attr("id", "endlabel")
             .style("fill", "#000");
 
           d3.select(this.$.cl)
-              .text('');
+            .text('');
           d3.select(this.$.clb)
-              .text('');
+            .text('');
         },
 
         // Generate a string that describes the points of a breadcrumb polygon.
@@ -742,15 +740,15 @@ Example:
           if (this.mode === 'size') {
             var thresh = si ? 1000 : 1024;
             if(Math.abs(value) < thresh) {
-                return value + ' B';
+              return value + ' B';
             }
             var units = si
-                ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
-                : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+              ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
+              : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
             var u = -1;
             do {
-                value /= thresh;
-                ++u;
+              value /= thresh;
+              ++u;
             } while(Math.abs(value) >= thresh && u < units.length - 1);
             return value.toFixed(1)+' '+units[u];
           } else if (this.mode === 'count') {

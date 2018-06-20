@@ -130,12 +130,12 @@
 
         window.location = appUrl;
         var click = Date.now();
-        openIOSAppTimer = setInterval(function() {
+        openIOSAppTimer = setInterval(() => {
           if (document.hidden || document.webkitHidden) {
             clearTimers();
           }
         }, 200);
-        openAppStoreTimer = setInterval(function() {
+        openAppStoreTimer = setInterval(() => {
           if (!document.hidden && !document.webkitHidden && Date.now() - click > 2000) {
             clearTimers();
             window.location = storeUrl;

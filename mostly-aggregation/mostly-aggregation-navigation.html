@@ -132,13 +132,13 @@ An element for providing aggregation based navigation.
       },
 
       attached: function() {
-        this.addEventListener('mouseover', function() {
+        this.addEventListener('mouseover', () => {
           this._visibility(true);
-        }.bind(this));
+        });
 
-        this.addEventListener('mouseout', function() {
+        this.addEventListener('mouseout', () => {
           this._visibility(false);
-        }.bind(this));
+        });
       },
 
       _visibility: function(visible) {
@@ -155,16 +155,16 @@ An element for providing aggregation based navigation.
 
         // count documents in buckets
         this._count = 0;
-        buckets.forEach(function(bucket) {
+        buckets.forEach(bucket => {
           this._count += bucket.docCount;
-        }.bind(this));
+        });
         this.style.opacity = this._count ? this.opacity : 0;
 
         // fill keys array based on buckets
         this.set('_keys', []);
         var offset = 1;
         var granularity = this.granularity;
-        buckets.forEach(function(bucket) {
+        buckets.forEach(bucket => {
 
           var visible = false;
           if (granularity >= this.granularity) {
@@ -186,7 +186,7 @@ An element for providing aggregation based navigation.
           offset += bucket.docCount;
           granularity += height;
 
-        }.bind(this));
+        });
       },
 
       _tap: function() {
