@@ -892,7 +892,7 @@
 
       _observeCurrentUser: function() {
         if (this.currentUser) {
-          this.$.userWorkspace.execute().then((response) => {
+          this.$.userWorkspace.execute().then(response => {
             this.userWorkspace = response.data && response.data.path;
           });
           this._fetchProcesses();
@@ -1145,7 +1145,7 @@
 
       _removeFromClipboard: function(docs) {
         if (Array.isArray(docs)) {
-          docs.forEach((doc) => {
+          docs.forEach(doc => {
             this.clipboard.remove(doc);
           });
         }

@@ -132,7 +132,7 @@
       useHashbang: true,
       
       browse: function(path) {
-        return '/browse' +  (path? path.split('/').map(function(n) {
+        return '/browse' +  (path? path.split('/').map(n => {
           return encodeURIComponent(n);
         }).join('/') : '');
       },

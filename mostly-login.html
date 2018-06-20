@@ -123,7 +123,7 @@
       _logIn() {
         this.$.nx.username = this.username;
         this.$.nx.password = this.password;
-        this.$.nx.connect().then((user) => {
+        this.$.nx.connect().then(user => {
           if (user) {
             var app = document.querySelector('playing-app');
             app.authenticated = true;

@@ -185,7 +185,7 @@
       _refresh: function() {
         this.$.latestEditedDocs.fetch();
         this.$.recentStorage.reload();
-        this._fetchFavorite().then((favorite) => {
+        this._fetchFavorite().then(favorite => {
           this.$.favoritesProvider.params = [favorite.id];
           this.$.favoritesProvider.page = 1;
           this.$.favoriteDocs.fetch();
@@ -211,11 +211,10 @@
         if (this.favorite) {
           return Promise.resolve(this.favorite);
         } else {
-          return this.$.fetchFavOp.execute()
-            .then(function(resp) {
-              this.favorite = resp;
-              return resp;
-            }.bind(this));
+          return this.$.fetchFavOp.execute().then(resp => {
+            this.favorite = resp;
+            return resp;
+          });
         }
       },
 

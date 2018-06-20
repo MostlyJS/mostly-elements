@@ -121,7 +121,7 @@ Example:
           this._setElement(element);
           this._update();
           this.notifyResize();
-        }, (e) => {
+        }, e => {
           // error handling
           this._setElement(undefined);
           this.$.error.hidden = false;

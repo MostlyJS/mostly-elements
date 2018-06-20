@@ -152,9 +152,9 @@
         var v = this[k],
             filter = this.properties[k]._filter;
         if (v && filter) {
-          var args = filter.ctx.map(function(arg) {
+          var args = filter.ctx.map(arg => {
             return this[arg];
-          }.bind(this));
+          });
           // if filter supports multiple values apply the function to each one
           var values = filter.multiple ? v.trim().split(/\s*,\s*/) : [v];
           var fn = this[filter.fn];

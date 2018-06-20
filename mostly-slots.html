@@ -22,7 +22,7 @@
       function _registerContent(node, slot) {
         var registry = _getRegistry(slot);
         // if content with same name exists check if we should override it
-        var idx = registry.nodes.findIndex(function(n) { return _same(node, n); });
+        var idx = registry.nodes.findIndex(n => _same(node, n));
         if (idx !== -1) {
           // if new content has same or higher priority then do the override
           if (node.priority >= registry.nodes[idx].priority) {
@@ -36,16 +36,16 @@
         } else {
           registry.nodes.push(node);
         }
-        registry.nodes.sort(function(a, b) { return a.order - b.order; });
-        registry.slots.forEach(function(s) { s._updateContent(); });
+        registry.nodes.sort((a, b) => { return a.order - b.order; });
+        registry.slots.forEach(s => s._updateContent());
       }
 
       function _unregisterContent(node, slot) {
         var registry = _getRegistry(slot);
-        var idx = registry.nodes.findIndex(function(n) { return _same(node, n); });
+        var idx = registry.nodes.findIndex(n => _same(node, n));
         if (idx !== -1) {
           registry.nodes.splice(idx, 1);
-          registry.slots.forEach(function(s) { s._updateContent(); });
+          registry.slots.forEach(s => s._updateContent());
         }
       }
 
@@ -55,8 +55,8 @@
       window.Mostly.slots = window.Mostly.slots || {};
       window.Mostly.slots.setSharedModel = function(model) {
         sharedModel = model;
-        Object.keys(REGISTRY).forEach(function(k) {
-          return REGISTRY[k] && REGISTRY[k].slots && REGISTRY[k].slots.forEach(function(slot) {
+        Object.keys(REGISTRY).forEach(k => {
+          return REGISTRY[k] && REGISTRY[k].slots && REGISTRY[k].slots.forEach(slot => {
             slot._updateSharedModel();
           });
         });
@@ -133,7 +133,7 @@
           if (!this._instances) {
             return;
           }
-          this._instances.forEach(function(instance) {
+          this._instances.forEach(instance => {
             var c$ = instance.children;
             if (c$ && c$.length) {
               // use first child parent, for case when dom-if may have been detached
@@ -150,7 +150,7 @@
           var parent = Polymer.dom(Polymer.dom(this).parentNode);
           // keep track of stamped instances
           this._instances = [];
-          _getRegistry(this.slot).nodes.forEach((node) => {
+          _getRegistry(this.slot).nodes.forEach(node => {
             var template = node.template;
             if (!node.disabled && template) {
               delete template.__templatizeOwner;
@@ -192,7 +192,7 @@
         // Forward model changes as properties
         _updateModel: function(change) {
           if (change.path === 'model') {
-            Object.keys(change.value).forEach((prop) => {
+            Object.keys(change.value).forEach(prop => {
               this._forwardHostProp(prop, change.value[prop]);
             });
           } else {
@@ -201,7 +201,7 @@
         },
 
         _updateSharedModel: function() {
-          Object.keys(sharedModel).forEach((prop) => {
+          Object.keys(sharedModel).forEach(prop => {
             this._forwardHostProp(prop, sharedModel[prop]);
           });
         },
@@ -213,9 +213,9 @@
           if (!this._instances) {
             return;
           }
-          this._instances.forEach(function(instance) {
+          this._instances.forEach(instance => {
             instance.set(prop, value);
-          }, this);
+          });
         }
       });
 
@@ -299,13 +299,13 @@
         },
 
         _register: function() {
-          this.slot.split(',').forEach((slot) => {
+          this.slot.split(',').forEach(slot => {
             _registerContent(this, slot);
           });
         },
 
         _unregister: function(slots) {
-          slots.split(',').forEach((slot) => {
+          slots.split(',').forEach(slot => {
             _unregisterContent(this, slot);
           })
         }
