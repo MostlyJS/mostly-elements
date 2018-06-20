@@ -189,8 +189,8 @@
     },
 
     _hasPageProvider: function() {
-        return this.nxProvider && typeof this.nxProvider !== 'string';
-      },
+      return this.nxProvider && typeof this.nxProvider !== 'string';
+    },
 
     _resetResults: function() {
       if (this._hasPageProvider()) {
@@ -223,9 +223,9 @@
           var end = index > last ? index : last;
 
           // check if all items in the range are loaded
-          var valid = this.items.slice(start, end).every(function(item) {
+          var valid = this.items.slice(start, end).every(item => {
             return item && item.id;
-          }.bind(this));
+          });
 
           // select items in range
           if (valid) {
@@ -281,7 +281,7 @@
      */
     selectAll: function() {
       if (this.items) {
-        this.items.forEach((item) => {
+        this.items.forEach(item => {
           this.selectItem(item);
         });
         this._updateFlags();
@@ -342,7 +342,7 @@
         // TODO make it simpler
         var tmpSort = {};
         if (this.sortOrder && this.sortOrder.length > 0) {
-          this.sortOrder.forEach(function(sortItem) {
+          this.sortOrder.forEach(sortItem => {
             tmpSort[sortItem.path] = sortItem.direction === 'desc'? -1 : 1;
           });
         }
@@ -492,7 +492,7 @@
           this.nxProvider.pageSize = pageSize;
         }
         this.nxProvider.offset = 0;
-        return this.nxProvider.fetch().then((response) => {
+        return this.nxProvider.fetch().then(response => {
           for (var i = 0; i < response.data.length; i++) {
             this.push('items', response.data[i]);
           }
@@ -526,7 +526,7 @@
         this.nxProvider.offset = firstIndex;
         this.nxProvider.page = 1;
         this.nxProvider.pageSize = (lastIndex - firstIndex) + 1;
-        return this.nxProvider.fetch().then((response) => {
+        return this.nxProvider.fetch().then(response => {
           if (!(response && response.data)) {
             return;
           }
@@ -571,7 +571,7 @@
             if (providerSort && Object.keys(providerSort).length === 1) {
               var providerField = Object.keys(providerSort)[0];
               var providerOrder = providerSort[providerField];
-              Object.keys(response.metadata.aggregations).map((key) => {
+              Object.keys(response.metadata.aggregations).map(key => {
                 var aggregation = response.metadata.aggregations[key];
                 if (aggregation.field === providerField && aggregation.buckets.length >= buckets.length &&
                   aggregation.order) {

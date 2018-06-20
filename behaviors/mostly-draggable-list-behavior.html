@@ -38,7 +38,7 @@
       var proxy;
       var bodyEl = document.querySelector('body');
       // mouse move handler
-      var moveFn = (e) => {
+      var moveFn = e => {
         // block list pointer events while dragging and apply grabbing cursor
         this.style.pointerEvents = 'none';
         bodyEl.setAttribute('style', 'cursor: grabbing; cursor: -webkit-grabbing;');
@@ -54,7 +54,7 @@
         this._scrollList(e);
         // iterate drop targets and check if mouse is hovering any target
         this.target = null;
-        this.droptargets.forEach((target) => {
+        this.droptargets.forEach(target => {
           target.classList.remove('droptarget-hover');
           var boundingClientRect = target.getBoundingClientRect();
           if (e.clientX > boundingClientRect.left && e.clientX < boundingClientRect.right &&
@@ -96,7 +96,7 @@
         }
       };
 
-      this.addEventListener('mousedown', (e) => {
+      this.addEventListener('mousedown', e => {
         if (this.draggable) {
           // prevent default behavior to make sure cursors are applied across all browsers
           e.preventDefault();
@@ -110,7 +110,7 @@
     },
 
     get droptargets() {
-      return Array.from(this.$.list.queryAllEffectiveChildren('*')).filter((el) => {
+      return Array.from(this.$.list.queryAllEffectiveChildren('*')).filter(el => {
         return this.dropTargetFilter(el, this.modelForElement(el));
       });
     },

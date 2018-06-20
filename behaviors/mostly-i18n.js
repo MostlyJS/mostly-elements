@@ -20,7 +20,7 @@ window.mostly.I18n.translate = function (key) {
  */
 window.mostly.I18n.loadLocale = function() {
   if (window.mostly.I18n.localeResolver) {
-    return window.mostly.I18n.localeResolver().then(function() {
+    return window.mostly.I18n.localeResolver().then(() => {
       document.dispatchEvent(new Event('i18n-locale-loaded'));
     });
   } else {
@@ -33,7 +33,7 @@ window.mostly.I18n.loadLocale = function() {
  */
 window.mostly.I18n.XHRLocaleResolver = function(msgFolder) {
   return function() {
-    return new Promise(function(resolve) {
+    return new Promise(resolve => {
       // point all english based locales to the reference file
       if (window.mostly.I18n.language.startsWith('en-')) {
         window.mostly.I18n.language = 'en';

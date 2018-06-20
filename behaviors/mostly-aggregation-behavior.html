@@ -58,7 +58,7 @@
       if (data && data.buckets) {
         var buckets = data.buckets;
         var selectedBuckets = data.selection;
-        buckets.forEach((item) => {
+        buckets.forEach(item => {
           item.checked = selectedBuckets.indexOf(item.key) >= 0;
           item.label = this.labelFormatter(item);
         });
@@ -73,7 +73,7 @@
 
     _computeValues: function() {
       var values = [];
-      this.buckets.forEach(function(item) {
+      this.buckets.forEach(item => {
         if (item.checked) {
           values.push(item.key);
         }

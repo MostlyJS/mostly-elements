@@ -202,7 +202,7 @@
         return callback(this.resolveEntry(this.value));
       }
       return callback(
-        this.value.map((entry) => {
+        this.value.map(entry => {
           return this.resolveEntry(entry);
         })
       );
