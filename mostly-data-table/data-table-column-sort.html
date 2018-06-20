@@ -85,12 +85,12 @@
       _sortOrderChanged: function(sortOrder) {
         // TODO: if sortOrder for this column has been removed from outside, direction is not updated.
         if (sortOrder.base) {
-          sortOrder.base.forEach(function(sort) {
+          sortOrder.base.forEach(sort => {
             if (sort.path === this.path) {
               this.direction = sort.direction;
               return;
             }
-          }.bind(this));
+          });
         }
       },
 

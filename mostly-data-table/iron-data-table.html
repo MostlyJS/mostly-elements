@@ -28,6 +28,8 @@ limitations under the License.
 <link rel="import" href="../../paper-dialog-scrollable/paper-dialog-scrollable.html">
 <link rel="import" href="../../paper-styles/paper-styles-classes.html">
 
+<link rel="import" href="../behaviors/mostly-func-behavior.html">
+<link rel="import" href="../behaviors/mostly-i18n-behavior.html">
 <link rel="import" href="../behaviors/mostly-page-provider-display-behavior.html">
 <link rel="import" href="../behaviors/mostly-draggable-list-behavior.html">
 <link rel="import" href="../mostly-quick-filters/mostly-quick-filters.html">
@@ -527,7 +529,7 @@ Example:
       },
 
       _backupColumnsState: function() {
-        this.columns.forEach(function(col) {
+        this.columns.forEach(col => {
           col.hiddenBack = col.hidden;
         });
       },
@@ -571,13 +573,13 @@ Example:
 
       _columnsChanged: function(columns, oldColumns) {
         if (oldColumns) {
-          oldColumns.forEach((column) => {
+          oldColumns.forEach(column => {
             this.unlisten(column, 'filter-value-changed');
           });
         }
 
         if (columns) {
-          columns.forEach((column) => {
+          columns.forEach(column => {
             column.table = this;
             this.listen(column, 'filter-value-changed', '_onColumnFilterChanged');
           });
@@ -588,12 +590,12 @@ Example:
         // reset header width first to make the cells and scroll width to reset their widths.
         this.$.container.style.width = '';
 
-        this.async(function() {
+        this.async(() => {
           this.$.container.style.width = Math.min(this.scrollWidth, this.clientWidth + this.scrollLeft) + 'px';
 
           // add scrollbar width as padding
           this.$.header.style.paddingRight = this.$.list.offsetWidth - this.$.list.clientWidth + 'px';
-        }.bind(this));
+        });
       },
 
       _onHorizontalScroll: function() {
@@ -738,7 +740,7 @@ Example:
         var tableSettings = {}
         tableSettings.columns = {};
         if (this.columns) {
-          this.columns.forEach(function(column, idx) {
+          this.columns.forEach((column, idx) => {
             tableSettings.columns[column.field ? column.field : "col-" + idx] = {hidden: column.hidden};
           });
         }
@@ -851,11 +853,11 @@ Example:
             }
             var result = this._fetchPage(this.nxProvider.page, this.nxProvider.pageSize);
             if (result) {
-              result.then(function() {
+              result.then(() => {
                 this.nxProvider.page += 1;
                 this.$.scrollThreshold.clearTriggers();
                 this.$.list.notifyResize();
-              }.bind(this));
+              });
             } else {
               this.$.scrollThreshold.clearTriggers();
               this.$.list.notifyResize();
