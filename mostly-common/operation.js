@@ -10,11 +10,11 @@
  *     name: 'workspaces',
  *   })
  *   .execute()
- *   .then(function(res) {
+ *   .then((res) => {
  *     // res.id !== null
  *     // res.title === 'Workspaces'
  *   })
- *   .catch(function(error) {
+ *   .catch((error) => {
  *     throw new Error(error);
  *   });
  */

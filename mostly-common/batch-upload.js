@@ -8,10 +8,10 @@
  * var batch = client.batchUpload('blobs');
  * var blob = new Blob(...);
  * batch.upload(blob)
- *   .then(function(res) {
+ *   .then(res => {
  *     // res.blob instanceof BatchBlob === true
  *   })
- *   .catch(function(error) {
+ *   .catch(error => {
  *     throw new Error(error);
  *   });
  */
@@ -44,12 +44,12 @@ BatchUpload = function(opts = {}) {
  * @example
  * ...
  * batchUpload.upload(blob1, blob2, blob3)
- *   .then(function(res) {
+ *   .then(res => {
  *     // res.data.data[0] is the BatchBlob object related to blob1
  *     // res.data.data[1] is the BatchBlob object related to blob2
  *     // res.data.data[2] is the BatchBlob object related to blob3
  *   })
- *   .catch(function(error) {
+ *   .catch(error => {
  *     throw new Error(error);
  *   });
  */
@@ -133,13 +133,13 @@ BatchUpload.prototype._fetchBatchId = function() {
  * ...
  * BatchUpload.upload(blob1, blob2, blob3);
  * BatchUpload.done()
- *   .then(function(res) {
+ *   .then(res => {
  *     // res.data.batch === batchId
  *     // res.blobs[0] is the BatchBlob object related to blob1
  *     // res.blobs[1] is the BatchBlob object related to blob2
  *     // res.blobs[2] is the BatchBlob object related to blob3
  *   })
- *   .catch(function(error) {
+ *   .catch(error => {
  *     throw new Error(error);
  *   });
  */

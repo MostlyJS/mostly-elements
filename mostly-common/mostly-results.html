@@ -250,7 +250,7 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
       _updateViews: function() {
         var hasDisplayMode;
         this._displayModes = [];
-        this.$.views.items.forEach((view) => {
+        this.$.views.items.forEach(view => {
           var name = view.getAttribute("name"),
               icon = view.getAttribute("icon");
           view.nxProvider = this.nxProvider;

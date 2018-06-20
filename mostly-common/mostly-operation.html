@@ -168,14 +168,14 @@ element.
           .params(params)
           .input(this.input)
           .execute(options)
-          .then((data) => {
+          .then(data => {
             this.fire('response', {response: data.data });
             this.response = data.data;
             this.success = true;
             this._setActiveRequests(this.activeRequests - 1);
             return this.response;
           })
-          .catch((error) => {
+          .catch(error => {
             this.success = false;
             this.error = error;
             console.log("Operation request failed: " + error);
