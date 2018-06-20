@@ -242,7 +242,9 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
 
           // update view
           view.reset();
-          this.debounce('fetch', view.fetch, 100);
+          this.debounce('fetch', () => {
+            view.fetch();
+          }, 100);
           this.fire('search-results-view', { view: view, name: this.name });
         }
       },
