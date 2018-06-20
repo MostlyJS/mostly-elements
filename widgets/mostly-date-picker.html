@@ -152,10 +152,10 @@ Example:
         // tell vaadin-date-picker how to display dates since default behavior is US locales (MM-DD-YYYY)
         // this way we can take advantage of moment locale and use the date format that
         // is most suitable for the user
-        this.$.date.set('i18n.formatDate', (date) => {
+        this.$.date.set('i18n.formatDate', date => {
           return moment(date).format(moment.localeData().longDateFormat('L'));
         });
-        this.$.date.set('i18n.parseDate', (text) => {
+        this.$.date.set('i18n.parseDate', text => {
           var date = moment(text, moment.localeData().longDateFormat('L'));
           return {
             day: date.format('D'),

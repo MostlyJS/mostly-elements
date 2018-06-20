@@ -101,7 +101,7 @@ Example:
       },
 
       _execute: function() {
-        this.$.op.execute().then((response) => {
+        this.$.op.execute().then(response => {
           if (this.notification) {
             this.fire('notify', {'message': this.i18n(this.notification)});
           }
@@ -115,7 +115,7 @@ Example:
           if (this.download) {
             return this._download(response);
           }
-        }).catch((error) => {
+        }).catch(error => {
           this.fire('notify', {'message': error});
         });;
       },
@@ -124,9 +124,10 @@ Example:
         var contentDisposition = response.headers.get('Content-Disposition');
         if (contentDisposition) {
           var filenameMatches = contentDisposition
-              .match(/filename[^;=\n]*=([^;\n]*''([^;\n]*)|[^;\n]*)/).filter(function(match) { return !!match; });
+              .match(/filename[^;=\n]*=([^;\n]*''([^;\n]*)|[^;\n]*)/)
+              .filter(match => !!match);
           var filename = decodeURI(filenameMatches[filenameMatches.length - 1]);
-          return response.blob().then(function(blob) {
+          return response.blob().then(blob => {
             if (navigator.msSaveBlob) {
               // handle IE11 and Edge
               navigator.msSaveBlob(blob, filename);
@@ -140,7 +141,7 @@ Example:
               document.body.removeChild(a);
               URL.revokeObjectURL(a.href);
             }
-          }.bind(this));
+          });
         } else {
           return Promise.reject(new Error('missing Content-Disposition header'));
         }

@@ -94,9 +94,9 @@ An element wrapping sortable.js.
         var templates = this.querySelectorAll("template[is='dom-repeat']");
         var template = templates[templates.length-1];
         var options = {};
-        Object.keys(this.properties).forEach(function(key) {
+        Object.keys(this.properties).forEach(key => {
           options[key] = this[key];
-        }.bind(this));
+        });
         var _this = this;
         var eventCallbacks = {
           onUpdate: function (e) {
@@ -161,7 +161,7 @@ An element wrapping sortable.js.
             _this.fire("sortable-clone", e);
           }
         };
-        Object.keys(eventCallbacks).forEach(function(name){
+        Object.keys(eventCallbacks).forEach(name => {
           options[name] = eventCallbacks[name];
         });
         this.sortable = Sortable.create(this, options);
