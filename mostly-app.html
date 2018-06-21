@@ -1003,7 +1003,7 @@
           this._documentsDeletedError(e.detail.error.response, e.detail.documents);
         } else {
           this._removeFromClipboard(e.detail.documents);
-          this._fetchTasks();
+          //this._fetchTasks();
           this._toast(this.i18n('app.documents.deleted.success'));
           this._refreshSearch();
         }
