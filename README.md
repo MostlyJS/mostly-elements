@@ -9,6 +9,10 @@ MostlyJS Elements
 
 ![Preview](themes/default/preview.jpg)
 
+# Documentation
+
+Please see the [documentation site](https://mostlyjs.github.io).
+
 ## Dependencies
 
 Element dependencies are managed via [Bower](http://bower.io/). You can
