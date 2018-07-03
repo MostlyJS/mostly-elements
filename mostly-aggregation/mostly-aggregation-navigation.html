@@ -142,8 +142,8 @@ An element for providing aggregation based navigation.
       },
 
       _visibility: function(visible) {
-        this.$.keys.style.visibility = visible ? 'visible' : 'hidden';
-        this.style.background = visible ? 'rgba(255, 255, 255, 0.85)' : 'transparent';
+        this.$.keys.style.visibility = visible? 'visible' : 'hidden';
+        this.style.background = visible? 'rgba(255, 255, 255, 0.85)' : 'transparent';
       },
 
       _label: function(key) {
@@ -158,7 +158,7 @@ An element for providing aggregation based navigation.
         buckets.forEach(bucket => {
           this._count += bucket.docCount;
         });
-        this.style.opacity = this._count ? this.opacity : 0;
+        this.style.opacity = this._count? this.opacity : 0;
 
         // fill keys array based on buckets
         this.set('_keys', []);
@@ -206,7 +206,7 @@ An element for providing aggregation based navigation.
       },
 
       _color: function(visible) {
-        return visible ? 'black' : 'transparent';
+        return visible? 'black' : 'transparent';
       }
 
     });

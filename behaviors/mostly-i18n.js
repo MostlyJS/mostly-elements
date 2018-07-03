@@ -61,7 +61,7 @@ window.mostly.I18n.XHRLocaleResolver = function(msgFolder) {
         xhr.send();
       }
       var language = window.mostly.I18n.language || 'en';
-      var url = msgFolder +  '/messages' + (language === 'en' ? '' : '-' + language)  + '.json';
+      var url = msgFolder +  '/messages' + (language === 'en'? '' : '-' + language)  + '.json';
       loadLang(url);
     });
   }

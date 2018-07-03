@@ -135,7 +135,7 @@ element.
        */
       execute: function() {
         this._setActiveRequests(this.activeRequests + 1);
-        var params = (!this.params || (typeof this.params === 'object')) ? this.params : JSON.parse(this.params);
+        var params = (!this.params || (typeof this.params === 'object'))? this.params : JSON.parse(this.params);
         var options = {};
         // Look up document schemas to be returned
         if (this.schemas && this.schemas.length > 1) {
@@ -185,7 +185,7 @@ element.
       },
 
       _isLoading: function() {
-        this._setLoading(this.activeRequests > 0 ? true : false);
+        this._setLoading(this.activeRequests > 0? true : false);
       }
     });
   </script>

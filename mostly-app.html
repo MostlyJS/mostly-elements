@@ -921,7 +921,7 @@
 
       _documentAddedToCollection: function(e) {
         this._toast(
-          this.i18n(e.detail.docIds ? 'app.documents.addedToCollection' : 'app.document.addedToCollection')
+          this.i18n(e.detail.docIds? 'app.documents.addedToCollection' : 'app.document.addedToCollection')
         );
       },
 
@@ -958,7 +958,7 @@
       },
 
       _documentDeleted: function(e) {
-        this._toast(this.i18n('app.document.deleted.' + (e.detail.error ? 'error' : 'success') ));
+        this._toast(this.i18n('app.document.deleted.' + (e.detail.error? 'error' : 'success') ));
 
         this._removeFromClipboard([e.detail.doc]);
 
@@ -980,7 +980,7 @@
       },
 
       _documentUntrashed: function(e) {
-        this._toast(this.i18n('app.document.untrashed.' + (e.detail.error ? 'error' : 'success') ));
+        this._toast(this.i18n('app.document.untrashed.' + (e.detail.error? 'error' : 'success') ));
         if (e.detail.doc && !e.detail.error) {
           this._navigate({ detail: { doc: e.detail.doc } });
           this._refreshSearch();
@@ -1010,7 +1010,7 @@
       },
 
       _documentsUntrashed: function(e) {
-        this._toast(this.i18n('app.documents.untrashed.' + (e.detail.error ? 'error' : 'success') ));
+        this._toast(this.i18n('app.documents.untrashed.' + (e.detail.error? 'error' : 'success') ));
         this._refreshSearch();
       },
 
@@ -1065,7 +1065,7 @@
         this.$.addToCollectionOp.execute().then(() => {
           this.fire('document-updated');
           this._toast(
-            this.i18n(documents.length === 1 ? 'app.document.addedToCollection' : 'app.documents.addedToCollection')
+            this.i18n(documents.length === 1? 'app.document.addedToCollection' : 'app.documents.addedToCollection')
           );
         });
       },
@@ -1128,7 +1128,7 @@
           this.$.toast.close();
         } else if (options.message) {
           this.$.toast.text = options.message;
-          this.$.toast.duration = options.duration ? options.duration : 3000;
+          this.$.toast.duration = options.duration? options.duration : 3000;
           this.set('_dismissible', !!options.dismissible);
           this.$.toast.open();
         }

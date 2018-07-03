@@ -71,20 +71,20 @@
       },
 
       _image: function(name) {
-        return (this.preview) ? this.preview : 'bower_components/mostly-elements/themes/' + name + '/preview.jpg';
+        return (this.preview)? this.preview : 'bower_components/mostly-elements/themes/' + name + '/preview.jpg';
       },
 
       _label: function(name) {
-        return (this.title) ? this.title : this.i18n('themes.' + name);
+        return (this.title)? this.title : this.i18n('themes.' + name);
       },
 
       _button: function(name) {
-        return this.i18n('themes.' + (this._selected(name) ? 'current' : 'apply'));
+        return this.i18n('themes.' + (this._selected(name)? 'current' : 'apply'));
       },
 
       _selected: function(name) {
         var theme = localStorage.getItem('theme');
-        return (theme) ? theme === name : name === 'default';
+        return (theme)? theme === name : name === 'default';
       },
 
       _apply: function() {

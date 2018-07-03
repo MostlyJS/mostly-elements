@@ -321,7 +321,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
             };
 
             this.initSelection(value, selection => {
-              callback(this.multiple ? selection.map(prep) : prep(selection));
+              callback(this.multiple? selection.map(prep) : prep(selection));
             });
           },
 
@@ -334,7 +334,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
             resultItem: (options) => {
               return (
                 '<div class="selectivity-result-item' +
-                (options.disabled ? ' disabled' : '') +
+                (options.disabled? ' disabled' : '') +
                 '" data-item-id="' + this.escapeHTML(options.id) + '">' +
                 this.resultFormatter(options.item)
                 + '</div>');
@@ -355,7 +355,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
             },
 
             multipleSelectedItem: (options) => {
-              var extraClass = options.highlighted ? ' highlighted' : '';
+              var extraClass = options.highlighted? ' highlighted' : '';
               return (
                 '<span class="selectivity-multiple-selected-item' +
                 extraClass +
@@ -371,7 +371,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
           }
         };
 
-        var InputType = Selectivity.Inputs[this.multiple ? 'Multiple' : 'Single'];
+        var InputType = Selectivity.Inputs[this.multiple? 'Multiple' : 'Single'];
         options.element = this.$.input;
 
         options.closeOnSelect = !this.stayOpenOnSelect;
@@ -421,7 +421,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
         if (!this.required) {
           return true;
         }
-        return this.multiple ? !!this.value && this.value.length > 0 : !!this.value;
+        return this.multiple? !!this.value && this.value.length > 0 : !!this.value;
       },
 
       _initSelection: function(value, callback) {
@@ -445,19 +445,19 @@ An element wrapping selectivity.js and relying on an operation for suggestions
 
       _updateSelection: function(e) {
         this._inUpdateSelection = true;
-        this.value = this.multiple ? e.value.slice(0) : e.value;
+        this.value = this.multiple? e.value.slice(0) : e.value;
         this._inUpdateSelection = true;
         if (this.multiple) {
           var items = [];
           var valS = e.items.slice(0);
           if (valS) {
             valS.forEach(el => {
-              items.push(el.item ? el.item : el);
+              items.push(el.item? el.item : el);
             });
           }
           this.selectedItems = items;
         } else {
-          this.set('selectedItem', e.items ? e.items.item : null);
+          this.set('selectedItem', e.items? e.items.item : null);
         }
         if (e.added) {
           if (this.addedEntryHandler) {
@@ -525,7 +525,7 @@ An element wrapping selectivity.js and relying on an operation for suggestions
           }
           return entry;
         };
-        return Array.isArray(value) ? value.map(fn.bind(this)) : fn.call(this, value);
+        return Array.isArray(value)? value.map(fn.bind(this)) : fn.call(this, value);
       },
 
       // Implements abstract Mostly.Select2 methods

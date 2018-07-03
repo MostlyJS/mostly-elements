@@ -634,7 +634,7 @@ Example:
           var path = vis.data([this._chartData]).selectAll("path")
             .data(nodes)
             .enter().append("svg:path")
-            .attr("display", d => d.depth ? null : "none")
+            .attr("display", d => d.depth? null : "none")
             .attr("d", arc)
             .attr("fill-rule", "evenodd")
             .style("fill", function(d) {
@@ -738,7 +738,7 @@ Example:
 
         _formatValue: function(value, si) {
           if (this.mode === 'size') {
-            var thresh = si ? 1000 : 1024;
+            var thresh = si? 1000 : 1024;
             if(Math.abs(value) < thresh) {
               return value + ' B';
             }

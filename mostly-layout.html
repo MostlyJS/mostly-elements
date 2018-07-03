@@ -73,7 +73,7 @@ Example:
           if (this.element) {
             var elements = this._getValidatableElements(this.element.root);
             for (var el, i = 0; el = elements[i], i < elements.length; i++) {
-              valid = (el.validate ? el.validate() : el.checkValidity()) && valid;
+              valid = (el.validate? el.validate() : el.checkValidity()) && valid;
             }
           }
           return valid;

@@ -156,7 +156,7 @@
             return this[arg];
           });
           // if filter supports multiple values apply the function to each one
-          var values = filter.multiple ? v.trim().split(/\s*,\s*/) : [v];
+          var values = filter.multiple? v.trim().split(/\s*,\s*/) : [v];
           var fn = this[filter.fn];
 
           // pass if any check returns true, basically Array.some()
@@ -181,7 +181,7 @@
         this.__renderDebouncer,
         Polymer.Async.microTask,
         () => {
-          this.check() ? this._render() : this._clear();
+          this.check()? this._render() : this._clear();
         });
       // enqueuing is needed for testing, as it allows content to be stamped on flush
       Polymer.enqueueDebouncer(this.__renderDebouncer);

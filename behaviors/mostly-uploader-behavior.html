@@ -110,7 +110,7 @@
      * @return {Boolean} true if the current file is accepted by the current provider, false otherwise
      **/
     DefaultUploadProvider.prototype.accepts = function(file) {
-      var mimeType = ((file.type !== '') ? file.type.match(/^[^\/]*\//)[0] : null);
+      var mimeType = ((file.type !== '')? file.type.match(/^[^\/]*\//)[0] : null);
       var fileType = file.name.match(/\.[^\.]*$/)[0];
 
       return !(this.accept && !(this.accept.indexOf(mimeType) > -1 || this.accept.indexOf(fileType) > -1));
@@ -332,7 +332,7 @@
       },
 
       _accepts: function(file) {
-        return this._instance ? this._instance.accepts(file) : false;
+        return this._instance? this._instance.accepts(file) : false;
       },
 
       _updateFile: function(index, values) {

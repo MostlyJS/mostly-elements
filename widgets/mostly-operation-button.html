@@ -108,7 +108,7 @@ Example:
           var detail = {response: response};
           if (this.detail) {
             // if the supplied params are a string, parse them as JSON
-            detail = typeof this.detail === 'string' ? JSON.parse(this.detail) : this.detail;
+            detail = typeof this.detail === 'string'? JSON.parse(this.detail) : this.detail;
           }
           this.fire(this.event, detail);
 

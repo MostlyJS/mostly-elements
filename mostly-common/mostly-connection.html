@@ -69,7 +69,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
       connect: function() {
         // Create the client if needed
         // If we already have a client with the same connection info just keep it
-        var id = (this.connectionId) ? this.connectionId : Object.keys(axClients)[0];
+        var id = (this.connectionId)? this.connectionId : Object.keys(axClients)[0];
         this.client = axClients[id];
 
         if (this.client) {
@@ -184,7 +184,7 @@ Note: Elements that depend on a connectionId use `nx` as default.
       },
 
       clear: function() {
-        var id = (this.connectionId) ? this.connectionId : Object.keys(axClients)[0];
+        var id = (this.connectionId)? this.connectionId : Object.keys(axClients)[0];
         delete axClients[id];
       },
 

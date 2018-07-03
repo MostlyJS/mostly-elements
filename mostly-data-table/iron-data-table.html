@@ -523,7 +523,7 @@ Example:
             // assuming parent element is always a Polymer element.
             // set dataHost to the same context the template was declared in
             var parent = Polymer.dom(this.rowDetail).parentNode;
-            this.rowDetail._rootDataHost = parent.dataHost ? (parent.dataHost._rootDataHost || parent.dataHost) : parent;
+            this.rowDetail._rootDataHost = parent.dataHost? (parent.dataHost._rootDataHost || parent.dataHost) : parent;
           }
         });
       },
@@ -741,7 +741,7 @@ Example:
         tableSettings.columns = {};
         if (this.columns) {
           this.columns.forEach((column, idx) => {
-            tableSettings.columns[column.field ? column.field : "col-" + idx] = {hidden: column.hidden};
+            tableSettings.columns[column.field? column.field : "col-" + idx] = {hidden: column.hidden};
           });
         }
         return tableSettings;
@@ -752,7 +752,7 @@ Example:
           if (this.columns && settings.columns) {
             this.columns.forEach((column, idx) => {
                 this.set('columns.' + idx + '.hidden',
-                  settings.columns[column.field ? column.field : "col-" + idx].hidden);
+                  settings.columns[column.field? column.field : "col-" + idx].hidden);
             });
           }
         }
@@ -889,7 +889,7 @@ Example:
 
       /* Override method from Polymer.IronValidatableBehavior. */
       _getValidity: function() {
-        return this.required ? this.items && this.items.length > 0 : true;
+        return this.required? this.items && this.items.length > 0 : true;
       },
 
       draggableFilter: function(el) {

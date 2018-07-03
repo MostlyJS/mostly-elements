@@ -321,9 +321,9 @@
       var value = e.target.value;
       this._inUpdateSelection = true;
       if (!this.multiple) {
-        this.value = value ? value : null;
+        this.value = value? value : null;
       } else {
-        this.value = value.length > 0 ? value.split(this.separator) : [];
+        this.value = value.length > 0? value.split(this.separator) : [];
       }
       if (e.added) {
         if (this.addedEntryHandler) {
@@ -350,7 +350,7 @@
     _placeholderChanged: function() {
       if (this._el) {
         var obj = jQuery(this._el).attr('data-placeholder', this.placeholder).data('select2');
-        this.multiple ? obj.val(this.value) : obj.setPlaceholder();
+        this.multiple? obj.val(this.value) : obj.setPlaceholder();
       }
     },
 

@@ -211,7 +211,7 @@ a `selectedItems` property and expose a small API (`clearSelection()`, `selectIt
           return this.view.items;
         }
         // XXX: this.view.items is not working
-        return (this.view && this.view.$.list) ? this.view.$.list.items : [];
+        return (this.view && this.view.$.list)? this.view.$.list.items : [];
       },
 
       _viewChanged: function(view, oldView) {

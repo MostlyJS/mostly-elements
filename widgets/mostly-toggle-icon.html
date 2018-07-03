@@ -242,7 +242,7 @@ Custom colors and backgrounds do animate if they change in checked state by usin
      * Use `iconChecked` if present, else `iconActive` if present (_used for backwards compatibility_), else `icon`.
      */
     _computeIconChecked: function(icon, iconChecked, iconActive) {
-      return iconChecked ? iconChecked : (iconActive ? iconActive : icon);
+      return iconChecked? iconChecked : (iconActive? iconActive : icon);
     },
 
     /**
@@ -250,7 +250,7 @@ Custom colors and backgrounds do animate if they change in checked state by usin
      * Use `iconSrcChecked` if present, else `iconSrcActive` if present (_used for backwards compatibility_), else `iconSrc`.
      */
     _computeIconSrcChecked: function(iconSrc, iconSrcChecked, iconSrcActive) {
-      return iconSrcChecked ? iconSrcChecked : (iconSrcActive ? iconSrcActive : iconSrc);
+      return iconSrcChecked? iconSrcChecked : (iconSrcActive? iconSrcActive : iconSrc);
     },
 
     /**
@@ -280,7 +280,7 @@ Custom colors and backgrounds do animate if they change in checked state by usin
      * If element is checked, apply CSS transforms (specified in `animation`).
      */
     _checkedChanged: function() {
-      this.transform(this.checked ? this._computeTransform() : '');
+      this.transform(this.checked? this._computeTransform() : '');
       this.active = this.checked;
     },
 

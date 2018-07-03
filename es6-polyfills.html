@@ -111,7 +111,7 @@
       var number = Number(value);
       if (isNaN(number)) { return 0; }
       if (number === 0 || !isFinite(number)) { return number; }
-      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+      return (number > 0? 1 : -1) * Math.floor(Math.abs(number));
     };
     var maxSafeInteger = Math.pow(2, 53) - 1;
     var toLength = function (value) {
@@ -133,7 +133,7 @@
       }
 
       // 4. If mapfn is undefined, then let mapping be false.
-      var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+      var mapFn = arguments.length > 1? arguments[1] : void undefined;
       var T;
       if (typeof mapFn !== 'undefined') {
         // 5. else
@@ -156,7 +156,7 @@
       // 13. a. Let A be the result of calling the [[Construct]] internal method
       // of C with an argument list containing the single item len.
       // 14. a. Else, Let A be ArrayCreate(len).
-      var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+      var A = isCallable(C)? Object(new C(len)) : new Array(len);
 
       // 16. Let k be 0.
       var k = 0;
@@ -165,7 +165,7 @@
       while (k < len) {
         kValue = items[k];
         if (mapFn) {
-          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+          A[k] = typeof T === 'undefined'? mapFn(kValue, k) : mapFn.call(T, kValue, k);
         } else {
           A[k] = kValue;
         }

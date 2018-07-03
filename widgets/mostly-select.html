@@ -215,17 +215,17 @@ Example:
 
       _id: function(item) {
         if (!this.selected) { // select first item as default selection
-          this.selected = (item && item.id) ? item.id : item;
+          this.selected = (item && item.id)? item.id : item;
         }
-        return (item && item.id) ? item.id : item;
+        return (item && item.id)? item.id : item;
       },
 
       _label: function(item) {
-        return (item && item.label) ? item.label : item;
+        return (item && item.label)? item.label : item;
       },
 
       _computeAttrForSelected: function(attrForSelected, options) {
-        return options ? 'option' : attrForSelected;
+        return options? 'option' : attrForSelected;
       },
 
       /* Override method from Polymer.IronValidatableBehavior. */

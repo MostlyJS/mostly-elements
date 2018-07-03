@@ -32,7 +32,7 @@ var AUTOPREFIXER_BROWSERS = [
 var DIST = 'dist';
 
 var dist = function(subpath) {
-  return !subpath ? DIST : path.join(DIST, subpath);
+  return !subpath? DIST : path.join(DIST, subpath);
 };
 
 var styleTask = function(stylesPath, srcs) {

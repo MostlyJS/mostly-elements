@@ -71,8 +71,8 @@
             return;
           }
           var params = Array.prototype.slice.call(arguments, 1);
-          baseUrl += (baseUrl.endsWith('/') ? '' : '/') +
-                     (this.router.useHashbang ? '#!' : '');
+          baseUrl += (baseUrl.endsWith('/')? '' : '/') +
+                     (this.router.useHashbang? '#!' : '');
           var url = this.router[route].apply(this, params);
           return baseUrl + url;
         }
@@ -114,8 +114,8 @@
           return;
         }
         var params = Array.prototype.slice.call(arguments, 1);
-        baseUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/') +
-                  (Mostly.RoutingBehavior.useHashbang ? '#!' : '');
+        baseUrl = baseUrl + (baseUrl.endsWith('/')? '' : '/') +
+                  (Mostly.RoutingBehavior.useHashbang? '#!' : '');
         var url = this.router[route].apply(this, params);
         return baseUrl + url;
       }

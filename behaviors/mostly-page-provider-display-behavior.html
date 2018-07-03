@@ -177,7 +177,7 @@
 
     _nxProviderChanged: function(nxProvider) {
       if (typeof nxProvider === 'string') {
-        this.nxProvider = this.__dataHost ? this.__dataHost.$[nxProvider] :
+        this.nxProvider = this.__dataHost? this.__dataHost.$[nxProvider] :
           Polymer.dom(this.ownerDocument).querySelector('#' + nxProvider);
         if (this.nxProvider === null) {
           this.nxProvider = Polymer.dom(this).parentNode.querySelector('#' + nxProvider);
@@ -219,8 +219,8 @@
           }
 
           var last = this._lastSelectedIndex;
-          var start = index > last ? last : index;
-          var end = index > last ? index : last;
+          var start = index > last? last : index;
+          var end = index > last? index : last;
 
           // check if all items in the range are loaded
           var valid = this.items.slice(start, end).every(item => {
@@ -597,7 +597,7 @@
     _scrollChanged: function() {
       this.debounce('debounce-scroll-changed', () => {
         this._fetchRange(this.$.list.firstVisibleIndex, this.$.list.lastVisibleIndex);
-      }, this.scrollThrottle > 0 ? this.scrollThrottle : 1);
+      }, this.scrollThrottle > 0? this.scrollThrottle : 1);
     },
 
     modelForElement: function(el) {

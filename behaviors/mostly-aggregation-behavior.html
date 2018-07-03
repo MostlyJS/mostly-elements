@@ -64,7 +64,7 @@
         });
         if (this.sortByLabel) {
           buckets.sort((a, b) => {
-            return a.label < b.label ? -1 : (a.label > b.label ? 1 : 0);
+            return a.label < b.label? -1 : (a.label > b.label? 1 : 0);
           });
         }
         return buckets;
@@ -92,11 +92,11 @@
           return entry['title'] || this.i18n('aggregation.format.document.field.unknown', 'title');
         } else {
           var i18nKey = this.i18n('label.ui.aggregate.' + item.key);
-          return i18nKey === 'label.ui.aggregate.' + item.key ? item.key : i18nKey;
+          return i18nKey === 'label.ui.aggregate.' + item.key? item.key : i18nKey;
         }
       } else {
         var i18nKey = this.i18n('label.ui.aggregate.' + item.key);
-        return i18nKey === 'label.ui.aggregate.' + item.key ? item.key : i18nKey;
+        return i18nKey === 'label.ui.aggregate.' + item.key? item.key : i18nKey;
       }
     },
 
