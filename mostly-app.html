@@ -1044,7 +1044,7 @@
       },
 
       _moveDocumentsToContainer: function(e) {
-        this.$.moveDocumentsOp.op = 'moveDocument';
+        this.$.moveDocumentsOp.op = 'clipboards/move';
         this.$.moveDocumentsOp.input = e.detail.targetDocument.id;
         this.$.moveDocumentsOp.params = {
           target: e.detail.targetDocument.id,
