@@ -750,7 +750,7 @@
 
       _computeSharedActionContext: function() {
         if (this.currentUser) {
-          window.Mostly.slots.setSharedModel({user: this.currentUser});
+          window.Mostly.slots.setSharedModel({ user: this.currentUser });
         }
       },
 
@@ -916,7 +916,7 @@
       },
 
       _toast: function(text) {
-        this._notify({detail: {message: text}});
+        this._notify({ detail: { message: text } });
       },
 
       _documentAddedToCollection: function(e) {

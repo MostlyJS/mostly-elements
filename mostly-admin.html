@@ -42,7 +42,7 @@
       },
 
       _actionContext: function() {
-        return {user: this.user, entity: this.entity};
+        return { user: this.user, entity: this.entity };
       },
 
       _errorUrl: function() {
@@ -52,7 +52,7 @@
       _checkError: function() {
         // XXX: removed fallback-selection="error"
         if (this.selected === 'error') {
-          this.fire('error', {code: 404});
+          this.fire('error', { code: 404 });
         }
       }
     });
