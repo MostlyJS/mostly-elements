@@ -87,10 +87,10 @@ element.
         },
 
         /* The headers of the request. */
-        headers: {type: Object, value: null},
+        headers: { type: Object, value: null },
 
         /* The `content enricher` of the resource. */
-        enrichers: {type: String, value: ''},
+        enrichers: { type: String, value: '' },
 
         /* The `content enricher` entity-type of the resource. Default value for Playing Document Model*/
         enrichersEntity: {type: String, value: 'document'},
@@ -99,7 +99,7 @@ element.
          * List of comma separated values of the document schemas to be returned.
          * All document schemas are returned by default.
          */
-        schemas: {type: String, value: ''},
+        schemas: { type: String, value: '' },
 
         /**
          * Active request count.
@@ -169,7 +169,7 @@ element.
           .input(this.input)
           .execute(options)
           .then(data => {
-            this.fire('response', {response: data.data });
+            this.fire('response', { response: data.data });
             this.response = data.data;
             this.success = true;
             this._setActiveRequests(this.activeRequests - 1);

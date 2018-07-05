@@ -36,60 +36,60 @@ element.
     is: 'mostly-resource',
     properties: {
       /* The id of a mostly-connection to use. */
-      connectionId: {type: String, value: ''},
+      connectionId: { type: String, value: '' },
 
       /* The success response status */
-      success: {type: Boolean, notify: true},
+      success: { type: Boolean, notify: true },
 
       /* The error response */
-      error: {type: Object, notify: true},
+      error: { type: Object, notify: true },
 
       /* If true, automatically execute the operation when either `path` or `params` changes. */
-      auto: {type: Boolean, value: false},
+      auto: { type: Boolean, value: false },
 
       /* If positive, the response will be cached for provided seconds */
-      cached: {type: Number, value: false},
+      cached: { type: Number, value: false },
 
       /* The HTTP method to use ('GET', 'POST', 'PUT', or 'DELETE'). Default is 'GET' */
-      method: { type: String, value: 'get'},
+      method: { type: String, value: 'get' },
 
       /* The path of the resource. */
-      path: {type: String},
+      path: { type: String },
 
       /* The parameters to send. */
-      params: {type: Object, value: null},
+      params: { type: Object, value: null },
 
       /* The data to pass to the server. */
-      data: {type: Object, value: null},
+      data: { type: Object, value: null },
 
       /* The response from the server. */
-      response: {type: Object, value: null, notify: true},
+      response: { type: Object, value: null, notify: true },
 
       /* The response.data from the server. */
-      responseData: {type: Object, value: null, notify: true},
+      responseData: { type: Object, value: null, notify: true },
 
       /* The `entity-type` of the resource. */
-      type: {type: String, value: ''},
+      type: { type: String, value: '' },
 
       /* The headers of the request.
        * 'Accept': 'text/plain,application/json' is already set by default.
        */
-      headers: {type: Object, value: null},
+      headers: { type: Object, value: null },
 
       /* The `content enricher` of the resource. */
-      enrichers: {type: String, value: ''},
+      enrichers: { type: String, value: '' },
 
       /* The `content enricher` entity-type of the resource. Default value for Document Model*/
-      enrichersEntity: {type: String, value: 'document'},
+      enrichersEntity: { type: String, value: 'document' },
 
       /* The `content type` of the request */
-      contentType: {type: String, value: 'application/json'},
+      contentType: { type: String, value: 'application/json' },
 
       /**
        * List of comma separated values of the document schemas to be returned.
        * All document schemas are returned by default.
        */
-      schemas: {type: String, value: ''},
+      schemas: { type: String, value: '' },
 
       /**
        * The delay in milliseconds to debounce the auto get call when path, params, etc. changes.
