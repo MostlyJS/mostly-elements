@@ -39,12 +39,12 @@ var styleTask = function(stylesPath, srcs) {
   return gulp.src(srcs.map(function(src) {
     return path.join(stylesPath, src);
   }))
-    .pipe($.changed(stylesPath, {extension: '.css'}))
+    .pipe($.changed(stylesPath, { extension: '.css' }))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('.tmp/' + stylesPath))
     .pipe($.minifyCss())
     .pipe(gulp.dest(dist(stylesPath)))
-    .pipe($.size({title: stylesPath}));
+    .pipe($.size({ title: stylesPath }));
 };
 
 var imageOptimizeTask = function(src, dest) {
@@ -54,7 +54,7 @@ var imageOptimizeTask = function(src, dest) {
       interlaced: true
     }))
     .pipe(gulp.dest(dest))
-    .pipe($.size({title: 'images'}));
+    .pipe($.size({ title: 'images' }));
 };
 
 var optimizeHtmlTask = function(src, dest) {
@@ -176,7 +176,7 @@ gulp.task('merge-message-files', function() {
     })))
     .pipe(gulp.dest(i18ntmp))
     .pipe(gulp.dest(i18ndist))
-    .pipe($.size({title: 'merge-message-files'}));
+    .pipe($.size({ title: 'merge-message-files' }));
 });
 
 // Vulcanize granular configuration
@@ -189,7 +189,7 @@ gulp.task('vulcanize', function() {
     }))
     //.pipe($.minifyInline())
     .pipe(gulp.dest(dist()))
-    .pipe($.size({title: 'vulcanize'}));
+    .pipe($.size({ title: 'vulcanize' }));
 });
 
 // Generate config data for the <sw-precache-cache> element.
@@ -211,7 +211,7 @@ gulp.task('cache-config', function(callback) {
     './',
     'bower_components/webcomponentsjs/webcomponents-lite.min.js',
     '{elements,scripts,styles}/**/*.*'],
-    {cwd: dir},
+    { cwd: dir },
     function(error, files) {
       if (error) {
         callback(error);
