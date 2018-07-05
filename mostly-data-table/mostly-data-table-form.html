@@ -39,9 +39,9 @@
       ready: function() {
         var template = this.queryEffectiveChildren('template');
         // custom notification for the `item` property
-        this._instanceProps = {item: true};
+        this._instanceProps = { item: true };
         this.templatize(template);
-        this.instance = this.stamp({item: this.item});
+        this.instance = this.stamp({ item: this.item });
         this.instance.dispatchEvent = function() {};
         Polymer.dom(this.$.container).appendChild(this.instance.root);
       },

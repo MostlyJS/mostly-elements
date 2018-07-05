@@ -718,7 +718,7 @@ Example:
           return;
         } else {
           var fireEvent = (eventName, item, defaultAction) => {
-            var e = this.fire(eventName, {item: item}, {cancelable: true});
+            var e = this.fire(eventName, { item }, {cancelable: true});
             if (!e.defaultPrevented) {
               defaultAction.call(this, item);
             }
@@ -731,7 +731,7 @@ Example:
               fireEvent('expanding-item', e.model.item, this.expandItem);
             }
           } else {
-            this.fire('row-clicked', {item: e.model.item, index: e.model.index});
+            this.fire('row-clicked', { item: e.model.item, index: e.model.index });
           }
         }
       },
@@ -741,7 +741,7 @@ Example:
         tableSettings.columns = {};
         if (this.columns) {
           this.columns.forEach((column, idx) => {
-            tableSettings.columns[column.field? column.field : "col-" + idx] = {hidden: column.hidden};
+            tableSettings.columns[column.field? column.field : "col-" + idx] = { hidden: column.hidden };
           });
         }
         return tableSettings;
@@ -762,7 +762,7 @@ Example:
         if (this.selectionEnabled) {
           this.$.list.toggleSelectionForIndex(e.model.index);
           var target = e.target || e.srcElement;
-          target.fire('selected', {index: e.model.index, shiftKey: e.detail.sourceEvent.shiftKey});
+          target.fire('selected', { index: e.model.index, shiftKey: e.detail.sourceEvent.shiftKey });
           this._updateFlags();
         }
       },
