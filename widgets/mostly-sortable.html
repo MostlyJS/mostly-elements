@@ -134,7 +134,7 @@ An element wrapping sortable.js.
               if (!_this.delegateRemove) {
                 var item = template.splice("items", e.oldIndex, 1)[0];
               }
-              e.model = {item: item};
+              e.model = { item };
               // template.splice("items", e.oldIndex, 1)[0];
             }
             _this.fire("sortable-remove", e);
@@ -175,7 +175,7 @@ An element wrapping sortable.js.
 
       groupChanged             : function(value) {
         if(typeof(value) === 'string') {
-          return this.set('group', {name: value});
+          return this.set('group', { name: value });
         }
         this.sortable && this.sortable.option("group",  value );
       },

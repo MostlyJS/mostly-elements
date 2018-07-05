@@ -103,9 +103,9 @@ Example:
       _execute: function() {
         this.$.op.execute().then(response => {
           if (this.notification) {
-            this.fire('notify', {'message': this.i18n(this.notification)});
+            this.fire('notify', { 'message': this.i18n(this.notification) });
           }
-          var detail = {response: response};
+          var detail = { response };
           if (this.detail) {
             // if the supplied params are a string, parse them as JSON
             detail = typeof this.detail === 'string'? JSON.parse(this.detail) : this.detail;
@@ -116,7 +116,7 @@ Example:
             return this._download(response);
           }
         }).catch(error => {
-          this.fire('notify', {'message': error});
+          this.fire('notify', { 'message': error });
         });;
       },
 

@@ -55,7 +55,7 @@ Custom property | Description | Default
 
       _path: function(file) {
         // get an absolute href
-        file = this.create("a", {href: file}).href;
+        file = this.create("a", { href: file }).href;
         return this.resolveUrl('pdfjs/web/viewer.html?file=' + file);
       }
     });
