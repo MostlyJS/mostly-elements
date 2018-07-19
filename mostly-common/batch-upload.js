@@ -82,7 +82,7 @@ BatchUpload.prototype._upload = function(blob) {
     const form = new FormData();
     form.append('file', blob.content);
     form.append('index', uploadIndex);
-    
+
     const options = {
       method: 'put',
       url: this._url + '/' + this._batchId,

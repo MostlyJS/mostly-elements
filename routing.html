@@ -119,18 +119,18 @@
     page('*', function(ctx) {
       app.showError(404, '', ctx.path);
     });
-    
+
     // add hashbang #! before urls
     page({ hashbang: true, click: false, decodeURLComponents: false });
-    
+
     Mostly.RoutingBehavior.useHashbang = true;
-    
+
     app.router = {
 
       baseUrl: app.baseUrl,
 
       useHashbang: true,
-      
+
       browse: function(path) {
         return '/browse' +  (path? path.split('/').map(n => {
           return encodeURIComponent(n);

@@ -286,7 +286,7 @@
                   on-iron-items-changed="_updateSearch">
 
             <mostly-slot slot="DRAWER_PAGES" model="[[actionContext]]"></mostly-slot>
-            
+
             <div name="play">
               <div class="header">[[i18n('app.play')]]</div>
               <iron-selector selected="{{selectedPlayTab}}" attr-for-selected="name">
@@ -324,7 +324,7 @@
         <iron-pages id="pages" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
 
           <mostly-slot slot="PAGES" model="[[actionContext]]"></mostly-slot>
-          
+
           <mostly-home name="home" tasks="[[tasks]]"></mostly-home>
 
           <playing-browser name="browse" id="browser"
